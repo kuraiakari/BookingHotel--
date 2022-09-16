@@ -11,7 +11,7 @@ function rulesMin(value) {
     else return true
 }
 function rulesConfirmPassword(value, password) {
-    if (value.length !== password) return false
+    if (value !== password) return false
     else return true
 }
 export { rulesObligatory, rulesEmail, rulesMin, rulesConfirmPassword}

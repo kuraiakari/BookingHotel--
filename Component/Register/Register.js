@@ -122,10 +122,10 @@ const Register  = () => {
                     onFocus={() => {
                         setIsCheckFirstName(true)
                     }}
-                    // onBlur={(e) => {
-                    //     const ischeck = rulesObligatory(e.nativeEvent.text)
-                    //     !ischeck ? setIsCheckFirstName(false) : setIsCheckFirstName(true)
-                    // }} 
+                    onBlur={(e) => {
+                        const ischeck = rulesObligatory(e.nativeEvent.text)
+                        !ischeck ? setIsCheckFirstName(false) : setIsCheckFirstName(true)
+                    }} 
                     value={firstName} />
                 <Text style= { isCheckFirstName ? styles.noHaveError : styles.haveError }> Bắt buộc phải nhập </Text>
             </View>
@@ -141,10 +141,10 @@ const Register  = () => {
                     onFocus={() => {
                         setIsCheckLastName(true)
                     }}
-                    // onBlur={(e) => {
-                    //     const ischeck = rulesObligatory(e.nativeEvent.text)
-                    //     !ischeck ? setIsCheckLastName(false) : setIsCheckLastName(true)
-                    // }} 
+                    onBlur={(e) => {
+                        const ischeck = rulesObligatory(e.nativeEvent.text)
+                        !ischeck ? setIsCheckLastName(false) : setIsCheckLastName(true)
+                    }} 
                     value={lastName} />
                 <Text style= { isCheckLastName ? styles.noHaveError : styles.haveError }> Bắt buộc phải nhập </Text>
             </View>
