@@ -4,8 +4,8 @@ import { useRef, useState} from "react"
 import { View, Text, TextInput, StyleSheet, Alert, Button, Pressable} from "react-native"
 
 
-import RadioButton from "../RatioBox/RatioBox";
-import {  rulesObligatory, rulesEmail, rulesMin, rulesConfirmPassword } from "../Rules/Rules"
+import RadioButton from "../../RatioBox/RatioBox";
+import {  rulesObligatory, rulesEmail, rulesMin, rulesConfirmPassword } from "../../Rules/Rules"
 
 
 // Còn trường Sex chưa xử lí focus khi submit bị thiếu .mong muốn toạn 1 id nếu thị thiếu sẽ scroll lên đoạn của trường sex
