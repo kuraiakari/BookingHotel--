@@ -1,6 +1,6 @@
 'use strict';
 
-import { useRef, useState} from "react"
+import { useEffect, useRef, useState} from "react"
 import { View, Text, TextInput, StyleSheet, Alert, Button, Pressable} from "react-native"
 
 
@@ -18,6 +18,8 @@ const Register  = () => {
     const selectorNationality = useRef()
     const selectorPassword = useRef()
     const selectorConfirmPassword = useRef()
+
+
     const [firstName, setFirstName] = useState('')
     const [isCheckFirstName, setIsCheckFirstName] = useState(true) 
     const [lastName, setLastName] = useState('')
@@ -37,40 +39,52 @@ const Register  = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [isCheckConfirmPassword, setIsCheckConfirmPassword] = useState(true)
     const [isCheckNotConfirmPassword, setIsCheckNotConfirmPassword] = useState(true)
-    const [infoUser, setInfoUser] = useState('')   // Xử lí để check, sau hoàn thiện sẽ xóa đi. Nếu không sẽ lưu lại thông tin người dùng nhập
+    const [infoUser, setInfoUser] = useState(null)   // Xử lí để check, sau hoàn thiện sẽ xóa đi. Nếu không sẽ lưu lại thông tin người dùng nhập
     const sexs = [
-        { value: 'male' },
-        { value: 'female' },
-        { value: 'other' },
+        { value: 'M' },
+        { value: 'F' },
+        { value: 'O' },
     ]  
+    useEffect(() => {
+        if (infoUser !== null) {
+            fetch('http://localhost:3000/v1/customer/',{
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(infoUser)
+        })
+        }
+    }, [infoUser])
     const handleSubmit = () => {
-        if (firstName && lastName && email && password && isCheckNotEmail && isCheckNotPassword && isCheckNotConfirmPassword){
+        //password && isCheckNotEmail && isCheckNotPassword && isCheckNotConfirmPassword
+        if (firstName && lastName && email && sex){
             const data = {
-                fullName: `${firstName}` + ` ${lastName}`,
-                sex,
-                phone,
+                firstName,
+                lastName,
+                gender: sex,
                 email,
-                nationality,
-                password,
             }
             setInfoUser(data)
         }
-        if (!confirmPassword) {
-            selectorConfirmPassword.current.focus()
-            setIsCheckConfirmPassword(false)
-        }
-        if (confirmPassword && !isCheckNotConfirmPassword) {
-            selectorConfirmPassword.current.focus()
-            setIsCheckNotConfirmPassword(false)
-        }
-        if (!password) {
-            selectorPassword.current.focus()
-            setIsCheckPassword(false)
-        }
-        if (password && !isCheckNotPassword) {
-            selectorPassword.current.focus()
-            setIsCheckNotPassword(false)
-        }
+        // if (!confirmPassword) {
+        //     selectorConfirmPassword.current.focus()
+        //     setIsCheckConfirmPassword(false)
+        // }
+        // if (confirmPassword && !isCheckNotConfirmPassword) {
+        //     selectorConfirmPassword.current.focus()
+        //     setIsCheckNotConfirmPassword(false)
+        // }
+        // if (!password) {
+        //     selectorPassword.current.focus()
+        //     setIsCheckPassword(false)
+        // }
+        // if (password && !isCheckNotPassword) {
+        //     selectorPassword.current.focus()
+        //     setIsCheckNotPassword(false)
+        // }
         // if (!nationality) {
         //     selectorNationality.current.focus()
         //     setIsCheckNationality(false)
@@ -87,7 +101,7 @@ const Register  = () => {
         //     selectorPhone.current.focus()
         //     setIsCheckPhone(false)
         // }
-        // if (!sex) setIsCheckSex(false)
+        if (!sex) setIsCheckSex(false)
         if (!lastName) {
             selectorLastName.current.focus()
             setIsCheckLastName(false)
@@ -148,7 +162,7 @@ const Register  = () => {
                     value={lastName} />
                 <Text style= { isCheckLastName ? styles.noHaveError : styles.haveError }> Bắt buộc phải nhập </Text>
             </View>
-            {/* <View style={styles.itemRegister}>
+            <View style={styles.itemRegister}>
                 <Text>Sex</Text>
                 <RadioButton 
                     data={sexs} 
@@ -157,7 +171,7 @@ const Register  = () => {
                         setSex(value)
                     }} />
                 <Text style= { isCheckSex ? styles.noHaveError : styles.haveError }> Bắt buộc phải nhập </Text>
-            </View> */}
+            </View>
             {/* <View style={styles.itemRegister}>
                 <Text>Phone</Text>
                 <TextInput
@@ -223,7 +237,7 @@ const Register  = () => {
                     value={nationality} />
                 <Text style= { isCheckNationality ? styles.noHaveError : styles.haveError }> Bắt buộc phải nhập </Text>
             </View> */}
-            <View style={styles.itemRegister}>
+            {/* <View style={styles.itemRegister}>
                 <Text>Password</Text>
                 <TextInput
                     secureTextEntry={true}
@@ -250,8 +264,8 @@ const Register  = () => {
                     value={password} />
                 <Text style= { isCheckPassword ? styles.noHaveError : styles.haveError }> Bắt buộc phải nhập </Text>
                 <Text style= { isCheckNotPassword ? styles.noHaveError : styles.haveError }> Mật khẩu phải ít nhất 6 kí tự </Text>
-            </View>
-            <View style={styles.itemRegister}>
+            </View> */}
+            {/* <View style={styles.itemRegister}>
                 <Text>Confirm Password</Text>
                 <TextInput
                     secureTextEntry={true}
@@ -278,7 +292,7 @@ const Register  = () => {
                     value={confirmPassword} />
                 <Text style= { isCheckConfirmPassword ? styles.noHaveError : styles.haveError }> Bắt buộc phải nhập </Text>
                 <Text style= { isCheckNotConfirmPassword ? styles.noHaveError : styles.haveError }> Không giống mật khẩu </Text>
-            </View>
+            </View> */}
             <Pressable style = {styles.buttonType} onPress= {handleSubmit}>
                 <Text> Create account </Text>
             </Pressable>
