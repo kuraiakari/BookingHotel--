@@ -1,67 +1,68 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Pressable, TextInput, StyleSheet } from 'react-native';
+import { NativeRouter, Routes, Route, Link } from "react-router-native"
 
-import { Email, Password, validator } from '../../InformationUser';
+import { validator } from '../../Validator';
 
 const LoginPage = () => {
-    const emailSelector = useRef()
-    const passwordSelector = useRef()
-
-    const [errorEmail, setErrorEmail] = useState(false)
-    const [errorPassword, setErrorPassword] = useState(false)
-
-    const handleSubmit = (emailSelector, passwordSelector) => {
-        const datas = {
-            email: emailSelector,
-            password: passwordSelector
-        }
-        let firstError = false
-        for ( const data in datas) {
-            const errorMessenger = validator(data, datas[data].current.value)
-            switch (data){
-                case 'email':
-                    if (errorMessenger) {
-                        if (!firstError) {
-                            firstError = true
-                            datas[data].current.focus()
-                        }
-                        setErrorEmail(errorMessenger)
-                    }
-                    else setErrorEmail(false)
-                    break
-                case 'password':
-                    if (errorMessenger) {
-                        if (!firstError) {
-                            firstError = true
-                            datas[data].current.focus()
-                        }
-                        setErrorPassword(errorMessenger)
-                    }
-                    else setErrorPassword(false)
-                    break
-                default:
-                    break
-            }
-        }
-        if (!firstError){
-            const output = {
-                email: datas['email'].current.value,
-                password: datas['password'].current.value,
-            }
-            console.log(output);
+    const [email, setEmail] = useState('')
+    const [isCheckEmail, setIsCheckEmail] = useState(false)
+    const [password, setPassword] = useState('')
+    const [isCheckPassword, setIsCheckPassword] = useState(false)
+    const [inforUser, setInforUser] = useState('')
+    const handleSubmit = () => {
+        if (validator('email', email)) setIsCheckEmail(validator('email', email))
+        else setIsCheckEmail(false)
+        if (validator('password', password)) setIsCheckPassword(validator('password', password))
+        else setIsCheckPassword(false)
+        if (email && password && !validator('email', email) && !validator('password', password)) {
+            setEmail('')
+            setPassword('')
+            setInforUser({email, password})
         }
     }
+    useEffect(() => {
+        if (inforUser) console.log(inforUser)
+    }, [inforUser])
     return (
         <View>
-            <Email ref={emailSelector} statusError={errorEmail}/>
-            <Password ref={passwordSelector} statusError={errorPassword}/>
-            <Pressable onPress= {() => {
-                handleSubmit(emailSelector, passwordSelector)
+            <Text>Sign in</Text>
+            <Text>Welcome, Sign in to continue</Text>
+            <TextInput placeholder="Type your email" value={email} onChange={(e)=> setEmail(e.nativeEvent.text)}/>
+            {
+                isCheckEmail && <View>
+                    <Text>{isCheckEmail}</Text>
+                </View>
+            }
+            <TextInput keyboardType='default' secureTextEntry= { true } placeholder="Type your password" value={password} onChange={(e)=> setPassword(e.nativeEvent.text)}/>
+            {
+                isCheckPassword && <View>
+                    <Text>{isCheckPassword}</Text>
+                </View>
+            }
+            <Link to='/Home'><Text>Forget password</Text></Link>
+            <Pressable style={styles.btn}
+                
+                onPress= {() => {
+                handleSubmit()
             }}>
                 <Text>Log in </Text>
             </Pressable>
+            <Text>Don't have account?<Link to='/register'>
+                <Text> Sign up</Text>
+            </Link></Text>
         </View>
+        
     )
 }
 
 export default LoginPage
+
+const styles = StyleSheet.create({
+    heading: {
+        fontSize: 24
+    },
+    btn: {
+        padding: 10
+    }
+});

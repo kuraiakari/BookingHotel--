@@ -1,4 +1,4 @@
-const validator = (key, value) => {
+const validator = (key, value, password) => {
     // Măc định
     if (value.trim() === '' ) return 'Trường này bắt buộc phải nhập'
     
@@ -8,10 +8,14 @@ const validator = (key, value) => {
     }
 
     if( key === 'password' ){
-        if (value.length > 16 ) return 'Mật khẩu ít hơn 16 kí tự'
-        if (value.length < 6 ) return 'Mật khẩu dài hơn 6 kí tự'
+        const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,15}$/
+        if(!regex.test(value))  return 'Minium 6 characters, with upper, lowercase, and number or symbol'
     }
 
+    if( key === 'confirmpassword' ){
+        if (value !== password) return 'Khoong giống mật khẩu'
+    }
+    
     return undefined
 }
 
