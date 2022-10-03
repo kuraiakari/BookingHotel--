@@ -1,0 +1,1 @@
+export const SERACH_NAME_CITY = 'SERACH_NAME_CITY';

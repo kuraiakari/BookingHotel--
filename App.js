@@ -1,11 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NativeRouter, Routes, Route, Link } from 'react-router-native'
+import { Provider } from 'react-redux';
 
-import Router from './Component/Router/Router';
+import store from './Store/configureStore';
+import Router from './Components/Router/Router';
+
+
 export default function App() {
   return (
-    <Router />
+    <Provider store={ store} >
+      <Router />
+    </Provider>
   );
 }
 
