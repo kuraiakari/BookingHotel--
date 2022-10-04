@@ -24,7 +24,6 @@ const AppearLogoInView = (props) => {
       useNativeDriver: true,
     }).start();
   }, [appearAnim]);
-  console.log(appearAnim, deviceHeight, deviceWidth)
   return (
     <Animated.View
       style={{
@@ -147,7 +146,7 @@ const Start = () => {
         style={{ flex: 2, justifyContent: "flex-end", paddingBottom: 30 }}
       >
         <TouchableOpacity>
-          <Link to="/search" style={styles.containerButton}>
+          <Link to="/login" style={styles.containerButton}>
             <Text style={styles.button}>Get started</Text>
           </Link>
         </TouchableOpacity>

@@ -1,6 +1,7 @@
-const validator = (key, value, password) => {
+const validator = (key, value, comparisons) => {
     // Măc định
-    if (value.trim() === '' ) return 'Trường này bắt buộc phải nhập'
+    
+    if (value.toString().trim() === '' ) return 'Trường này bắt buộc phải nhập'
     
     if( key === 'email' ){
         const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -13,9 +14,18 @@ const validator = (key, value, password) => {
     }
 
     if( key === 'confirmpassword' ){
-        if (value !== password) return 'Khoong giống mật khẩu'
+        if (value !== comparisons) return 'Khoong giống mật khẩu'
     }
     
+    if( key === 'checkIn' ){
+        const currentTime = new Date()
+        if (value <= currentTime) return 'Thời gian checkIn không đúng'
+    }
+
+    if( key === 'checkOut' ){
+        if (value <= comparisons) return 'Thời gian checkOut không đúng'
+    }
+
     return undefined
 }
 

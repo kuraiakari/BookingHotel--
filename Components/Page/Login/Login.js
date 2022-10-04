@@ -124,14 +124,14 @@ const LoginPage = () => {
 
                 <View style={styles.containerButtonLoginWith}>
                     <TouchableOpacity style={styles.buttonLoginWith}>
-                        <Icon name="google" style={styles.icon} size={'20'}/>
+                        <Icon name="google" style={styles.icon} size={20}/>
                         <Text style={styles.textIcon}>
                             Sign in with Google
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.buttonLoginWith}>
-                        <Icon name="facebook" style={styles.icon} size={'20'} />
+                        <Icon name="facebook" style={styles.icon} size={20} />
                         <Text style={styles.textIcon}>
                             Sign in with Facebook
                         </Text>
@@ -229,9 +229,9 @@ const styles = StyleSheet.create({
     },
     textForgotPw: {
         color: '#7A71F7',
-        fontSize: '16',
+        fontSize: 16,
         fontWeight: '500',
-        lineHeight: '20'
+        lineHeight: 20
     },
     button: {
         alignItems: "center",
@@ -267,17 +267,14 @@ const styles = StyleSheet.create({
         borderRadius: 44,
     },
     itemLine1:{
-        flex: 'none',
         order: 0,
         flexGrow: 0,
     },
     itemLine2: {
-        flex: 'none',
         order: 1,
         flexGrow: 0,
     },
     itemLine3:{
-        flex: 'none',
         order: 2,
         flexGrow: 0,
     },
