@@ -16,6 +16,9 @@ const Search = () => {
     const [hideCheckIn, setHideCheckIn] = useState(false)
     const [checkOut, setCheckOut] = useState('')
     const [hideCheckOut, setHideCheckOut] = useState(false)
+    const [numberAdults, setNumberAdults] = useState(0)
+    const [numberChildrens, setNumberChildrens] = useState(0)
+   
     const dispatch = useDispatch() 
 
     const handleSearching = () =>{
@@ -48,7 +51,13 @@ const Search = () => {
         if (!errorMessage) setCheckOut(date)
         hideDatePickerCheckOut();
     };
-    
+
+    // {
+    //     city: 'A',
+    //     checkIn,
+    //     checkOut,
+    // }
+    console.log(numberAdults)
     return (
         <View style={{margin: 50}}>
             <TextInput
@@ -91,6 +100,54 @@ const Search = () => {
                 onConfirm={handleConfirmCheckOut}
                 onCancel={hideDatePickerCheckOut}
             />
+
+            <Text>Guest and rooms</Text>
+            <View>
+                <View>
+                    <Icon name='user' color='gray' size={20}/>
+                    <Text>18+ years old</Text>
+                </View>
+                <View>
+                    <Button
+                        title="+"
+                        onPress={() => setNumberAdults(numberAdults+1)}
+                    />
+                    <TextInput
+                        keyboardType="numeric"
+                        value={`${numberAdults}`}
+                        onChange={(e) => setNumberAdults(e.nativeEvent.text)}
+                    />
+                    <Button
+                        title="-"
+                        disabled = { numberAdults > 0 ? false : true }
+                        onPress={() => setNumberAdults(numberAdults - 1)}
+                    />
+                </View>
+            </View>
+
+            <View>
+                <View>
+                    <Icon name='user' color='gray' size={20}/>
+                    <Text>0 to 17 years old</Text>
+                </View>
+                <View>
+                    <Button
+                        title="+"
+                        onPress={() => setNumberChildrens(numberChildrens+1)}
+                    />
+                    <TextInput
+                        keyboardType="numeric"
+                        value={`${numberChildrens}`}
+                        onChange={(e) => setNumberChildrens(e.nativeEvent.text)}
+                    />
+                    <Button
+                        title="-"
+                        disabled = { numberChildrens > 0 ? false : true }
+                        onPress={() => setNumberChildrens(numberChildrens-1)}
+                    />
+                </View>
+            </View>
+
             <Pressable>
                  <Link to='/listhotel' onPress= {() => {handleSearching()}}><Text>Search</Text></Link> 
             </Pressable>
