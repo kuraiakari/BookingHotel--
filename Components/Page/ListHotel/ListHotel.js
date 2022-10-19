@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Image, SafeAreaView, FlatList } from 'react-native'
+import { View, Text, Image, SafeAreaView, FlatList, BackHandler, Button } from 'react-native'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-native'
+import { Link, useNavigate } from 'react-router-native'
+// import { useNavigate } from 'react-router-dom'
+
+import { useSwipe } from '../../../Hooks/useSwipe/useSwipe'
+
+import Navigation from "../../Navigation/Navigation";
+
 
 const Item = ({name, city, rating, star, image }) => {
     return (
@@ -17,20 +23,41 @@ const Item = ({name, city, rating, star, image }) => {
 }
 
 const ListHotel = () => {
+
+    const navigate = useNavigate()
+
+    const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 6)
+    function onSwipeLeft() {
+        
+    }
+    function onSwipeRight(){
+        navigate(-1)
+    }
+
+
     const data = useSelector(state => state)
     const city = data.nameCity
     const [listHotel, setListHotel] = useState(null)
-    const linkNgrok = 'https://7f77-8-41-37-58.eu.ngrok.io/' //thay đổi theo lần dùng
+    const linkNgrok = 'https://dream-hotelapp.herokuapp.com/' //thay đổi theo lần dùng
+    
+    console.log(data)
+
     useEffect(() => {
-        fetch(`${linkNgrok}` + `v1/hotel/byCity/${city}`)
+        //fetch(`${linkNgrok}` + `v1/hotel/byCity/${city}`)
+        fetch(`https://dream-hotelapp.herokuapp.com/v1/hotel/byCity/${city}`)
         .then((response) => response.json())
         .then(data => setListHotel(data))
     }, [])
+
     Array.isArray(listHotel) && listHotel.forEach(hotel => {
         hotel.image = `${linkNgrok}` + hotel.image.replace(/\\/g, '/')
     });
     const renderItem = ({ item }) => {
-        return <Item name={item.hotelName} city={item.city} rating={item.rating} star={item.star} image={item.image} />
+        return (
+            <Link to={'/hotel/'+ item.hotelName}>
+                <Item name={item.hotelName} city={item.city} rating={item.rating} star={item.star} image={item.image}/>
+            </Link>
+        )
     }
     const listEmptyComponent = () => {
         return <Text> Khong tim thay </Text>
@@ -39,22 +66,30 @@ const ListHotel = () => {
         return <Link to='/search'><Text>Back to searching</Text></Link>
     }
     return (
-        <View>
+        <SafeAreaView onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}> 
+        {/* em muốn cái này luôn luôn phải chiếm 100% màn hình để lắng nghe sự kiện vuốt */}
             {
                 listHotel === null && <Text>Loading</Text> //Có thể suy nghĩ về việc thêm hiệu ứng load trang
             }
             {
-                listHotel && <SafeAreaView style={{margin: 50}}>
-                    <FlatList
-                        data={listHotel}
-                        renderItem={renderItem}
-                        keyExtractor={hotel => hotel.id}
-                        ListEmptyComponent={listEmptyComponent}
-                        ListFooterComponent={listFooterComponent}
-                    />
-                </SafeAreaView>
+                listHotel && <View>
+                    <Button title='Back' onPress={() => navigate(-1)}/>
+                    <Text>{city}</Text>
+
+                    
+                    <SafeAreaView style={{margin: 50}}>
+                        <FlatList
+                            data={listHotel}
+                            renderItem={renderItem}
+                            keyExtractor={hotel => hotel.id}
+                            ListEmptyComponent={listEmptyComponent}
+                            ListFooterComponent={listFooterComponent}
+                        />
+                    </SafeAreaView>
+                </View>
             }
-        </View>
+        <Navigation/>
+        </SafeAreaView>
     )
 }
 export default ListHotel;

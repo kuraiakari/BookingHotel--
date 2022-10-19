@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-native";
+import { Link, useLocation } from "react-router-native";
 import {
   Image,
   Text,

@@ -55,6 +55,7 @@ const Search = () => {
   const handleConfirmCheckIn = (date) => {
     const errorMessage = validator("checkIn", date);
     if (!errorMessage) setCheckIn(date);
+    else alert(errorMessage);
     hideDatePickerCheckIn();
   };
 
@@ -67,6 +68,7 @@ const Search = () => {
   const handleConfirmCheckOut = (date) => {
     const errorMessage = validator("checkOut", date, checkIn);
     if (!errorMessage) setCheckOut(date);
+    else alert(errorMessage);
     hideDatePickerCheckOut();
   };
 
@@ -75,7 +77,6 @@ const Search = () => {
   //     checkIn,
   //     checkOut,
   // }
-  console.log(numberAdults);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>

@@ -19,11 +19,11 @@ const validator = (key, value, comparisons) => {
     
     if( key === 'checkIn' ){
         const currentTime = new Date()
-        if (value <= currentTime) return 'Invalid time'
+        if (value <= currentTime) return 'Invalid time check in'
     }
 
     if( key === 'checkOut' ){
-        if (value <= comparisons) return 'Invalid time'
+        if (value <= comparisons) return 'Invalid time check out'
     }
 
     return undefined
