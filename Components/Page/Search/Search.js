@@ -1,159 +1,388 @@
 import React, { useState } from "react";
-import { View, TextInput, Pressable, Text, Button } from 'react-native'
+import {
+  View,
+  TextInput,
+  Pressable,
+  Text,
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker"
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Link, BackButton } from "react-router-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Icon from "react-native-vector-icons/FontAwesome";
+import Feather from "react-native-vector-icons/Feather";
+import Evillcons from "react-native-vector-icons/EvilIcons";
+import Octicons from "react-native-vector-icons/Octicons";
 
 import { validator } from "../../Validator";
+import Navigation from "../../Navigation/Navigation";
 
 // Đã có validator thời gian checkin checkout
 
+let deviceWidth = Dimensions.get("window").width;
+let deviceHeight = Dimensions.get("window").height;
 
 const Search = () => {
-    const [city, setCiTy] = useState('')
-    const [checkIn, setCheckIn] = useState('')
-    const [hideCheckIn, setHideCheckIn] = useState(false)
-    const [checkOut, setCheckOut] = useState('')
-    const [hideCheckOut, setHideCheckOut] = useState(false)
-    const [numberAdults, setNumberAdults] = useState(0)
-    const [numberChildrens, setNumberChildrens] = useState(0)
-   
-    const dispatch = useDispatch() 
+  const [city, setCiTy] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [hideCheckIn, setHideCheckIn] = useState(false);
+  const [checkOut, setCheckOut] = useState("");
+  const [hideCheckOut, setHideCheckOut] = useState(false);
+  const [numberAdults, setNumberAdults] = useState(0);
+  const [numberChildrens, setNumberChildrens] = useState(0);
 
-    const handleSearching = () =>{
-        dispatch({ type: 'SERACH_NAME_CITY', payload: city.trim()})
-    }
+  const dispatch = useDispatch();
 
-    const showDatePickerCheckIn = () => {
-        setHideCheckIn(true);
-    };
-    const hideDatePickerCheckIn = () => {
-        setHideCheckIn(false);
-    };
-    const handleConfirmCheckIn = (date) => {
-        const errorMessage = validator('checkIn', date)
-        console.log(errorMessage)
-        if (!errorMessage) setCheckIn(date)
-        hideDatePickerCheckIn();
-    };
-    
-    
-    const showDatePickerCheckOut = () => {
-        setHideCheckOut(true);
-    };  
-    const hideDatePickerCheckOut = () => {
-        setHideCheckOut(false);
-    };
-    const handleConfirmCheckOut = (date) => {
-        const errorMessage = validator('checkOut', date, checkIn)
-        console.log(errorMessage)
-        if (!errorMessage) setCheckOut(date)
-        hideDatePickerCheckOut();
-    };
+  const handleSearching = () => {
+    dispatch({ type: "SERACH_NAME_CITY", payload: city.trim() });
+    dispatch({ type: "CHECK_IN", payload: checkIn });
+    dispatch({ type: "CHECK_OUT", payload: checkOut });
+    dispatch({ type: "NUMBER_ADULTS", payload: numberAdults });
+    dispatch({ type: "NUMBER_CHILDRENS", payload: numberChildrens });
+  };
 
-    // {
-    //     city: 'A',
-    //     checkIn,
-    //     checkOut,
-    // }
-    console.log(numberAdults)
-    return (
-        <View style={{margin: 50}}>
-            <TextInput
-                value={city}
-                placeholder='Nhap ten thanh pho ban muon tim'
-                onChange={(e) => setCiTy(e.nativeEvent.text)}
-            >
-            </TextInput>
-            <Text>Check In</Text>
-            <View>
-                <Pressable onPress={showDatePickerCheckIn}>
-                    <TextInput
-                        editable={false}
-                        placeholder="nhap ngay thang"
-                        value={checkIn ? `${checkIn.getUTCFullYear()}/${checkIn.getUTCMonth() + 1}/${checkIn.getUTCDate()}` : ''}
-                    />
-                    <Icon name='calendar' color='gray' size={20}/>
-                </Pressable>
-            </View>
-            <DateTimePickerModal
-                isVisible={hideCheckIn}
-                mode="date"
-                onConfirm={handleConfirmCheckIn}
-                onCancel={hideDatePickerCheckIn}
-            />
-            <Text>Check Out</Text>
-            <View>
-                <Pressable onPress={showDatePickerCheckOut}>
-                    <TextInput
-                        editable={false}
-                        placeholder="nhap ngay thang"
-                        value={checkOut ? `${checkOut.getUTCFullYear()}/${checkOut.getUTCMonth() + 1}/${checkOut.getUTCDate()}` : ''}
-                    />
-                    <Icon name='calendar' color='gray' size={20}/>
-                </Pressable>
-            </View>
-            <DateTimePickerModal
-                isVisible={hideCheckOut}
-                mode="date"
-                onConfirm={handleConfirmCheckOut}
-                onCancel={hideDatePickerCheckOut}
-            />
+  const showDatePickerCheckIn = () => {
+    setHideCheckIn(true);
+  };
+  const hideDatePickerCheckIn = () => {
+    setHideCheckIn(false);
+  };
+  const handleConfirmCheckIn = (date) => {
+    const errorMessage = validator("checkIn", date);
+    if (!errorMessage) setCheckIn(date);
+    hideDatePickerCheckIn();
+  };
 
-            <Text>Guest and rooms</Text>
-            <View>
-                <View>
-                    <Icon name='user' color='gray' size={20}/>
-                    <Text>18+ years old</Text>
-                </View>
-                <View>
-                    <Button
-                        title="+"
-                        onPress={() => setNumberAdults(numberAdults+1)}
-                    />
-                    <TextInput
-                        keyboardType="numeric"
-                        value={`${numberAdults}`}
-                        onChange={(e) => setNumberAdults(e.nativeEvent.text)}
-                    />
-                    <Button
-                        title="-"
-                        disabled = { numberAdults > 0 ? false : true }
-                        onPress={() => setNumberAdults(numberAdults - 1)}
-                    />
-                </View>
-            </View>
+  const showDatePickerCheckOut = () => {
+    setHideCheckOut(true);
+  };
+  const hideDatePickerCheckOut = () => {
+    setHideCheckOut(false);
+  };
+  const handleConfirmCheckOut = (date) => {
+    const errorMessage = validator("checkOut", date, checkIn);
+    if (!errorMessage) setCheckOut(date);
+    hideDatePickerCheckOut();
+  };
 
-            <View>
-                <View>
-                    <Icon name='user' color='gray' size={20}/>
-                    <Text>0 to 17 years old</Text>
-                </View>
-                <View>
-                    <Button
-                        title="+"
-                        onPress={() => setNumberChildrens(numberChildrens+1)}
-                    />
-                    <TextInput
-                        keyboardType="numeric"
-                        value={`${numberChildrens}`}
-                        onChange={(e) => setNumberChildrens(e.nativeEvent.text)}
-                    />
-                    <Button
-                        title="-"
-                        disabled = { numberChildrens > 0 ? false : true }
-                        onPress={() => setNumberChildrens(numberChildrens-1)}
-                    />
-                </View>
-            </View>
+  // {
+  //     city: 'A',
+  //     checkIn,
+  //     checkOut,
+  // }
+  console.log(numberAdults);
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.topContainer}>
+        <Image
+          source={require("../../../assets/logo.png")}
+          style={styles.logo}
+        />
+        <Feather name="bell" size={20} color="#7369FF" />
+      </View>
 
-            <Pressable>
-                 <Link to='/listhotel' onPress= {() => {handleSearching()}}><Text>Search</Text></Link> 
-            </Pressable>
-            {/* Có bug input bị trống */}
+      <View style={styles.centerContainer}>
+        <Image
+          source={require("../../../assets/hotels/Hotel-3.jpg")}
+          resizeMode="cover"
+          style={styles.imageBackground}
+        />
+        <View style={styles.texts}>
+          <Text style={styles.largeText}>Fresh, quiet and peaceful.</Text>
+          <Text style={styles.smallText}>
+            Feel the sensation of staying in a hotel cabin
+          </Text>
         </View>
-    )
-}
+      </View>
+
+      <View style={styles.searchContainer}>
+        <View style={styles.inputCity}>
+          <Text style={styles.textOrder}>City, destination or appartment</Text>
+          <View style={styles.boxInput}>
+            <TextInput
+              value={city}
+              placeholder="City"
+              onChange={(e) => setCiTy(e.nativeEvent.text)}
+              style={{ flex: 1 }}
+            />
+            <Evillcons name="location" color="#7369FF" size={25} />
+          </View>
+        </View>
+
+        <View style={styles.boxOrder}>
+          <View style={styles.checkIn}>
+            <Text style={styles.textOrder}>Check In</Text>
+            {/* <View style={styles.dateCheckIn}> */}
+            <Pressable onPress={showDatePickerCheckIn}>
+              <View style={styles.boxInput}>
+                <TextInput
+                  pointerEvents="none"
+                  editable={false}
+                  placeholder="yyyy/mm/dd"
+                  value={
+                    checkIn
+                      ? `${checkIn.getUTCFullYear()}/${
+                          checkIn.getUTCMonth() + 1
+                        }/${checkIn.getUTCDate()}`
+                      : ""
+                  }
+                  style={{ flex: 1 }}
+                />
+                <Icon name="calendar" color="#7369FF" size={20} />
+              </View>
+            </Pressable>
+            <DateTimePickerModal
+              isVisible={hideCheckIn}
+              mode="date"
+              onConfirm={handleConfirmCheckIn}
+              onCancel={hideDatePickerCheckIn}
+            />
+            {/* </View> */}
+          </View>
+
+          <View style={styles.checkOut}>
+            <Text style={styles.textOrder}>Check Out</Text>
+
+            <Pressable onPress={showDatePickerCheckOut}>
+              <View style={styles.boxInput}>
+                <TextInput
+                  editable={false}
+                  placeholder="yyyy/mm/dd"
+                  value={
+                    checkOut
+                      ? `${checkOut.getUTCFullYear()}/${
+                          checkOut.getUTCMonth() + 1
+                        }/${checkOut.getUTCDate()}`
+                      : ""
+                  }
+                  style={{ flex: 1 }}
+                />
+                <Icon name="calendar" color="#7369FF" size={20} />
+              </View>
+            </Pressable>
+
+            <DateTimePickerModal
+              isVisible={hideCheckOut}
+              mode="date"
+              onConfirm={handleConfirmCheckOut}
+              onCancel={hideDatePickerCheckOut}
+            />
+          </View>
+        </View>
+
+        <View style={styles.boxGuests}>
+          <Text style={styles.textOrder}>Guest and rooms</Text>
+          <View
+            style={[
+              styles.boxGuest,
+              styles.boxGuestSpace,
+              { paddingBottom: 10 },
+            ]}
+          >
+            <View style={[styles.boxGuest, styles.boxShowGuest]}>
+              <Octicons name="person" color="#7369FF" size={20} />
+              <Text style={styles.textForGuest}>18+ years old</Text>
+            </View>
+            <View style={[styles.boxGuest, styles.boxBtnPlusMinus]}>
+              <TouchableOpacity
+                onPress={() => setNumberAdults(numberAdults + 1)}
+              >
+                <Feather name="plus-circle" color="#7369FF" size={25} />
+              </TouchableOpacity>
+              <TextInput
+                keyboardType="numeric"
+                value={`${numberAdults}`}
+                onChange={(e) => setNumberAdults(e.nativeEvent.text)}
+              />
+              <TouchableOpacity
+                disabled={numberAdults > 0 ? false : true}
+                onPress={() => setNumberAdults(numberAdults - 1)}
+              >
+                <Feather name="minus-circle" color="#7369FF" size={25} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={[styles.boxGuest, styles.boxGuestSpace]}>
+            <View style={[styles.boxGuest, styles.boxShowGuest]}>
+              <Octicons name="person" color="#7369FF" size={25} />
+              <Text style={styles.textForGuest}>0 to 17 years old</Text>
+            </View>
+            <View style={[styles.boxGuest, styles.boxBtnPlusMinus]}>
+              <TouchableOpacity
+                onPress={() => setNumberChildrens(numberChildrens + 1)}
+              >
+                <Feather name="plus-circle" color="#7369FF" size={25} />
+              </TouchableOpacity>
+              <TextInput
+                keyboardType="numeric"
+                value={`${numberChildrens}`}
+                onChange={(e) => setNumberChildrens(e.nativeEvent.text)}
+              />
+              <TouchableOpacity
+                disabled={numberChildrens > 0 ? false : true}
+                onPress={() => setNumberChildrens(numberChildrens - 1)}
+              >
+                <Feather name="minus-circle" color="#7369FF" size={25} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        <TouchableOpacity>
+          <Link
+            to="/listhotel"
+            onPress={() => {
+              handleSearching();
+            }}
+            style={styles.button}
+          >
+            <Text style={styles.textButton}>Search</Text>
+          </Link>
+        </TouchableOpacity>
+        {/* Có bug input bị trống */}
+      </View>
+    </SafeAreaView>
+  );
+};
 
 export default Search;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginHorizontal: 20,
+  },
+  topContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  logo: {
+    height: 67 * 0.55,
+    width: 190 * 0.55,
+  },
+  centerContainer: {
+    // flex: 3,
+    paddingTop: 10,
+    paddingBottom: 30,
+  },
+  imageBackground: {
+    width: deviceWidth,
+    height: deviceHeight * 0.3,
+    backgroundColor: "transparent",
+    opacity: 0.4,
+  },
+  texts: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    paddingHorizontal: 30,
+    paddingVertical: 40,
+  },
+  largeText: {
+    fontSize: 51,
+    fontWeight: "700",
+    lineHeight: 56,
+    paddingBottom: 20,
+  },
+  smallText: {
+    fontSize: 16,
+    fontWeight: "600",
+    lineHeight: 24,
+    width: 287,
+  },
+  searchContainer: {
+    width: "100%",
+    paddingHorizontal: 10,
+  },
+  inputCity: {
+    paddingBottom: 20,
+  },
+  textOrder: {
+    fontSize: 16,
+    fontWeight: "600",
+    lineHeight: 16,
+    paddingBottom: 10,
+  },
+  boxInput: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 15,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+    borderRadius: 16,
+  },
+  boxOrder: {
+    flexDirection: "row",
+    paddingBottom: 20,
+    alignItems: "center",
+  },
+  checkIn: {
+    flex: 1,
+  },
+  checkOut: {
+    flex: 1,
+    paddingLeft: 30,
+  },
+  boxDate: {
+    flexDirection: "row",
+  },
+  boxGuests: {
+    paddingBottom: 20,
+  },
+  boxGuest: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  boxShowGuest: {
+    paddingHorizontal: 15,
+    width: (deviceWidth - 60) * 0.7,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+    borderRadius: 16,
+  },
+  boxGuestSpace: {
+    justifyContent: "space-between",
+  },
+  textForGuest: {
+    paddingLeft: 45,
+    color: "#A9ADB9",
+  },
+  boxBtnPlusMinus: {
+    width: (deviceWidth - 60) * 0.2,
+    justifyContent: "space-between",
+  },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 90,
+    paddingVertical: 10,
+    borderRadius: 16,
+    width: "100%",
+    backgroundColor: "#7A71F7",
+  },
+  textButton: {
+    fontSize: 17,
+    lineHeight: 30,
+    fontWeight: "light",
+    color: "white",
+  },
+});

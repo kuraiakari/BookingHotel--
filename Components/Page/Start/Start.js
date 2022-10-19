@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-
 const AppearLogoInView = (props) => {
   const appearAnim = useRef(new Animated.ValueXY()).current;
 
@@ -28,8 +27,7 @@ const AppearLogoInView = (props) => {
     <Animated.View
       style={{
         ...props.style,
-        transform: [{ translateY: appearAnim.y }, 
-                    { translateX: appearAnim.x }],
+        transform: [{ translateY: appearAnim.y }, { translateX: appearAnim.x }],
       }}
     >
       {props.children}
@@ -62,40 +60,41 @@ const AppearInView = (props) => {
 };
 
 const Images = [
-  require("./assets/noonHotel1.jpg"),
-  require("./assets/noonHotel2.jpg"),
-  require("./assets/noonHotel3.jpg"),
-  require("./assets/noonHotel4.jpg"),
-  require("./assets/darkHotel1.jpg"),
-  require("./assets/darkHotel2.jpg"),
-  require("./assets/darkHotel3.jpg"),
-  require("./assets/darkHotel4.jpg"),
-  require("./assets/Hotel1.jpg"),
-  require("./assets/Hotel2.jpg"),
-  require("./assets/Hotel3.jpg"),
-  require("./assets/Hotel4.jpg"),
-  require("./assets/noonHotel1.jpg"),
-  require("./assets/noonHotel2.jpg"),
-  require("./assets/noonHotel3.jpg"),
-  require("./assets/noonHotel4.jpg"),
-  require("./assets/darkHotel1.jpg"),
-  require("./assets/darkHotel2.jpg"),
-  require("./assets/darkHotel3.jpg"),
-  require("./assets/darkHotel4.jpg"),
-  require("./assets/Hotel1.jpg"),
-  require("./assets/Hotel2.jpg"),
-  require("./assets/Hotel3.jpg"),
-  require("./assets/Hotel4.jpg"),
+  require("../../../assets/hotels/Hotel-1.jpg"),
+  require("../../../assets/hotels/noonHotel-1.jpg"),
+  require("../../../assets/hotels/noonHotel-2.jpg"),
+  require("../../../assets/hotels/noonHotel-3.jpg"),
+  require("../../../assets/hotels/noonHotel-4.jpg"),
+  require("../../../assets/hotels/darkHotel-1.jpg"),
+  require("../../../assets/hotels/darkHotel-2.jpg"),
+  require("../../../assets/hotels/darkHotel-3.jpg"),
+  require("../../../assets/hotels/darkHotel-4.jpg"),
+  require("../../../assets/hotels/Hotel-1.jpg"),
+  require("../../../assets/hotels/Hotel-2.jpg"),
+  require("../../../assets/hotels/Hotel-3.jpg"),
+  require("../../../assets/hotels/Hotel-4.jpg"),
+  require("../../../assets/hotels/noonHotel-1.jpg"),
+  require("../../../assets/hotels/noonHotel-2.jpg"),
+  require("../../../assets/hotels/noonHotel-3.jpg"),
+  require("../../../assets/hotels/noonHotel-4.jpg"),
+  require("../../../assets/hotels/darkHotel-1.jpg"),
+  require("../../../assets/hotels/darkHotel-2.jpg"),
+  require("../../../assets/hotels/darkHotel-3.jpg"),
+  require("../../../assets/hotels/darkHotel-4.jpg"),
+  require("../../../assets/hotels/Hotel-1.jpg"),
+  require("../../../assets/hotels/Hotel-2.jpg"),
+  require("../../../assets/hotels/Hotel-3.jpg"),
+  require("../../../assets/hotels/Hotel-4.jpg"),
 ];
 
 let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
 
 const Start = () => {
-//   const [loading, setLoading] = useState(false);
-//   setTimeout(() => {
-//     setLoading(true);
-//   }, 3000);
+  //   const [loading, setLoading] = useState(false);
+  //   setTimeout(() => {
+  //     setLoading(true);
+  //   }, 3000);
 
   const _renderItem = ({ item, index }) => (
     <Image
@@ -108,15 +107,11 @@ const Start = () => {
       resizeMode="cover"
     />
   );
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <AppearInView style={styles.containerImage}>
-        <FlatList
-          data={Images}
-          numColumns={8}
-          renderItem={_renderItem}
-        />
+        <FlatList data={Images} numColumns={8} renderItem={_renderItem} />
       </AppearInView>
 
       {/* (loading) && */}
@@ -124,7 +119,7 @@ const Start = () => {
         <View style={styles.logo}>
           <Image
             style={styles.imageLogo}
-            source={require("./assets/logo.png")}
+            source={require("../../../assets/logo.png")}
           />
         </View>
       </AppearLogoInView>
