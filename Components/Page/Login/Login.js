@@ -9,6 +9,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  TouchableHighlight,
 } from "react-native";
 import { NativeRouter, Routes, Route, Link } from "react-router-native";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -129,7 +130,12 @@ const LoginPage = () => {
         <View style={styles.containerButton}>
           <View style={styles.buttonForgotpw}>
             <TouchableOpacity>
-              <Link to="/">
+              <Link
+                to="/"
+                component={TouchableHighlight}
+                activeOpacity={0.7}
+                underlayColor="#ffffff"
+              >
                 <Text style={styles.textForgotPw}>Forget password?</Text>
               </Link>
             </TouchableOpacity>
@@ -137,6 +143,7 @@ const LoginPage = () => {
 
           <TouchableOpacity
             style={styles.button}
+            activeOpacity={0.8}
             onPress={() => {
               handleSubmit();
             }}
@@ -154,12 +161,12 @@ const LoginPage = () => {
         </View>
 
         <View style={styles.containerButtonLoginWith}>
-          <TouchableOpacity style={styles.buttonLoginWith}>
+          <TouchableOpacity style={styles.buttonLoginWith} activeOpacity={0.5}>
             <Icon name="google" style={styles.icon} size={20} />
             <Text style={styles.textIcon}>Sign in with Google</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.buttonLoginWith}>
+          <TouchableOpacity style={styles.buttonLoginWith} activeOpacity={0.5}>
             <Icon name="facebook" style={styles.icon} size={20} />
             <Text style={styles.textIcon}>Sign in with Facebook</Text>
           </TouchableOpacity>
@@ -169,7 +176,13 @@ const LoginPage = () => {
       <View style={styles.containerFooter}>
         <Text style={styles.textFooter}>Don't have account?</Text>
 
-        <Link to="/register">
+        <Link
+          to="/register"
+          style={styles.link}
+          component={TouchableHighlight}
+          activeOpacity={0.7}
+          underlayColor="#ffffff"
+        >
           <Text style={styles.textSignUp}> Sign up</Text>
         </Link>
       </View>
@@ -185,6 +198,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 20,
+    marginVertical: 10,
   },
   containerHeader: {
     flex: 7,
@@ -192,7 +206,7 @@ const styles = StyleSheet.create({
   },
   containerTextHeader: {
     // flex: 2,
-    paddingTop: 50,
+    paddingTop: 30,
   },
   textHeader: {
     fontSize: 24,

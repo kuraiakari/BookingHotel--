@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
+  TouchableHighlight,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Link } from "react-router-native";
@@ -201,33 +202,48 @@ const Register = () => {
               />
             </Pressable>
             <Text style={styles.text1}>I read and agree to</Text>
-            <TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.5}>
               <Text style={styles.text2}>{" Terms & Conditions"}</Text>
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity
             style={styles.button}
+            activeOpacity={0.8}
             onPress={() => {
               handleSubmit();
             }}
           >
-            <Text style={styles.textButton}>Log up </Text>
-            {inforUser && (
-              <View>
-                <Text>Bạn đã đăng kí thành công</Text>
-                <Link to="/login">
-                  <Text> Quay trở lại</Text>
-                </Link>
-              </View>
-            )}
+            <Text style={styles.textButton}>Sign up</Text>
           </TouchableOpacity>
+          {inforUser && (
+            <View style={styles.notiPopsup}>
+              <Text
+                style={[styles.text1, { color: "#000000", paddingBottom: 10 }]}
+              >
+                You have successfully registered!
+              </Text>
+              {/* <Link 
+              to="/login"
+              component={TouchableHighlight}
+              activeOpacity={0.7}
+              underlayColor="#ffffff"
+              >
+                <Text style={[styles.text1, {color: "#000000"}]}>Come back to Login</Text>
+              </Link> */}
+            </View>
+          )}
         </View>
       </View>
 
       <View style={styles.containerFooter}>
         <Text style={styles.text1}>Already have an account?</Text>
-        <Link to="/login">
+        <Link
+          to="/login"
+          component={TouchableHighlight}
+          activeOpacity={0.7}
+          underlayColor="#ffffff"
+        >
           <Text style={styles.text2}> Sign In</Text>
         </Link>
       </View>
@@ -243,6 +259,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 20,
+    marginVertical: 10,
   },
   containerHeader: {
     flex: 6.5,
@@ -252,7 +269,7 @@ const styles = StyleSheet.create({
   },
   containerTextHeader: {
     // height: deviceHeight * (0.65) * 0.2,
-    paddingTop: 50,
+    paddingTop: 30,
   },
   textHeader: {
     fontSize: 24,
@@ -343,6 +360,11 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     fontWeight: "light",
     color: "white",
+  },
+  notiPopsup: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 20,
   },
   containerFooter: {
     flex: 3.5,

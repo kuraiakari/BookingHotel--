@@ -10,6 +10,7 @@ import {
   FlatList,
   Dimensions,
   TouchableOpacity,
+  TouchableHighlight,
 } from "react-native";
 
 const AppearLogoInView = (props) => {
@@ -17,7 +18,7 @@ const AppearLogoInView = (props) => {
 
   useEffect(() => {
     Animated.timing(appearAnim, {
-      toValue: { x: -70, y: 190 },
+      toValue: { x: -70, y: 185 },
       delay: 2000,
       duration: 3000,
       useNativeDriver: true,
@@ -141,7 +142,13 @@ const Start = () => {
         style={{ flex: 2, justifyContent: "flex-end", paddingBottom: 30 }}
       >
         <TouchableOpacity>
-          <Link to="/search" style={styles.containerButton}>
+          <Link
+            to="/search"
+            style={styles.containerButton}
+            component={TouchableHighlight}
+            activeOpacity={0.7}
+            underlayColor="#8078f5"
+          >
             <Text style={styles.button}>Get started</Text>
           </Link>
         </TouchableOpacity>

@@ -10,6 +10,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  TouchableHighlight,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { Link, BackButton } from "react-router-native";
@@ -235,19 +236,21 @@ const Search = () => {
           </View>
         </View>
 
-        <TouchableOpacity>
-          <Link
-            to="/listhotel"
-            onPress={() => {
-              handleSearching();
-            }}
-            style={styles.button}
-          >
-            <Text style={styles.textButton}>Search</Text>
-          </Link>
-        </TouchableOpacity>
+        <Link
+          to="/listhotel"
+          component={TouchableHighlight}
+          activeOpacity={0.7}
+          underlayColor="#8078f5"
+          onPress={() => {
+            handleSearching();
+          }}
+          style={styles.button}
+        >
+          <Text style={styles.textButton}>Search</Text>
+        </Link>
         {/* Có bug input bị trống */}
       </View>
+      <Navigation/>
     </SafeAreaView>
   );
 };
@@ -259,15 +262,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    marginHorizontal: 20,
   },
   topContainer: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingHorizontal: 30,
+    paddingVertical: 5,
   },
   logo: {
     height: 67 * 0.55,
@@ -276,11 +278,12 @@ const styles = StyleSheet.create({
   centerContainer: {
     // flex: 3,
     paddingTop: 10,
-    paddingBottom: 30,
+    paddingBottom: 20,
+    
   },
   imageBackground: {
     width: deviceWidth,
-    height: deviceHeight * 0.3,
+    height: deviceHeight * 0.27,
     backgroundColor: "transparent",
     opacity: 0.4,
   },
@@ -290,14 +293,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    paddingHorizontal: 30,
-    paddingVertical: 40,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
   },
   largeText: {
     fontSize: 51,
     fontWeight: "700",
     lineHeight: 56,
-    paddingBottom: 20,
+    paddingBottom: 15,
   },
   smallText: {
     fontSize: 16,
@@ -307,7 +310,7 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     width: "100%",
-    paddingHorizontal: 10,
+    paddingHorizontal: 30,
   },
   inputCity: {
     paddingBottom: 20,
