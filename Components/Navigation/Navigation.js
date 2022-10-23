@@ -18,7 +18,7 @@ let deviceHeight = Dimensions.get("window").height;
 
 const Navigation = ({pathName}) => {
   let activeLink
-  if (pathName === "/search") activeLink = [1,0,0,0]
+  if (pathName === "/search" || pathName === "/listhotel") activeLink = [1,0,0,0]
   if (pathName === "/login") activeLink = [0,1,0,0]
   
   return (

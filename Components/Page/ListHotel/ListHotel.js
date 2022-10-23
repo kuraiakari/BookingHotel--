@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, ScrollView, Text, Image, SafeAreaView, TouchableHighlight, ActivityIndicator, FlatList, BackHandler, Button, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-native'
+import { Link, useNavigate, useLocation } from 'react-router-native'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Octicons from "react-native-vector-icons/Octicons";
@@ -62,6 +62,9 @@ const ListHotel = () => {
     const linkNgrok = 'https://dream-hotelapp.herokuapp.com/' //thay đổi theo lần dùng
     
     console.log(data)
+
+    const location = useLocation();
+
 
     useEffect(() => {
         //fetch(`${linkNgrok}` + `v1/hotel/byCity/${city}`)
@@ -136,7 +139,7 @@ const ListHotel = () => {
                     </View>
                 </View>
             }
-        <Navigation/>
+        <Navigation pathName={location.pathname}/>
         </SafeAreaView>
     )
 }

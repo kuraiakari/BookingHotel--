@@ -37,7 +37,9 @@ const Search = () => {
   const [checkOut, setCheckOut] = useState(null);
   const [hideCheckOut, setHideCheckOut] = useState(false);
   const [numberAdults, setNumberAdults] = useState(0);
+  const [isCheckAdults, setIsCheckAdults] = useState(false);
   const [numberChildrens, setNumberChildrens] = useState(0);
+  const [isCheckChildrens, setIsCheckChildrens] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -58,6 +60,16 @@ const Search = () => {
     if (!checkOut) {
       e.preventDefault();
       setCheckOut("");
+      checkError = true;
+    }
+    if (numberAdults === 0) {
+      e.preventDefault();
+      setIsCheckAdults(true);
+      checkError = true;
+    }
+    if (numberChildrens === 0) {
+      e.preventDefault();
+      setIsCheckChildrens(true);
       checkError = true;
     }
     if (checkError) return;
@@ -225,24 +237,41 @@ const Search = () => {
               { paddingBottom: 10 },
             ]}
           >
-            <View style={[styles.boxGuest, styles.boxShowGuest]}>
+            <View
+              style={[
+                styles.boxGuest,
+                styles.boxShowGuest,
+                {
+                  borderColor: isCheckAdults ? "red" : "#CCCCCC",
+                },
+              ]}
+            >
               <Octicons name="person" color="#7369FF" size={20} />
               <Text style={styles.textForGuest}>18+ years old</Text>
             </View>
             <View style={[styles.boxGuest, styles.boxBtnPlusMinus]}>
               <TouchableOpacity
-                onPress={() => setNumberAdults(numberAdults + 1)}
+                onPress={() => {
+                  setIsCheckAdults(false);
+                  setNumberAdults(numberAdults + 1);
+                }}
               >
                 <Feather name="plus-circle" color="#7369FF" size={25} />
               </TouchableOpacity>
               <TextInput
                 keyboardType="numeric"
                 value={`${numberAdults}`}
-                onChange={(e) => setNumberAdults(e.nativeEvent.text)}
+                onChange={(e) => {
+                  setIsCheckAdults(false);
+                  setNumberAdults(e.nativeEvent.text);
+                }}
               />
               <TouchableOpacity
                 disabled={numberAdults > 0 ? false : true}
-                onPress={() => setNumberAdults(numberAdults - 1)}
+                onPress={() => {
+                  setIsCheckAdults(false);
+                  setNumberAdults(numberAdults - 1);
+                }}
               >
                 <Feather name="minus-circle" color="#7369FF" size={25} />
               </TouchableOpacity>
@@ -250,24 +279,41 @@ const Search = () => {
           </View>
 
           <View style={[styles.boxGuest, styles.boxGuestSpace]}>
-            <View style={[styles.boxGuest, styles.boxShowGuest]}>
+            <View
+              style={[
+                styles.boxGuest,
+                styles.boxShowGuest,
+                {
+                  borderColor: isCheckChildrens ? "red" : "#CCCCCC",
+                },
+              ]}
+            >
               <Octicons name="person" color="#7369FF" size={25} />
               <Text style={styles.textForGuest}>0 to 17 years old</Text>
             </View>
             <View style={[styles.boxGuest, styles.boxBtnPlusMinus]}>
               <TouchableOpacity
-                onPress={() => setNumberChildrens(numberChildrens + 1)}
+                onPress={() => {
+                  setIsCheckChildrens(false);
+                  setNumberChildrens(numberChildrens + 1);
+                }}
               >
                 <Feather name="plus-circle" color="#7369FF" size={25} />
               </TouchableOpacity>
               <TextInput
                 keyboardType="numeric"
                 value={`${numberChildrens}`}
-                onChange={(e) => setNumberChildrens(e.nativeEvent.text)}
+                onChange={(e) => {
+                  setIsCheckChildrens(false);
+                  setNumberChildrens(e.nativeEvent.text);
+                }}
               />
               <TouchableOpacity
                 disabled={numberChildrens > 0 ? false : true}
-                onPress={() => setNumberChildrens(numberChildrens - 1)}
+                onPress={() => {
+                  setIsCheckChildrens(false);
+                  setNumberChildrens(numberChildrens - 1);
+                }}
               >
                 <Feather name="minus-circle" color="#7369FF" size={25} />
               </TouchableOpacity>
