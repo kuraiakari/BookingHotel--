@@ -11,13 +11,13 @@ import {
   Image,
   TouchableHighlight,
 } from "react-native";
-import { NativeRouter, Routes, Route, Link } from "react-router-native";
+import { NativeRouter, Routes, Route, Link, useLocation } from "react-router-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Feather from "react-native-vector-icons/Feather";
 
 import { validator } from "../../Validator";
-import { style } from "deprecated-react-native-prop-types/DeprecatedImagePropType";
+import Navigation from "../../Navigation/Navigation";
 
 let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
@@ -50,6 +50,9 @@ const LoginPage = () => {
   useEffect(() => {
     if (inforUser) console.log(inforUser);
   }, [inforUser]);
+
+  const location = useLocation();
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerHeader}>
@@ -79,7 +82,10 @@ const LoginPage = () => {
               <TextInput
                 placeholder="Type your email"
                 value={email}
-                onChange={(e) => setEmail(e.nativeEvent.text)}
+                onChange={(e) => {
+                  setIsCheckEmail(false)
+                  setEmail(e.nativeEvent.text)
+                }}
                 style={styles.emailInput}
               />
             </View>
@@ -110,7 +116,10 @@ const LoginPage = () => {
                   secureTextEntry={!isCheckedHidePW ? true : false}
                   placeholder="Type your password"
                   value={password}
-                  onChange={(e) => setPassword(e.nativeEvent.text)}
+                  onChange={(e) => {
+                    setIsCheckPassword(false)
+                    setPassword(e.nativeEvent.text)}
+                  }
                   style={styles.pwInput}
                 />
               </View>
@@ -186,6 +195,7 @@ const LoginPage = () => {
           <Text style={styles.textSignUp}> Sign up</Text>
         </Link>
       </View>
+      <Navigation pathName={location.pathname}/>
     </SafeAreaView>
   );
 };

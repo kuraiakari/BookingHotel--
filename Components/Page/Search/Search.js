@@ -11,9 +11,10 @@ import {
   Dimensions,
   TouchableOpacity,
   TouchableHighlight,
+  Alert,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { Link, BackButton } from "react-router-native";
+import { Link, BackButton, useLocation } from "react-router-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
@@ -30,6 +31,7 @@ let deviceHeight = Dimensions.get("window").height;
 
 const Search = () => {
   const [city, setCiTy] = useState("");
+  const [isCheckCity, setIsCheckCity] = useState(false);
   const [checkIn, setCheckIn] = useState("");
   const [hideCheckIn, setHideCheckIn] = useState(false);
   const [checkOut, setCheckOut] = useState("");
@@ -39,7 +41,15 @@ const Search = () => {
 
   const dispatch = useDispatch();
 
-  const handleSearching = () => {
+  const location = useLocation();
+
+  const handleSearching = (e) => {
+    if (city.trim() === "") {
+      console.log(1)
+      e.preventDefault();
+      setIsCheckCity(true)
+      return
+    }
     dispatch({ type: "SERACH_NAME_CITY", payload: city.trim() });
     dispatch({ type: "CHECK_IN", payload: checkIn });
     dispatch({ type: "CHECK_OUT", payload: checkOut });
@@ -72,12 +82,6 @@ const Search = () => {
     else alert(errorMessage);
     hideDatePickerCheckOut();
   };
-
-  // {
-  //     city: 'A',
-  //     checkIn,
-  //     checkOut,
-  // }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
@@ -105,11 +109,21 @@ const Search = () => {
       <View style={styles.searchContainer}>
         <View style={styles.inputCity}>
           <Text style={styles.textOrder}>City, destination or appartment</Text>
-          <View style={styles.boxInput}>
+          <View style={[styles.boxInput,
+            {
+                borderColor:
+                isCheckCity
+                      ? "red"
+                      : "#CCCCCC",
+            }
+          ]}>
             <TextInput
               value={city}
               placeholder="City"
-              onChange={(e) => setCiTy(e.nativeEvent.text)}
+              onChange={(e) => {
+                setIsCheckCity(false)
+                setCiTy(e.nativeEvent.text)
+              }}
               style={{ flex: 1 }}
             />
             <Evillcons name="location" color="#7369FF" size={25} />
@@ -241,8 +255,8 @@ const Search = () => {
           component={TouchableHighlight}
           activeOpacity={0.7}
           underlayColor="#8078f5"
-          onPress={() => {
-            handleSearching();
+          onPress={(e) => {
+            handleSearching(e);
           }}
           style={styles.button}
         >
@@ -250,7 +264,7 @@ const Search = () => {
         </Link>
         {/* Có bug input bị trống */}
       </View>
-      <Navigation/>
+      <Navigation pathName={location.pathname}/>
     </SafeAreaView>
   );
 };
@@ -328,8 +342,8 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 15,
     height: 40,
+    borderColor: "#CCCCCC", 
     borderWidth: 1,
-    borderColor: "#CCCCCC",
     borderRadius: 16,
   },
   boxOrder: {

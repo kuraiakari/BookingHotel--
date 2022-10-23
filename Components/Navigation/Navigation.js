@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,7 +15,12 @@ import Octicons from "react-native-vector-icons/Octicons";
 let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
 
-const Navigation = () => {
+
+const Navigation = ({pathName}) => {
+  let activeLink
+  if (pathName === "/search") activeLink = [1,0,0,0]
+  if (pathName === "/login") activeLink = [0,1,0,0]
+  
   return (
     <View style={styles.tabNavigation}>
       <Link
@@ -25,8 +30,13 @@ const Navigation = () => {
         underlayColor="#ffffff"
       >
         <View style={styles.elementNavigation}>
-          <Feather name="search" size={20} color="#B1B5C4" />
-          <Text style={styles.textElementNavigation}>Search</Text>
+          <Feather 
+            name="search" 
+            size={20} 
+            color={activeLink[0] === 1 ? "#7A71F7" : "#B1B5C4"} />
+          <Text style={[
+            styles.textElementNavigation, 
+            { color:activeLink[0] === 1 ? "#7A71F7" : "#B1B5C4" }]}>Search</Text>
         </View>
       </Link>
 
@@ -40,9 +50,10 @@ const Navigation = () => {
           <MaterialCommunityIcons
             name="bag-checked"
             size={20}
-            color="#B1B5C4"
-          />
-          <Text style={styles.textElementNavigation}>Order</Text>
+            color={activeLink[1] === 1 ? "#7A71F7" : "#B1B5C4"} />
+          <Text style={[
+            styles.textElementNavigation,
+            { color:activeLink[1] === 1 ? "#7A71F7" : "#B1B5C4" }]}>Order</Text>
         </View>
       </Link>
 

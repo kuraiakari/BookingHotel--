@@ -66,7 +66,6 @@ const Register = () => {
   useEffect(() => {
     if (inforUser) console.log(inforUser);
   }, [inforUser]);
-  console.log(isCheckedBox);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerHeader}>
@@ -98,7 +97,10 @@ const Register = () => {
               <TextInput
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.nativeEvent.text)}
+                onChange={(e) => {
+                  setIsCheckEmail(false)
+                  setEmail(e.nativeEvent.text)}
+                }
                 style={styles.emailInput}
               />
             </View>
@@ -129,7 +131,10 @@ const Register = () => {
                   secureTextEntry={!isCheckedHidePWUp ? true : false}
                   placeholder="Password"
                   value={password}
-                  onChange={(e) => setPassword(e.nativeEvent.text)}
+                  onChange={(e) => {
+                    setIsCheckPassword(false)
+                    setPassword(e.nativeEvent.text)
+                  }}
                   style={styles.pwInput}
                 />
               </View>
@@ -153,7 +158,7 @@ const Register = () => {
                 { justifyContent: "space-between" },
                 {
                   borderColor:
-                    isCheckPassword == "This field is required"
+                    isCheckConfirmPassword == "This field is required"
                       ? "red"
                       : "#e8e8e8",
                 },
@@ -166,7 +171,10 @@ const Register = () => {
                   secureTextEntry={!isCheckedHidePWBelow ? true : false}
                   placeholder="Confirm password"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.nativeEvent.text)}
+                  onChange={(e) => {
+                    setIsCheckConfirmPassword(false)
+                    setConfirmPassword(e.nativeEvent.text)
+                  }}
                   style={styles.pwInput}
                 />
               </View>
