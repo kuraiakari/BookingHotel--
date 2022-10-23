@@ -32,9 +32,9 @@ let deviceHeight = Dimensions.get("window").height;
 const Search = () => {
   const [city, setCiTy] = useState("");
   const [isCheckCity, setIsCheckCity] = useState(false);
-  const [checkIn, setCheckIn] = useState("");
+  const [checkIn, setCheckIn] = useState(null);
   const [hideCheckIn, setHideCheckIn] = useState(false);
-  const [checkOut, setCheckOut] = useState("");
+  const [checkOut, setCheckOut] = useState(null);
   const [hideCheckOut, setHideCheckOut] = useState(false);
   const [numberAdults, setNumberAdults] = useState(0);
   const [numberChildrens, setNumberChildrens] = useState(0);
@@ -44,12 +44,23 @@ const Search = () => {
   const location = useLocation();
 
   const handleSearching = (e) => {
+    let checkError = false;
     if (city.trim() === "") {
-      console.log(1)
       e.preventDefault();
-      setIsCheckCity(true)
-      return
+      setIsCheckCity(true);
+      checkError = true;
     }
+    if (!checkIn) {
+      e.preventDefault();
+      setCheckIn("");
+      checkError = true;
+    }
+    if (!checkOut) {
+      e.preventDefault();
+      setCheckOut("");
+      checkError = true;
+    }
+    if (checkError) return;
     dispatch({ type: "SERACH_NAME_CITY", payload: city.trim() });
     dispatch({ type: "CHECK_IN", payload: checkIn });
     dispatch({ type: "CHECK_OUT", payload: checkOut });
@@ -109,20 +120,20 @@ const Search = () => {
       <View style={styles.searchContainer}>
         <View style={styles.inputCity}>
           <Text style={styles.textOrder}>City, destination or appartment</Text>
-          <View style={[styles.boxInput,
-            {
-                borderColor:
-                isCheckCity
-                      ? "red"
-                      : "#CCCCCC",
-            }
-          ]}>
+          <View
+            style={[
+              styles.boxInput,
+              {
+                borderColor: isCheckCity ? "red" : "#CCCCCC",
+              },
+            ]}
+          >
             <TextInput
               value={city}
               placeholder="City"
               onChange={(e) => {
-                setIsCheckCity(false)
-                setCiTy(e.nativeEvent.text)
+                setIsCheckCity(false);
+                setCiTy(e.nativeEvent.text);
               }}
               style={{ flex: 1 }}
             />
@@ -135,7 +146,14 @@ const Search = () => {
             <Text style={styles.textOrder}>Check In</Text>
             {/* <View style={styles.dateCheckIn}> */}
             <Pressable onPress={showDatePickerCheckIn}>
-              <View style={styles.boxInput}>
+              <View
+                style={[
+                  styles.boxInput,
+                  {
+                    borderColor: checkIn === "" ? "red" : "#CCCCCC",
+                  },
+                ]}
+              >
                 <TextInput
                   pointerEvents="none"
                   editable={false}
@@ -165,7 +183,14 @@ const Search = () => {
             <Text style={styles.textOrder}>Check Out</Text>
 
             <Pressable onPress={showDatePickerCheckOut}>
-              <View style={styles.boxInput}>
+              <View
+                style={[
+                  styles.boxInput,
+                  {
+                    borderColor: checkOut === "" ? "red" : "#CCCCCC",
+                  },
+                ]}
+              >
                 <TextInput
                   editable={false}
                   placeholder="yyyy/mm/dd"
@@ -264,7 +289,7 @@ const Search = () => {
         </Link>
         {/* Có bug input bị trống */}
       </View>
-      <Navigation pathName={location.pathname}/>
+      <Navigation pathName={location.pathname} />
     </SafeAreaView>
   );
 };
@@ -293,7 +318,6 @@ const styles = StyleSheet.create({
     // flex: 3,
     paddingTop: 10,
     paddingBottom: 20,
-    
   },
   imageBackground: {
     width: deviceWidth,
@@ -342,7 +366,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 15,
     height: 40,
-    borderColor: "#CCCCCC", 
+    borderColor: "#CCCCCC",
     borderWidth: 1,
     borderRadius: 16,
   },
