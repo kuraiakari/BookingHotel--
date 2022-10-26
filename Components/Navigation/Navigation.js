@@ -15,12 +15,12 @@ import Octicons from "react-native-vector-icons/Octicons";
 let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
 
-
-const Navigation = ({pathName}) => {
-  let activeLink
-  if (pathName === "/search" || pathName === "/listhotel") activeLink = [1,0,0,0]
-  if (pathName === "/login") activeLink = [0,1,0,0]
-  
+const Navigation = ({ pathName }) => {
+  let activeLink;
+  if (pathName === "/search" || pathName === "/listhotel")
+    activeLink = [1, 0, 0, 0];
+  if (pathName === "/login") activeLink = [0, 1, 0, 0];
+  if (pathName === "/person") activeLink = [0, 0, 0, 1];
   return (
     <View style={styles.tabNavigation}>
       <Link
@@ -30,13 +30,19 @@ const Navigation = ({pathName}) => {
         underlayColor="#ffffff"
       >
         <View style={styles.elementNavigation}>
-          <Feather 
-            name="search" 
-            size={20} 
-            color={activeLink[0] === 1 ? "#7A71F7" : "#B1B5C4"} />
-          <Text style={[
-            styles.textElementNavigation, 
-            { color:activeLink[0] === 1 ? "#7A71F7" : "#B1B5C4" }]}>Search</Text>
+          <Feather
+            name="search"
+            size={20}
+            color={activeLink[0] === 1 ? "#7A71F7" : "#B1B5C4"}
+          />
+          <Text
+            style={[
+              styles.textElementNavigation,
+              { color: activeLink[0] === 1 ? "#7A71F7" : "#B1B5C4" },
+            ]}
+          >
+            Search
+          </Text>
         </View>
       </Link>
 
@@ -50,10 +56,16 @@ const Navigation = ({pathName}) => {
           <MaterialCommunityIcons
             name="bag-checked"
             size={20}
-            color={activeLink[1] === 1 ? "#7A71F7" : "#B1B5C4"} />
-          <Text style={[
-            styles.textElementNavigation,
-            { color:activeLink[1] === 1 ? "#7A71F7" : "#B1B5C4" }]}>Order</Text>
+            color={activeLink[1] === 1 ? "#7A71F7" : "#B1B5C4"}
+          />
+          <Text
+            style={[
+              styles.textElementNavigation,
+              { color: activeLink[1] === 1 ? "#7A71F7" : "#B1B5C4" },
+            ]}
+          >
+            Order
+          </Text>
         </View>
       </Link>
 
@@ -70,14 +82,25 @@ const Navigation = ({pathName}) => {
       </Link>
 
       <Link
-        to="/"
+        to="/person"
         component={TouchableHighlight}
         activeOpacity={0.7}
         underlayColor="#ffffff"
       >
         <View style={styles.elementNavigation}>
-          <Octicons name="person" size={20} color="#B1B5C4" />
-          <Text style={styles.textElementNavigation}>Profile</Text>
+          <Octicons
+            name="person"
+            size={20}
+            color={activeLink[3] === 1 ? "#7A71F7" : "#B1B5C4"}
+          />
+          <Text
+            style={[
+              styles.textElementNavigation,
+              { color: activeLink[3] === 1 ? "#7A71F7" : "#B1B5C4" },
+            ]}
+          >
+            Profile
+          </Text>
         </View>
       </Link>
     </View>
