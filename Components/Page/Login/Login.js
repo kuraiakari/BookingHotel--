@@ -10,10 +10,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
-import {
-  Link,
-  useNavigate
-} from "react-router-native";
+import { Link, useNavigate } from "react-router-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Feather from "react-native-vector-icons/Feather";
@@ -33,39 +30,39 @@ const LoginPage = () => {
   const [errorMessageFromServer, setErrorMessageFromServer] = useState("");
   const iconName = isCheckedHidePW ? "eye" : "eye-off";
 
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   const handlePostData = async (data) => {
     try {
-      const response = await fetch("https://dream-hotelapp.herokuapp.com/v1/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify(data),
-      })
+      const response = await fetch(
+        "https://dream-hotelapp.herokuapp.com/v1/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const dataReturn = await response.json();
       if (dataReturn.error) {
-        return dataReturn.error
-      }
-      else return undefined
+        return dataReturn.error;
+      } else return undefined;
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   const handleDataSubmit = async (e) => {
     e.persist();
     let infoOfUser;
     if (validator("email", email)) {
       setIsCheckEmail(validator("email", email));
-    }
-    else setIsCheckEmail(false);
-    if (validator("password", password)){
+    } else setIsCheckEmail(false);
+    if (validator("password", password)) {
       setIsCheckPassword(validator("password", password));
-    }
-    else setIsCheckPassword(false);
+    } else setIsCheckPassword(false);
     if (
       email &&
       password &&
@@ -74,10 +71,10 @@ const LoginPage = () => {
     ) {
       infoOfUser = { email, password };
     }
-    const errorMess = await handlePostData(infoOfUser)
-    if (errorMess) setErrorMessageFromServer(errorMess)
-    else navigate("/search", { replace: true })
-    return
+    const errorMess = await handlePostData(infoOfUser);
+    if (errorMess) setErrorMessageFromServer(errorMess);
+    else navigate("/search", { replace: true });
+    return;
   };
 
   return (
@@ -176,11 +173,9 @@ const LoginPage = () => {
               </Link>
             </TouchableOpacity>
           </View>
-          <Text
-                style={[styles.text1, { color: "#000000", paddingBottom: 10 }]}
-              >
-                {errorMessageFromServer}
-              </Text>
+          <Text style={[styles.text1, { color: "#000000", paddingBottom: 10 }]}>
+            {errorMessageFromServer}
+          </Text>
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}

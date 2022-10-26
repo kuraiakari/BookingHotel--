@@ -36,8 +36,7 @@ const Register = () => {
   const [isCheckedHidePWBelow, setIsCheckedHidePWBelow] = useState(false);
   const iconNamePWBelow = isCheckedHidePWBelow ? "eye" : "eye-off";
   const [inforUser, setInforUser] = useState("");
-  const [errorMessageFromServer, setErrorMessageFromServer] = useState("")
-
+  const [errorMessageFromServer, setErrorMessageFromServer] = useState("");
 
   const handleSubmit = () => {
     if (validator("email", email)) setIsCheckEmail(validator("email", email));
@@ -66,22 +65,22 @@ const Register = () => {
     }
   };
   useEffect(() => {
-    console.log(inforUser)
+    console.log(inforUser);
     if (inforUser) {
-      fetch('https://dream-hotelapp.herokuapp.com/v1/auth/register', {
-        method: 'POST',
+      fetch("https://dream-hotelapp.herokuapp.com/v1/auth/register", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(inforUser)
+        body: JSON.stringify(inforUser),
       })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.error)
-        if(data.error) setErrorMessageFromServer(data.error)
-        else setErrorMessageFromServer("You have successfully registered!")
-      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data.error);
+          if (data.error) setErrorMessageFromServer(data.error);
+          else setErrorMessageFromServer("You have successfully registered!");
+        });
     }
   }, [inforUser]);
   return (
@@ -116,9 +115,9 @@ const Register = () => {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => {
-                  setIsCheckEmail(false)
-                  setEmail(e.nativeEvent.text)}
-                }
+                  setIsCheckEmail(false);
+                  setEmail(e.nativeEvent.text);
+                }}
                 style={styles.emailInput}
               />
             </View>
@@ -150,8 +149,8 @@ const Register = () => {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => {
-                    setIsCheckPassword(false)
-                    setPassword(e.nativeEvent.text)
+                    setIsCheckPassword(false);
+                    setPassword(e.nativeEvent.text);
                   }}
                   style={styles.pwInput}
                 />
@@ -190,8 +189,8 @@ const Register = () => {
                   placeholder="Confirm password"
                   value={confirmPassword}
                   onChange={(e) => {
-                    setIsCheckConfirmPassword(false)
-                    setConfirmPassword(e.nativeEvent.text)
+                    setIsCheckConfirmPassword(false);
+                    setConfirmPassword(e.nativeEvent.text);
                   }}
                   style={styles.pwInput}
                 />
