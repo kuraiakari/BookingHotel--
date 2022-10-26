@@ -8,16 +8,17 @@ import {
   SafeAreaView,
   Dimensions,
   TouchableOpacity,
-  Image,
   TouchableHighlight,
 } from "react-native";
-import { NativeRouter, Routes, Route, Link, useLocation } from "react-router-native";
+import {
+  Link,
+  useNavigate
+} from "react-router-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Feather from "react-native-vector-icons/Feather";
 
 import { validator } from "../../Validator";
-import Navigation from "../../Navigation/Navigation";
 
 let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
@@ -29,12 +30,41 @@ const LoginPage = () => {
   const [isCheckPassword, setIsCheckPassword] = useState(false);
   const [inforUser, setInforUser] = useState("");
   const [isCheckedHidePW, setIsCheckedHidePW] = useState(false);
+  const [errorMessageFromServer, setErrorMessageFromServer] = useState("");
   const iconName = isCheckedHidePW ? "eye" : "eye-off";
-  const handleSubmit = () => {
-    if (validator("email", email)) setIsCheckEmail(validator("email", email));
+
+  const navigate = useNavigate()
+  
+  const handlePostData = async (data) => {
+    try {
+      const response = await fetch("https://dream-hotelapp.herokuapp.com/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(data),
+      })
+      const dataReturn = await response.json();
+      if (dataReturn.error) {
+        return dataReturn.error
+      }
+      else return undefined
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const handleDataSubmit = async (e) => {
+    e.persist();
+    let infoOfUser;
+    if (validator("email", email)) {
+      setIsCheckEmail(validator("email", email));
+    }
     else setIsCheckEmail(false);
-    if (validator("password", password))
+    if (validator("password", password)){
       setIsCheckPassword(validator("password", password));
+    }
     else setIsCheckPassword(false);
     if (
       email &&
@@ -42,16 +72,13 @@ const LoginPage = () => {
       !validator("email", email) &&
       !validator("password", password)
     ) {
-      setEmail("");
-      setPassword("");
-      setInforUser({ email, password });
+      infoOfUser = { email, password };
     }
+    const errorMess = await handlePostData(infoOfUser)
+    if (errorMess) setErrorMessageFromServer(errorMess)
+    else navigate("/search", { replace: true })
+    return
   };
-  useEffect(() => {
-    if (inforUser) console.log(inforUser);
-  }, [inforUser]);
-
-  const location = useLocation();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -83,8 +110,8 @@ const LoginPage = () => {
                 placeholder="Type your email"
                 value={email}
                 onChange={(e) => {
-                  setIsCheckEmail(false)
-                  setEmail(e.nativeEvent.text)
+                  setIsCheckEmail(false);
+                  setEmail(e.nativeEvent.text);
                 }}
                 style={styles.emailInput}
               />
@@ -117,9 +144,9 @@ const LoginPage = () => {
                   placeholder="Type your password"
                   value={password}
                   onChange={(e) => {
-                    setIsCheckPassword(false)
-                    setPassword(e.nativeEvent.text)}
-                  }
+                    setIsCheckPassword(false);
+                    setPassword(e.nativeEvent.text);
+                  }}
                   style={styles.pwInput}
                 />
               </View>
@@ -149,12 +176,16 @@ const LoginPage = () => {
               </Link>
             </TouchableOpacity>
           </View>
-
+          <Text
+                style={[styles.text1, { color: "#000000", paddingBottom: 10 }]}
+              >
+                {errorMessageFromServer}
+              </Text>
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}
-            onPress={() => {
-              handleSubmit();
+            onPress={(e) => {
+              handleDataSubmit(e);
             }}
           >
             <Text style={styles.textButton}>Sign in</Text>
@@ -195,7 +226,6 @@ const LoginPage = () => {
           <Text style={styles.textSignUp}> Sign up</Text>
         </Link>
       </View>
-      <Navigation pathName={location.pathname}/>
     </SafeAreaView>
   );
 };

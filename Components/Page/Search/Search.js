@@ -46,7 +46,6 @@ const Search = () => {
   const location = useLocation();
 
   const handleSearching = (e) => {
-    let checkError = false;
     if (city.trim() === "") {
       e.preventDefault();
       setIsCheckCity(true);

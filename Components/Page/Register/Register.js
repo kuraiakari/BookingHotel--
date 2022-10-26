@@ -36,6 +36,8 @@ const Register = () => {
   const [isCheckedHidePWBelow, setIsCheckedHidePWBelow] = useState(false);
   const iconNamePWBelow = isCheckedHidePWBelow ? "eye" : "eye-off";
   const [inforUser, setInforUser] = useState("");
+  const [errorMessageFromServer, setErrorMessageFromServer] = useState("")
+
 
   const handleSubmit = () => {
     if (validator("email", email)) setIsCheckEmail(validator("email", email));
@@ -64,7 +66,23 @@ const Register = () => {
     }
   };
   useEffect(() => {
-    if (inforUser) console.log(inforUser);
+    console.log(inforUser)
+    if (inforUser) {
+      fetch('https://dream-hotelapp.herokuapp.com/v1/auth/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(inforUser)
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.error)
+        if(data.error) setErrorMessageFromServer(data.error)
+        else setErrorMessageFromServer("You have successfully registered!")
+      })
+    }
   }, [inforUser]);
   return (
     <SafeAreaView style={styles.container}>
@@ -229,7 +247,7 @@ const Register = () => {
               <Text
                 style={[styles.text1, { color: "#000000", paddingBottom: 10 }]}
               >
-                You have successfully registered!
+                {errorMessageFromServer}
               </Text>
               {/* <Link 
               to="/login"
