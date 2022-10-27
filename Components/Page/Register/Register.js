@@ -65,8 +65,8 @@ const Register = () => {
     }
   };
   useEffect(() => {
-    console.log(inforUser);
     if (inforUser) {
+      console.log(inforUser)
       fetch("https://dream-hotelapp.herokuapp.com/v1/auth/register", {
         method: "POST",
         headers: {
@@ -77,6 +77,7 @@ const Register = () => {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data)
           if (data.error) setErrorMessageFromServer(data.error);
           else setErrorMessageFromServer("You have successfully registered!");
         });

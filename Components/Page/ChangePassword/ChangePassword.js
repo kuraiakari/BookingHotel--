@@ -42,6 +42,10 @@ const ChangePassword = () => {
   const [isCheckedHideCNPW, setIsCheckedHideCNPW] = useState(false);
   const iconNameCNPW = isCheckedHideCNPW ? "eye" : "eye-off";
 
+  useEffect(() => {
+    
+  },[])
+
   const handleSubmit = () => {
     if (validator("password", currentPassword))
       setIsCheckCurrentPassword(validator("password", currentPassword));
