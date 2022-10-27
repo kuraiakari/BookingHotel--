@@ -1,4 +1,5 @@
 import {
+  ACCESS_TOKEN,
   SERACH_NAME_CITY,
   CHECK_IN,
   CHECK_OUT,
@@ -6,6 +7,7 @@ import {
   NUMBER_CHILDRENS,
 } from "../Constants";
 const initNameCity = {
+  accessToken: "",
   nameCity: "",
   checkIn: null,
   checkOut: null,
@@ -15,6 +17,11 @@ const initNameCity = {
 
 const cityReducer = (state = initNameCity, action) => {
   switch (action.type) {
+    case ACCESS_TOKEN:
+      return {
+        ...state,
+        accessToken: action.payload,
+      };
     case SERACH_NAME_CITY:
       return {
         ...state,

@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, SafeAreaView, StyleSheet } from "react-native";
 import { Link, useLocation } from "react-router-native";
+import { useSelector } from "react-redux";
 
 import Navigation from "../../Navigation/Navigation";
 
 const PersonalDetails = () => {
+  const inforUser = useSelector((state) => state);
+  const token = inforUser.accessToken;
   const location = useLocation();
+  const [data, setData] = useState({});
+  useEffect(() => {
+    fetch("https://dream-hotelapp.herokuapp.com/v1/user/7", {
+      method: "GET",
+      credentials: "included",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `access_token=${token}`,
+      },
+    })
+      .then((response) => response.text())
+      .then((data) => setData(data));
+  }, []);
+  console.log(data);
   return (
     <SafeAreaView style={styles.container}>
       <Text>Personal details</Text>

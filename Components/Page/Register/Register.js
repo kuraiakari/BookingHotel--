@@ -77,7 +77,6 @@ const Register = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data.error);
           if (data.error) setErrorMessageFromServer(data.error);
           else setErrorMessageFromServer("You have successfully registered!");
         });

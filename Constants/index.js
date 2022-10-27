@@ -3,3 +3,4 @@ export const CHECK_IN = 'CHECK_IN';
 export const CHECK_OUT = 'CHECK_OUT';
 export const NUMBER_ADULTS = 'NUMBER_ADULTS';
 export const NUMBER_CHILDRENS = 'NUMBER_CHILDRENS';
+export const ACCESS_TOKEN = 'ACCESS_TOKEN';

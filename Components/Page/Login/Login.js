@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -30,6 +31,8 @@ const LoginPage = () => {
   const [errorMessageFromServer, setErrorMessageFromServer] = useState("");
   const iconName = isCheckedHidePW ? "eye" : "eye-off";
 
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const handlePostData = async (data) => {
@@ -46,9 +49,13 @@ const LoginPage = () => {
         }
       );
       const dataReturn = await response.json();
+      console.log(dataReturn);
       if (dataReturn.error) {
         return dataReturn.error;
-      } else return undefined;
+      } else {
+        dispatch({ type: "ACCESS_TOKEN", payload: dataReturn.token });
+        return undefined;
+      }
     } catch (e) {
       console.log(e);
     }
