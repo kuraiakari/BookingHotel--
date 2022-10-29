@@ -7,11 +7,12 @@ import Navigation from "../../Navigation/Navigation";
 
 const PersonalDetails = () => {
   const inforUser = useSelector((state) => state);
+  const idUSer =inforUser.idUSer;
   const token = inforUser.accessToken;
   const location = useLocation();
   const [data, setData] = useState({});
   useEffect(() => {
-    fetch("https://dream-hotelapp.herokuapp.com/v1/user/7", {
+    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
       method: "GET",
       credentials: "included",
       headers: {
@@ -19,7 +20,7 @@ const PersonalDetails = () => {
         Cookie: `access_token=${token}`,
       },
     })
-      .then((response) => response.text())
+      .then((response) => response.json())
       .then((data) => setData(data));
   }, []);
   console.log(data);
@@ -52,7 +53,7 @@ const PersonalDetails = () => {
         <Link>
           <Text>Help</Text>
         </Link>
-        <Link>
+        <Link to="/login">
           <Text>Log out</Text>
         </Link>
       </View>

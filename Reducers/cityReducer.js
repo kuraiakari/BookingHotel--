@@ -4,9 +4,11 @@ import {
   CHECK_IN,
   CHECK_OUT,
   NUMBER_ADULTS,
+  ID_USER,
   NUMBER_CHILDRENS,
 } from "../Constants";
 const initNameCity = {
+  idUSer: "",
   accessToken: "",
   nameCity: "",
   checkIn: null,
@@ -17,6 +19,11 @@ const initNameCity = {
 
 const cityReducer = (state = initNameCity, action) => {
   switch (action.type) {
+    case ID_USER:
+      return {
+        ...state,
+        idUSer: action.payload,
+      };
     case ACCESS_TOKEN:
       return {
         ...state,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
+import { useSelector } from "react-redux";
 
 import { useSwipe } from "../../../Hooks/useSwipe/useSwipe";
 import { validator } from "../../Validator";
@@ -21,13 +22,16 @@ let deviceWidth = Dimensions.get("window").width;
 
 const ChangePassword = () => {
   const navigate = useNavigate();
+  const inforUser = useSelector((state) => state);
+  const idUSer =inforUser.idUSer;
+  const token = inforUser.accessToken;
 
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 2);
   function onSwipeLeft() {}
   function onSwipeRight() {
     navigate(-1);
   }
-
+  const [oldData, setOldData] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [isCheckCurrentPassword, setIsCheckCurrentPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
@@ -42,14 +46,31 @@ const ChangePassword = () => {
   const [isCheckedHideCNPW, setIsCheckedHideCNPW] = useState(false);
   const iconNameCNPW = isCheckedHideCNPW ? "eye" : "eye-off";
 
+  // console.log(token)
   useEffect(() => {
-    
-  },[])
-
+    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
+      method: "GET",
+      credentials: "included",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `access_token=${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setOldData(data);
+      });
+  }, []);
   const handleSubmit = () => {
     if (validator("password", currentPassword))
       setIsCheckCurrentPassword(validator("password", currentPassword));
-    else setIsCheckCurrentPassword(false);
+    else {
+      if (validator("confirmpassword", currentPassword, oldData.password))
+        setIsCheckCurrentPassword(
+          validator("confirmpassword", currentPassword, oldData.password)
+        );
+      else setIsCheckCurrentPassword(false);
+    }
     if (validator("password", newPassword))
       setIsCheckNewPassword(validator("password", newPassword));
     else {
@@ -65,6 +86,33 @@ const ChangePassword = () => {
       );
     else setIsCheckConfirmNewPassword(false);
     //khởi tạo object data
+    if (
+      currentPassword &&
+      newPassword &&
+      !isCheckCurrentPassword &&
+      !isCheckNewPassword &&
+      !isCheckConfirmNewPassword
+    ) {
+      const newData = {
+        password: newPassword,
+      };
+      setCurrentPassword("")
+      setNewPassword("")
+      setConfirmNewPassword("")
+      fetch(`https://dream-hotelapp.herokuapp.com/v1/user/update/id${idUSer}`, {
+        method: "PUT",
+        credentials: "included",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `access_token=${token}`,
+        },
+        body: JSON.stringify(newData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
+    }
   };
 
   return (
