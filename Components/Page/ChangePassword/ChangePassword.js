@@ -96,6 +96,7 @@ const ChangePassword = () => {
       const newData = {
         password: newPassword,
       };
+      
       setCurrentPassword("")
       setNewPassword("")
       setConfirmNewPassword("")
