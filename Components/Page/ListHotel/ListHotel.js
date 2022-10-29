@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View, ScrollView, Text, Image, SafeAreaView, TouchableHighlight, ActivityIndicator, FlatList, BackHandler, Button, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate, useLocation } from 'react-router-native'
-import Ionicons from "react-native-vector-icons/Ionicons";
+import Entypo from "react-native-vector-icons/Entypo";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Octicons from "react-native-vector-icons/Octicons";
 // import { useNavigate } from 'react-router-dom'
@@ -118,10 +118,10 @@ const ListHotel = () => {
                 listHotel && <View style={styles.subContainer}>
                     <View style={styles.header}>
                         <TouchableOpacity onPress={() => navigate(-1)}>
-                            <Ionicons name="md-chevron-back" size={20} color="#7369FF" />
+                            <Entypo name="chevron-left" size={20} color="#7369FF" />
                         </TouchableOpacity>
                         <Text style={styles.textHeader}>{city}</Text>
-                        <View></View>
+                        <View style={{width: 60}}></View>
                     </View>
                     
 

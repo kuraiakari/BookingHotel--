@@ -53,6 +53,7 @@ const LoginPage = () => {
       if (dataReturn.error) {
         return dataReturn.error;
       } else {
+        dispatch({ type: "ID_USER", payload: dataReturn.id });
         dispatch({ type: "ACCESS_TOKEN", payload: dataReturn.token });
         return undefined;
       }

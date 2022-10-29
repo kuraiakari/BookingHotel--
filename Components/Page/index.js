@@ -6,3 +6,4 @@ export { default as ListHotel } from "./ListHotel/ListHotel";
 export { default as PersonalDetails } from "./PersonalDetails/PersonalDetails";
 export { default as EditProfile } from "./EditProfile/EditProfile";
 export { default as ChangePassword } from "./ChangePassword/ChangePassword";
+export { default as Support } from "./Support/Support";

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useNavigate } from "react-router-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { useSwipe } from "../../../Hooks/useSwipe/useSwipe";
@@ -28,94 +29,219 @@ const EditProfile = () => {
 
   const [email, setEmail] = useState("");
   const [isCheckEmail, setIsCheckEmail] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [isCheckFirstName, setIsCheckFirstName] = useState(false);
+  const [lastName, setLastName] = useState("");
+  const [isCheckLastName, setIsCheckLastName] = useState(false);
+  const [gender, setGender] = useState("");
+  const [isCheckGender, setIsCheckGender] = useState(false);
   const [phone, setPhone] = useState("");
   const [isCheckPhone, setIsCheckPhone] = useState(false);
+  const [nationality, setNationality] = useState("");
+  const [isCheckNationality, setIsCheckNationality] = useState(false);
 
   const handleSubmit = () => {
     if (validator("email", email)) setIsCheckEmail(validator("email", email));
     else setIsCheckEmail(false);
+    if (validator("firstName", firstName))
+      setIsCheckFirstName(validator("firstName", firstName));
+    else setIsCheckFirstName(false);
+    if (validator("lastName", lastName))
+      setIsCheckLastName(validator("lastName", lastName));
+    else setIsCheckLastName(false);
+    if (validator("gender", gender))
+      setIsCheckGender(validator("gender", gender));
+    else setIsCheckGender(false);
     if (validator("phone", phone)) setIsCheckPhone(validator("phone", phone));
     else setIsCheckPhone(false);
+    if (validator("nationality", nationality))
+      setIsCheckNationality(validator("nationality", nationality));
+    else setIsCheckNationality(false);
     //khởi tạo object data
   };
 
   return (
-    <SafeAreaView onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+    <SafeAreaView
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      style={styles.container}
+    >
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigate(-1)}>
           <Ionicons name="md-chevron-back" size={20} color="#7369FF" />
         </TouchableOpacity>
         <Text style={styles.textHeader}>Edit profile</Text>
-        <View></View>
+        <View style={{ width: 60 }}></View>
       </View>
 
-      <Text>Email</Text>
-      <View
-        style={[
-          styles.containerInput,
-          {
-            borderColor:
-              isCheckEmail == "This field is required" ? "red" : "#e8e8e8",
-          },
-        ]}
-      >
-        <MaterialCommunityIcons name="email-outline" color="gray" size={20} />
-        <TextInput
-          placeholder="Examplefilledmail@gmail.com"
-          value={email}
-          onChange={(e) => {
-            setIsCheckEmail(false);
-            setEmail(e.nativeEvent.text);
-          }}
-          style={styles.emailInput}
-        />
-      </View>
-      {isCheckEmail && isCheckEmail !== "This field is required" && (
-        <View style={styles.containerTextError}>
-          <Text style={styles.textError}>{isCheckEmail}</Text>
+      <View>
+        <Text style={styles.textEdit}>First name</Text>
+        <View
+          style={[
+            styles.containerInput,
+            {
+              borderColor:
+                isCheckFirstName == "This field is required"
+                  ? "red"
+                  : "#e8e8e8",
+            },
+          ]}
+        >
+          <MaterialCommunityIcons name="account" color="gray" size={20} />
+          <TextInput
+            placeholder="First name"
+            value={firstName}
+            onChange={(e) => {
+              setIsCheckFirstName(false);
+              setFirstName(e.nativeEvent.text);
+            }}
+            style={styles.input}
+          />
         </View>
-      )}
-
-      <Text>Telephone number</Text>
-      <View
-        style={[
-          styles.containerInput,
-          {
-            borderColor:
-              isCheckPhone == "This field is required" ? "red" : "#e8e8e8",
-          },
-        ]}
-      >
-        <MaterialCommunityIcons
-          name="email-outline" //sửa tên icon phone
-          color="gray"
-          size={20}
-        />
-        <TextInput
-          placeholder="Your phone number"
-          value={phone}
-          onChange={(e) => {
-            setIsCheckPhone(false);
-            setPhone(e.nativeEvent.text);
-          }}
-          style={styles.emailInput}
-        />
+        {isCheckFirstName && isCheckFirstName !== "This field is required" && (
+          <View style={styles.containerTextError}>
+            <Text style={styles.textError}>{isCheckFirstName}</Text>
+          </View>
+        )}
       </View>
-      {isCheckPhone && isCheckPhone !== "This field is required" && (
-        <View style={styles.containerTextError}>
-          <Text style={styles.textError}>{isCheckPhone}</Text>
-        </View>
-      )}
 
-      <TouchableOpacity
-        style={styles.button}
-        activeOpacity={0.8}
-        onPress={() => {
-          handleSubmit();
-        }}
-      >
-        <Text style={styles.textButton}>Save</Text>
-      </TouchableOpacity>
+      <View>
+        <Text style={styles.textEdit}>Last name</Text>
+        <View
+          style={[
+            styles.containerInput,
+            {
+              borderColor:
+                isCheckLastName == "This field is required" ? "red" : "#e8e8e8",
+            },
+          ]}
+        >
+          <MaterialCommunityIcons name="account" color="gray" size={20} />
+          <TextInput
+            placeholder="Last name"
+            value={lastName}
+            onChange={(e) => {
+              setIsCheckLastName(false);
+              setLastName(e.nativeEvent.text);
+            }}
+            style={styles.input}
+          />
+        </View>
+        {isCheckLastName && isCheckLastName !== "This field is required" && (
+          <View style={styles.containerTextError}>
+            <Text style={styles.textError}>{isCheckLastName}</Text>
+          </View>
+        )}
+      </View>
+
+      <View>
+        <Text style={styles.textEdit}>Gender</Text>
+        <View
+          style={[
+            styles.containerInput,
+            {
+              borderColor:
+                isCheckGender == "This field is required" ? "red" : "#e8e8e8",
+            },
+          ]}
+        >
+          <Icon name="genderless" color="gray" size={20} />
+          <TextInput
+            placeholder="Gender"
+            value={gender}
+            onChange={(e) => {
+              setIsCheckGender(false);
+              setGender(e.nativeEvent.text);
+            }}
+            style={styles.input}
+          />
+        </View>
+        {isCheckGender && isCheckGender !== "This field is required" && (
+          <View style={styles.containerTextError}>
+            <Text style={styles.textError}>{isCheckGender}</Text>
+          </View>
+        )}
+      </View>
+
+      <View>
+        <Text style={styles.textEdit}>Phone number</Text>
+        <View
+          style={[
+            styles.containerInput,
+            {
+              borderColor:
+                isCheckPhone == "This field is required" ? "red" : "#e8e8e8",
+            },
+          ]}
+        >
+          <MaterialCommunityIcons
+            name="cellphone" //sửa tên icon phone
+            color="gray"
+            size={20}
+          />
+          <TextInput
+            placeholder="Phone number"
+            value={phone}
+            onChange={(e) => {
+              setIsCheckPhone(false);
+              setPhone(e.nativeEvent.text);
+            }}
+            style={styles.input}
+          />
+        </View>
+        {isCheckPhone && isCheckPhone !== "This field is required" && (
+          <View style={styles.containerTextError}>
+            <Text style={styles.textError}>{isCheckPhone}</Text>
+          </View>
+        )}
+      </View>
+
+      <View>
+        <Text style={styles.textEdit}>Nationality</Text>
+        <View
+          style={[
+            styles.containerInput,
+            {
+              borderColor:
+                isCheckNationality == "This field is required"
+                  ? "red"
+                  : "#e8e8e8",
+            },
+          ]}
+        >
+          <MaterialCommunityIcons
+            name="flag" //sửa tên icon phone
+            color="gray"
+            size={20}
+          />
+          <TextInput
+            placeholder="Nationality"
+            value={nationality}
+            onChange={(e) => {
+              setIsCheckNationality(false);
+              setNationality(e.nativeEvent.text);
+            }}
+            style={styles.input}
+          />
+        </View>
+        {isCheckNationality && isCheckNationality !== "This field is required" && (
+          <View style={styles.containerTextError}>
+            <Text style={styles.textError}>{isCheckNationality}</Text>
+          </View>
+        )}
+      </View>
+
+      <View style={styles.containerButton}>
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={() => {
+            handleSubmit();
+          }}
+        >
+          <Text style={styles.textButton}>Save</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -125,14 +251,17 @@ export default EditProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
+    marginHorizontal: 20,
+    marginVertical: 10,
   },
   containerInput: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 10,
-    paddingHorizontal: 20,
+    marginTop: 6,
+    marginBottom: 20,
+    paddingLeft: 20,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#e8e8e8",
@@ -143,17 +272,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: deviceWidth,
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   textHeader: {
     color: "#7369FF",
     fontSize: 24,
     fontWeight: "600",
   },
-  emailInput: {
-    paddingHorizontal: 10,
-    maxWidth: deviceWidth - 130,
+  textEdit: {
+    color: "#777E91",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  input: {
+    paddingLeft: 10,
+    maxWidth: deviceWidth - 80,
     flex: 1,
   },
   containerTextError: {
@@ -164,15 +297,10 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   containerButton: {
-    // height: deviceHeight * (0.65) * 0.333,
-    width: "100%",
-    // marginTop: 50,
-    // paddingTop: 30,
-  },
-  checkTerm: {
-    flexDirection: "row",
-    alignItems: "center",
-    // paddingTop: 35
+    position: "absolute",
+    bottom: 15,
+    right: 0,
+    left: 0,
   },
   button: {
     alignItems: "center",
