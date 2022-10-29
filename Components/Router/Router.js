@@ -11,6 +11,7 @@ import {
   PersonalDetails,
   EditProfile,
   ChangePassword,
+  Support
 } from "../Page";
 
 const Router = () => {
@@ -25,6 +26,7 @@ const Router = () => {
         <Route exact path="/person" element={<PersonalDetails />} />
         <Route path="/person/editprofile" element={<EditProfile />} />
         <Route path="/person/changepassword" element={<ChangePassword />} />
+        <Route path="/person/support" element={<Support />} />
       </Routes>
     </NativeRouter>
   );

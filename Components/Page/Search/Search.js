@@ -156,7 +156,6 @@ const Search = () => {
         <View style={styles.boxOrder}>
           <View style={styles.checkIn}>
             <Text style={styles.textOrder}>Check In</Text>
-            {/* <View style={styles.dateCheckIn}> */}
             <Pressable onPress={showDatePickerCheckIn}>
               <View
                 style={[
@@ -188,12 +187,10 @@ const Search = () => {
               onConfirm={handleConfirmCheckIn}
               onCancel={hideDatePickerCheckIn}
             />
-            {/* </View> */}
           </View>
 
           <View style={styles.checkOut}>
             <Text style={styles.textOrder}>Check Out</Text>
-
             <Pressable onPress={showDatePickerCheckOut}>
               <View
                 style={[
@@ -204,6 +201,7 @@ const Search = () => {
                 ]}
               >
                 <TextInput
+                  pointerEvents="none"
                   editable={false}
                   placeholder="yyyy/mm/dd"
                   value={
@@ -218,7 +216,6 @@ const Search = () => {
                 <Icon name="calendar" color="#7369FF" size={20} />
               </View>
             </Pressable>
-
             <DateTimePickerModal
               isVisible={hideCheckOut}
               mode="date"
