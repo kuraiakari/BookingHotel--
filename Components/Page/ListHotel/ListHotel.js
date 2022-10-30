@@ -19,7 +19,7 @@ const ListHotel = () => {
 
     const navigate = useNavigate()
 
-    const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 2)
+    const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 4)
     function onSwipeLeft() {
         console.log(2)
     }
