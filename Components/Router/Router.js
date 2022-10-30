@@ -6,12 +6,13 @@ import {
   Start,
   Login,
   Register,
-  ListHotel,
   Search,
+  ListHotel,
+  HotelDetail,
+  Support,
   PersonalDetails,
   EditProfile,
   ChangePassword,
-  Support
 } from "../Page";
 
 const Router = () => {
@@ -19,14 +20,19 @@ const Router = () => {
     <NativeRouter>
       <Routes>
         <Route exact path="/" element={<Start />} />
+
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/listhotel" element={<ListHotel />} />
+
         <Route path="/search" element={<Search />} />
+        <Route path="/listhotel" element={<ListHotel />} />
+        <Route path="/hoteldetail" element={<HotelDetail />} />
+
+        <Route path="/person/support" element={<Support />} />
+
         <Route exact path="/person" element={<PersonalDetails />} />
         <Route path="/person/editprofile" element={<EditProfile />} />
         <Route path="/person/changepassword" element={<ChangePassword />} />
-        <Route path="/person/support" element={<Support />} />
       </Routes>
     </NativeRouter>
   );

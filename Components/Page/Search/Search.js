@@ -46,7 +46,7 @@ const Search = () => {
   const location = useLocation();
 
   const handleSearching = (e) => {
-    const checkError = false;
+    let checkError = false;
     if (city.trim() === "") {
       e.preventDefault();
       setIsCheckCity(true);
@@ -65,11 +65,6 @@ const Search = () => {
     if (numberAdults === 0) {
       e.preventDefault();
       setIsCheckAdults(true);
-      checkError = true;
-    }
-    if (numberChildrens === 0) {
-      e.preventDefault();
-      setIsCheckChildrens(true);
       checkError = true;
     }
     if (checkError) return;

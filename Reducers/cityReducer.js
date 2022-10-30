@@ -1,16 +1,18 @@
 import {
+  ID_USER,
   ACCESS_TOKEN,
   SERACH_NAME_CITY,
+  NAME_HOTEL,
   CHECK_IN,
   CHECK_OUT,
   NUMBER_ADULTS,
-  ID_USER,
   NUMBER_CHILDRENS,
 } from "../Constants";
 const initNameCity = {
   idUSer: "",
   accessToken: "",
   nameCity: "",
+  nameHotel: "",
   checkIn: null,
   checkOut: null,
   numberAdults: 0,
@@ -34,6 +36,11 @@ const cityReducer = (state = initNameCity, action) => {
         ...state,
         nameCity: action.payload,
       };
+    case NAME_HOTEL:
+      return {
+        ...state,
+        nameHotel: action.payload,
+      }
     case CHECK_IN:
       return {
         ...state,

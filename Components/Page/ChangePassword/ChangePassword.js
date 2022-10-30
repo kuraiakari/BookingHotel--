@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,19 +13,22 @@ import { useNavigate } from "react-router-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
-
+import { useSelector } from "react-redux";
 import { useSwipe } from "../../../Hooks/useSwipe/useSwipe";
 import { validator } from "../../Validator";
 let deviceWidth = Dimensions.get("window").width;
 const ChangePassword = () => {
   const navigate = useNavigate();
-
+  const inforUser = useSelector((state) => state);
+  const idUSer =inforUser.idUSer;
+  const token = inforUser.accessToken;
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 2);
   function onSwipeLeft() {}
   function onSwipeRight() {
     navigate(-1);
   }
-
+  const [oldData, setOldData] = useState("");
+  const [newData, setNewData] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [isCheckCurrentPassword, setIsCheckCurrentPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
@@ -39,43 +42,94 @@ const ChangePassword = () => {
   const iconNameNPW = isCheckedHideNPW ? "eye" : "eye-off";
   const [isCheckedHideCNPW, setIsCheckedHideCNPW] = useState(false);
   const iconNameCNPW = isCheckedHideCNPW ? "eye" : "eye-off";
-
+  // console.log(token)
   useEffect(() => {
-    
-  },[])
-
+    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
+      method: "GET",
+      credentials: "included",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `access_token=${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setOldData(data);
+      });
+  }, [newData]);
   const handleSubmit = () => {
     if (validator("password", currentPassword))
       setIsCheckCurrentPassword(validator("password", currentPassword));
-    else setIsCheckCurrentPassword(false);
+    else {
+      if (validator("confirmpassword", currentPassword, oldData.password))
+        setIsCheckCurrentPassword(
+          validator("confirmpassword", currentPassword, oldData.password)
+        );
+      else setIsCheckCurrentPassword(false);
+    }
     if (validator("password", newPassword))
       setIsCheckNewPassword(validator("password", newPassword));
     else {
-      if (validator("confirmoldpassword", newPassword, currentPassword))
+      if (validator("confirmoldpassword", newPassword, oldData.password))
         setIsCheckNewPassword(
-          validator("confirmoldpassword", newPassword, currentPassword)
+          validator("confirmoldpassword", newPassword, oldData.password)
         );
       else setIsCheckNewPassword(false);
     }
-    if (validator("confirmpassword", confirmNewPassword, newPassword))
+    if (validator("confirmpassword", confirmNewPassword, newPassword)){
       setIsCheckConfirmNewPassword(
         validator("confirmpassword", confirmNewPassword, newPassword)
       );
+    }
     else setIsCheckConfirmNewPassword(false);
     //khởi tạo object data
+    if (
+      currentPassword &&
+      newPassword &&
+      confirmNewPassword &&
+      !validator("password", currentPassword) &&
+      !validator("password", newPassword) &&
+      !validator("confirmpassword", confirmNewPassword, newPassword) &&
+      !validator("confirmpassword", currentPassword, oldData.password) &&
+      !validator("confirmoldpassword", newPassword, currentPassword)
+    ) {
+      const newDataCreate = {
+        password: newPassword,
+      };
+      setCurrentPassword("")
+      setNewPassword("")
+      setConfirmNewPassword("")
+      fetch(`https://dream-hotelapp.herokuapp.com/v1/user/update/id${idUSer}`, {
+        method: "PUT",
+        credentials: "included",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `access_token=${token}`,
+        },
+        body: JSON.stringify(newDataCreate),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setNewData(newDataCreate)
+        });
+    }
   };
 
   return (
-    <SafeAreaView onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+    <SafeAreaView
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      style={styles.container}
+    >
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigate(-1)}>
           <Ionicons name="md-chevron-back" size={20} color="#7369FF" />
         </TouchableOpacity>
         <Text style={styles.textHeader}>Change password</Text>
-        <View></View>
+        <View style={{ width: 40 }}></View>
       </View>
 
-      <Text>Current password</Text>
+      <Text style={styles.textEdit}>Current password</Text>
       <View
         style={[
           styles.containerInput,
@@ -99,7 +153,7 @@ const ChangePassword = () => {
               setIsCheckCurrentPassword(false);
               setCurrentPassword(e.nativeEvent.text);
             }}
-            style={styles.pwInput}
+            style={styles.input}
           />
         </View>
         <Pressable onPress={() => setIsCheckedHideOPW(!isCheckedHideOPW)}>
@@ -113,7 +167,7 @@ const ChangePassword = () => {
           </View>
         )}
 
-      <Text>New password</Text>
+      <Text style={styles.textEdit}>New password</Text>
       <View
         style={[
           styles.containerInput,
@@ -137,7 +191,7 @@ const ChangePassword = () => {
               setIsCheckNewPassword(false);
               setNewPassword(e.nativeEvent.text);
             }}
-            style={styles.pwInput}
+            style={styles.input}
           />
         </View>
         <Pressable onPress={() => setIsCheckedHideNPW(!isCheckedHideNPW)}>
@@ -150,7 +204,7 @@ const ChangePassword = () => {
         </View>
       )}
 
-      <Text>Confirm new password</Text>
+      <Text style={styles.textEdit}>Confirm new password</Text>
       <View
         style={[
           styles.containerInput,
@@ -174,7 +228,7 @@ const ChangePassword = () => {
               setIsCheckConfirmNewPassword(false);
               setConfirmNewPassword(e.nativeEvent.text);
             }}
-            style={styles.pwInput}
+            style={styles.input}
           />
         </View>
         <Pressable onPress={() => setIsCheckedHideCNPW(!isCheckedHideCNPW)}>
@@ -182,21 +236,23 @@ const ChangePassword = () => {
         </Pressable>
       </View>
       {isCheckConfirmNewPassword &&
-        isCheckNewPassword !== "This field is required" && (
+        isCheckConfirmNewPassword !== "This field is required" && (
           <View style={styles.containerTextError}>
             <Text style={styles.textError}>{isCheckConfirmNewPassword}</Text>
           </View>
         )}
 
-      <TouchableOpacity
-        style={styles.button}
-        activeOpacity={0.8}
-        onPress={() => {
-          handleSubmit();
-        }}
-      >
-        <Text style={styles.textButton}>Change Password</Text>
-      </TouchableOpacity>
+      <View style={styles.containerButton}>
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={() => {
+            handleSubmit();
+          }}
+        >
+          <Text style={styles.textButton}>Change Password</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -205,13 +261,16 @@ export default ChangePassword;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
+    marginHorizontal: 20,
+    marginVertical: 10,
   },
   containerInput: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 10,
+    marginTop: 6,
+    marginBottom: 20,
     paddingHorizontal: 20,
     borderWidth: 1,
     borderRadius: 10,
@@ -223,15 +282,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: deviceWidth,
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   textHeader: {
     color: "#7369FF",
     fontSize: 24,
     fontWeight: "600",
   },
-  emailInput: {
+  textEdit: {
+    color: "#777E91",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  input: {
     paddingHorizontal: 10,
     maxWidth: deviceWidth - 130,
     flex: 1,
@@ -244,15 +307,10 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   containerButton: {
-    // height: deviceHeight * (0.65) * 0.333,
-    width: "100%",
-    // marginTop: 50,
-    // paddingTop: 30,
-  },
-  checkTerm: {
-    flexDirection: "row",
-    alignItems: "center",
-    // paddingTop: 35
+    position: "absolute",
+    bottom: 15,
+    right: 0,
+    left: 0,
   },
   button: {
     alignItems: "center",

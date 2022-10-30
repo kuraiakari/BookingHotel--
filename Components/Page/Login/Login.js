@@ -61,7 +61,7 @@ const LoginPage = () => {
       console.log(e);
     }
   };
-
+  
   const handleDataSubmit = async (e) => {
     e.persist();
     let infoOfUser;
@@ -78,11 +78,11 @@ const LoginPage = () => {
       !validator("password", password)
     ) {
       infoOfUser = { email, password };
+      const errorMess = await handlePostData(infoOfUser);
+      if (errorMess) setErrorMessageFromServer(errorMess);
+      else navigate("/search", { replace: true });
+      return;
     }
-    const errorMess = await handlePostData(infoOfUser);
-    if (errorMess) setErrorMessageFromServer(errorMess);
-    else navigate("/search", { replace: true });
-    return;
   };
 
   return (
