@@ -9,6 +9,7 @@ import {
   Search,
   ListHotel,
   HotelDetail,
+  Payment,
   Support,
   PersonalDetails,
   EditProfile,
@@ -27,12 +28,12 @@ const Router = () => {
         <Route path="/search" element={<Search />} />
         <Route path="/listhotel" element={<ListHotel />} />
         <Route path="/hoteldetail" element={<HotelDetail />} />
-
-        <Route path="/person/support" element={<Support />} />
+        <Route path="/payment" element={<Payment />} />
 
         <Route exact path="/person" element={<PersonalDetails />} />
         <Route path="/person/editprofile" element={<EditProfile />} />
         <Route path="/person/changepassword" element={<ChangePassword />} />
+        <Route path="/person/support" element={<Support />} />
       </Routes>
     </NativeRouter>
   );

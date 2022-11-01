@@ -92,7 +92,7 @@ const Item = ({ name, city, rating, star, image }) => {
           underlayColor="#ffffff"
           onPress={() => handleReduxHotel(name)}
         >
-          <Text> More</Text>
+          <Text style={{margin: 20}}> More</Text>
         </Link>
       </View>
     </SafeAreaView>

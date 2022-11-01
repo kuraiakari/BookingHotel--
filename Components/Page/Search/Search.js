@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -13,7 +13,7 @@ import {
   TouchableHighlight,
   Alert,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, BackButton, useLocation } from "react-router-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -30,6 +30,10 @@ let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
 
 const Search = () => {
+
+  const test = new Date(Date.now())
+  console.log(test)
+
   const [city, setCiTy] = useState("");
   const [isCheckCity, setIsCheckCity] = useState(false);
   const [checkIn, setCheckIn] = useState(null);
@@ -80,6 +84,11 @@ const Search = () => {
       setCheckOut("");
       checkError = true;
     }
+    if (checkOut < checkIn){
+      e.preventDefault();
+      alert("Invalid time check in or check out")
+      checkError = true
+    }
     if (numberAdults === 0) {
       e.preventDefault();
       setIsCheckAdults(true);
@@ -100,6 +109,7 @@ const Search = () => {
     setHideCheckIn(false);
   };
   const handleConfirmCheckIn = (date) => {
+    console.log(date)
     const errorMessage = validator("checkIn", date);
     if (!errorMessage) setCheckIn(date);
     else alert(errorMessage);
@@ -186,7 +196,7 @@ const Search = () => {
                     checkIn
                       ? `${checkIn.getUTCFullYear()}/${
                           checkIn.getUTCMonth() + 1
-                        }/${checkIn.getUTCDate()}`
+                        }/${checkIn.getUTCDate() + 1} `
                       : ""
                   }
                   style={{ flex: 1 }}
@@ -221,7 +231,7 @@ const Search = () => {
                     checkOut
                       ? `${checkOut.getUTCFullYear()}/${
                           checkOut.getUTCMonth() + 1
-                        }/${checkOut.getUTCDate()}`
+                        }/${checkOut.getUTCDate() + 1}`
                       : ""
                   }
                   style={{ flex: 1 }}
