@@ -30,10 +30,6 @@ let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
 
 const Search = () => {
-
-  const test = new Date(Date.now())
-  console.log(test)
-
   const [city, setCiTy] = useState("");
   const [isCheckCity, setIsCheckCity] = useState(false);
   const [checkIn, setCheckIn] = useState(null);
@@ -196,7 +192,7 @@ const Search = () => {
                     checkIn
                       ? `${checkIn.getUTCFullYear()}/${
                           checkIn.getUTCMonth() + 1
-                        }/${checkIn.getUTCDate() + 1} `
+                        }/${checkIn.getUTCDate()} `
                       : ""
                   }
                   style={{ flex: 1 }}
@@ -231,7 +227,7 @@ const Search = () => {
                     checkOut
                       ? `${checkOut.getUTCFullYear()}/${
                           checkOut.getUTCMonth() + 1
-                        }/${checkOut.getUTCDate() + 1}`
+                        }/${checkOut.getUTCDate()}`
                       : ""
                   }
                   style={{ flex: 1 }}

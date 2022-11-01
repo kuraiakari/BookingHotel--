@@ -16,10 +16,9 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import Octicons from "react-native-vector-icons/Octicons";
 import { useSwipe } from "../../../Hooks/useSwipe/useSwipe";
 
-
 let deviceWidth = Dimensions.get("window").width;
 
-const Item = ({ name, city, rating, star, image }) => {
+const Item = ({ idHotel, name, city, rating, star, price, image }) => {
   const dispatch = useDispatch();
   const imageRender = image.split(",");
   const [indexImage, setIndexImage] = useState(0);
@@ -33,11 +32,12 @@ const Item = ({ name, city, rating, star, image }) => {
   //   if (indexImage > 0) setIndexImage(indexImage - 1);
   // }
 
-  const handleReduxHotel = (nameHotel) => {
+  const handleReduxHotel = (idHotel, nameHotel) => {
+    dispatch({ type: "ID_HOTEL", payload: idHotel });
     dispatch({ type: "NAME_HOTEL", payload: nameHotel });
   };
-    // console.log(imageRender);
-    // const [indexImage, setIndexImage] = useState(0);
+  // console.log(imageRender);
+  // const [indexImage, setIndexImage] = useState(0);
   return (
     <SafeAreaView style={styles.hotel}>
       <Button
@@ -74,7 +74,7 @@ const Item = ({ name, city, rating, star, image }) => {
         </View>
         <View style={styles.line}></View>
         <View style={styles.boxPriceStarHotel}>
-          <Text style={styles.textPriceStar}>$200 total</Text>
+          <Text style={styles.textPriceStar}>${price} total</Text>
           <View style={styles.boxStarHotel}>
             <AntDesign
               name="star"
@@ -90,9 +90,9 @@ const Item = ({ name, city, rating, star, image }) => {
           component={TouchableHighlight}
           activeOpacity={0.7}
           underlayColor="#ffffff"
-          onPress={() => handleReduxHotel(name)}
+          onPress={() => handleReduxHotel(idHotel, name)}
         >
-          <Text style={{margin: 20}}> More</Text>
+          <Text style={{ margin: 20 }}> More</Text>
         </Link>
       </View>
     </SafeAreaView>
@@ -103,7 +103,7 @@ export default Item;
 
 const styles = StyleSheet.create({
   hotel: {
-    height: 400,
+    height: 500,
     borderColor: "#E6E8EC",
     borderRadius: 24,
     borderWidth: 1,
