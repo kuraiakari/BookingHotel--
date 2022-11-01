@@ -45,6 +45,24 @@ const Search = () => {
 
   const location = useLocation();
 
+  const inforUser = useSelector((state) => state);
+  const idUSer =inforUser.idUSer;
+  const token = inforUser.accessToken;
+  useEffect(() => {
+    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
+      method: "GET",
+      credentials: "included",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `access_token=${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+      });
+  }, []);
+
   const handleSearching = (e) => {
     let checkError = false;
     if (city.trim() === "") {

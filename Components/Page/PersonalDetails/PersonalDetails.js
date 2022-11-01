@@ -19,24 +19,8 @@ let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
 
 const PersonalDetails = () => {
-  const inforUser = useSelector((state) => state);
-  const idUSer =inforUser.idUSer;
-  const token = inforUser.accessToken;
   const location = useLocation();
-  const [data, setData] = useState({});
-  useEffect(() => {
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
-      method: "GET",
-      credentials: "included",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `access_token=${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setData(data));
-  }, []);
-  console.log(data);
+  const inforUser = useSelector((state) => state);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>

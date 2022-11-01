@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Image,
+  Button,
   SafeAreaView,
   TouchableHighlight,
   StyleSheet,
@@ -22,24 +23,24 @@ const Item = ({ name, city, rating, star, image }) => {
   const dispatch = useDispatch();
   const imageRender = image.split(",");
   const [indexImage, setIndexImage] = useState(0);
-  const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 10);
-  function onSwipeLeft() {
-    console.log(1);
-    if (indexImage < 2) setIndexImage(indexImage + 1);
-  }
-  function onSwipeRight() {
-    console.log(3);
-    if (indexImage > 0) setIndexImage(indexImage - 1);
-  }
+  // const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 10);
+  // function onSwipeLeft() {
+  //   console.log(1);
+  //   if (indexImage < 2) setIndexImage(indexImage + 1);
+  // }
+  // function onSwipeRight() {
+  //   console.log(3);
+  //   if (indexImage > 0) setIndexImage(indexImage - 1);
+  // }
 
   const handleReduxHotel = (nameHotel) => {
     dispatch({ type: "NAME_HOTEL", payload: nameHotel });
   };
-  //   console.log(imageRender);
-  //   const [indexImage, setIndexImage] = useState(0);
+    // console.log(imageRender);
+    // const [indexImage, setIndexImage] = useState(0);
   return (
     <SafeAreaView style={styles.hotel}>
-      {/* <Button
+      <Button
         onPress={() => {
           if (indexImage > 0) setIndexImage(indexImage - 1);
         }}
@@ -50,10 +51,10 @@ const Item = ({ name, city, rating, star, image }) => {
           if (indexImage < 2) setIndexImage(indexImage + 1);
         }}
         title="Next"
-      ></Button> */}
+      ></Button>
       <Image
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
+        // onTouchStart={onTouchStart}
+        // onTouchEnd={onTouchEnd}
         source={{
           uri:
             "https://dream-hotelapp.herokuapp.com/" + imageRender[indexImage],
@@ -85,7 +86,7 @@ const Item = ({ name, city, rating, star, image }) => {
           </View>
         </View>
         <Link
-          to={"/hoteldetail"}
+          to="/hoteldetail"
           component={TouchableHighlight}
           activeOpacity={0.7}
           underlayColor="#ffffff"

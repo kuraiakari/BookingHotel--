@@ -9,8 +9,9 @@ import {
   NUMBER_CHILDRENS,
 } from "../Constants";
 const initNameCity = {
-  idUSer: "",
   accessToken: "",
+  idUSer: "",
+  credit: "",
   nameCity: "",
   nameHotel: "",
   checkIn: null,
