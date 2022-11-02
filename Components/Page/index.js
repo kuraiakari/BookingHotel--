@@ -8,4 +8,5 @@ export { default as Payment } from "./Payment/Payment";
 export { default as PersonalDetails } from "./PersonalDetails/PersonalDetails";
 export { default as EditProfile } from "./EditProfile/EditProfile";
 export { default as ChangePassword } from "./ChangePassword/ChangePassword";
+export { default as Credit } from "./Credit/Credit";
 export { default as Support } from "./Support/Support";

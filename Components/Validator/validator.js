@@ -31,6 +31,19 @@ const validator = (key, value, comparisons) => {
     if (value <= comparisons) return "Invalid time check out";
   }
 
+  if (key === "dateCard") {
+    const data = value.split("/")
+    if (data[1] > 12 ) return "Invalid date card"
+    if (data[1] == 2) {
+      if (data[0] > 28) return "Invalid date card"
+    }
+    if (data[1] == 1 || data[1] == 3 || data[1] == 5 || data[1] == 7 || data[1] == 10 || data[1] == 12){
+      if (data[0] > 31) return "Invalid date card"
+    }
+    else {
+      if (data[0] > 30) return "Invalid date card"
+    }
+  }
   return undefined;
 };
 

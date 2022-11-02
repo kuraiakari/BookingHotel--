@@ -1,34 +1,15 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import { View, Text, TextInput } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import { useNavigate } from "react-router-native";
+import { useSelector } from "react-redux";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { validator } from "../../Validator";
 
-const PaymentCard = () => {
-  const dispatch = useDispatch();
+const Credit = () => {
   const inforUser = useSelector((state) => state);
   const idUSer = inforUser.idUSer;
   const token = inforUser.accessToken;
-  useEffect(() => {
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
-      method: "GET",
-      credentials: "included",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `access_token=${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.bankCard) {
-          const inforCard = data.bankCard.split(",");
-          setNumberCard(inforCard[0]);
-          setNameCard(inforCard[1]);
-          setDateCard(inforCard[2]);
-          setCodeCard(inforCard[3]);
-        }
-      });
-  }, []);
   const [numberCard, setNumberCard] = useState("");
   const [errorNumberCard, setErrorNumberCard] = useState(false);
   const [nameCard, setNameCard] = useState("");
@@ -37,16 +18,56 @@ const PaymentCard = () => {
   const [errorDateCard, setErrorDateCard] = useState(false);
   const [codeCard, setCodeCard] = useState("");
   const [errorCodeCard, setErrorCodeCard] = useState(false);
-  const data = `${numberCard.trim()},${nameCard},${dateCard},${codeCard}`;
-  console.log(data)
-  useEffect(() => {
-      dispatch({
-        type: "CREDIT",
-        payload: `${numberCard.trim()},${nameCard},${dateCard},${codeCard}`,
-      });
-  }, [data]);
+
+  const navigate = useNavigate();
+
+  const handleCredit = () => {
+    if (validator("numberCard", numberCard))
+      setErrorNumberCard(validator("numberCard", numberCard));
+    if (validator("nameCard", nameCard))
+      setErrorNameCard(validator("nameCard", nameCard));
+    if (validator("dateCard", dateCard))
+      setErrorDateCard(validator("dateCard", dateCard));
+    if (validator("codeCard", codeCard))
+      setErrorCodeCard(validator("codeCard", codeCard));
+    if (
+      numberCard &&
+      nameCard &&
+      dateCard &&
+      codeCard &&
+      !validator("numberCard", numberCard) &&
+      !validator("nameCard", nameCard) &&
+      !validator("dateCard", dateCard) &&
+      !validator("codeCard", codeCard)
+    ) {
+      const dataCredit = {
+        bankCard: `${numberCard.trim()},${nameCard},${dateCard},${codeCard}`,
+      };
+      //   console.log(dataCredit);
+      fetch(`https://dream-hotelapp.herokuapp.com/v1/user/update/id${idUSer}`, {
+        method: "PUT",
+        credentials: "included",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `access_token=${token}`,
+        },
+        body: JSON.stringify(dataCredit),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
+    } else {
+      console.log(1);
+    }
+  };
   return (
-    <View>
+    <View style={{ marginTop: 40 }}>
+      <View>
+        <TouchableOpacity onPress={() => navigate(-1)}>
+          <Ionicons name="md-chevron-back" size={20} color="#7369FF" />
+        </TouchableOpacity>
+      </View>
       <Text>Card number</Text>
       <TextInput
         value={numberCard}
@@ -109,7 +130,8 @@ const PaymentCard = () => {
           setCodeCard(e.nativeEvent.text);
         }}
       />
+      <Button title="Save" onPress={() => handleCredit()} />
     </View>
   );
 };
-export default PaymentCard;
+export default Credit;

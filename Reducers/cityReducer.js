@@ -4,6 +4,7 @@ import {
   NAME_USER,
   PHONE,
   EMAIL,
+  CREDIT,
   SERACH_NAME_CITY,
   ID_HOTEL,
   NAME_HOTEL,
@@ -58,6 +59,11 @@ const cityReducer = (state = initNameCity, action) => {
       return {
         ...state,
         email: action.payload,
+      };
+    case CREDIT:
+      return {
+        ...state,
+        credit: action.payload,
       };
     case ID_HOTEL:
       return {

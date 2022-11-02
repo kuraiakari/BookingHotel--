@@ -54,7 +54,7 @@ const ListHotel = () => {
   }, []);
 
   Array.isArray(listHotel) &&
-    listHotel.forEach((hotel) => {
+    listHotel.hotels.forEach((hotel) => {
       hotel.hotelImage = hotel.hotelImage.replace(/\\/g, "/");
     });
   const renderItem = ({ item }) => {
@@ -118,7 +118,7 @@ const ListHotel = () => {
           <View>
             <FlatList
               style={styles.hotels}
-              data={listHotel}
+              data={listHotel.hotels}
               renderItem={renderItem}
               keyExtractor={(hotel) => hotel.id}
               ListEmptyComponent={listEmptyComponent}

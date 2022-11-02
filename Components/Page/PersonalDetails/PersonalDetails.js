@@ -67,6 +67,7 @@ const PersonalDetails = () => {
             </View>
           </Link>
           <Link
+          to="/person/credit"
           component={TouchableHighlight}
           activeOpacity={0.7}
           underlayColor="#ffffff"

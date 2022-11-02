@@ -8,7 +8,14 @@ let deviceWidth = Dimensions.get("window").width;
 const HotelDetail = () => {
   const data = useSelector((state) => state);
   useEffect(() => {
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/hotel/id${data.idHotel}`)
+    fetch(`https://dream-hotelapp.herokuapp.com/v1/hotel/id${data.idHotel}`, {
+      method: "GET",
+      credentials: "included",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `access_token=${data.accessToken}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => setHotel(data));
   }, []);

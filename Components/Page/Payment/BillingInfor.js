@@ -32,7 +32,6 @@ const BillingInfor = () => {
         return "December ";
     }
   };
-  console.log(data);
   return (
     <View>
       <Text>Billing Information</Text>
