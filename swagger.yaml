@@ -160,12 +160,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'          
+                $ref: '#/components/schemas/Room'          
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Room'
         '500':
-          description: Validationexception
+          description: Validation Exception
       security:
         - Bearer:
           - "Enter bearer token only" 
@@ -264,7 +264,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Hotel'
+                $ref: '#/components/schemas/GET_Hotel'
         '404':
           description: No hotel found
         '500':
@@ -285,7 +285,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Hotel'
+                $ref: '#/components/schemas/GET_1Hotel'
         '404':
           description: No hotel found
         '500':
@@ -382,7 +382,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Hotel'          
+                $ref: '#/components/schemas/ApiResponse'          
         '404':
           description: Hotel not found
         '500':
@@ -400,7 +400,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Hotel'          
+                $ref: '#/components/schemas/ApiResponse'          
         '404':
           description: Hotel not found
         '500':
@@ -462,7 +462,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Hotel'          
+                $ref: '#/components/schemas/Favorite'          
         '404':
           description: Hotel not found
         '500':
@@ -483,7 +483,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Booking'
+                $ref: '#/components/schemas/GET_Booking'
         '404':
           description: No booking found
         '500':
@@ -502,7 +502,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Booking'
+              $ref: '#/components/schemas/POST_Booking'
         required: true
       responses:
         '200':
@@ -510,11 +510,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Booking'
+                $ref: '#/components/schemas/ApiResponse'
       security:
         - Bearer:
           - "Enter bearer token only"
-          
+  
+  /booking/id:id:
+    get:
+      tags:
+        - booking
+      summary: Read one of my booking by Id
+      description: Read one of my booking by Id
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GET_1Booking'
+        '404':
+          description: No booking found
+        '500':
+          description: Validation error
+      security:
+        - Bearer:
+          - "Enter bearer token only" 
+  
   /booking/update/id:id:
     put:
       tags:
@@ -526,7 +547,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Booking'
+              $ref: '#/components/schemas/POST_Booking'
         required: true
       responses:
         '200':
@@ -534,7 +555,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Booking'          
+                $ref: '#/components/schemas/GET_Booking'          
         '404':
           description: Booking not found
         '500':
@@ -552,7 +573,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Booking'          
+                $ref: '#/components/schemas/ApiResponse'          
         '404':
           description: Booking not found
         '500':
@@ -609,19 +630,19 @@ paths:
         '500':
           description: Validation error
 
-  /utility:
+  /utility/all:
     get:
       tags:
         - utility
-      summary: Read my bookings
-      description: Read my bookings
+      summary: Read all utilities
+      description: Read all utilities
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Hotel'
+                $ref: '#/components/schemas/Utility'
         '404':
           description: No hotel found
         '500':
@@ -629,7 +650,75 @@ paths:
       security:
         - Bearer:
           - "Enter bearer token only"
+
+  /utility:
+    post:
+      tags:
+        - utility
+      summary: Create a utility entity
+      description: Create utility entity
+      requestBody:
+        description: create utility
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Utility'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+
+  /utility/delete/id:id:
+    delete:
+      tags:
+        - utility
+      summary: Delete utility by Id
+      description: Delete utility by Id
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'          
+        '404':
+          description: Utility not found
+        '500':
+          description: Validation error
+      security:
+        - Bearer:
+          - "Enter bearer token only"
   
+  /hotelUtil:
+    post:
+      tags:
+        - hotelUtility
+      summary: Create hotel utility entity
+      description: Create hotel utility entity
+      requestBody:
+        description: create hotel utility
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HotelUtility'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - Bearer:
+          - "Enter bearer token only"
 components:
   schemas:
     Token:
@@ -638,7 +727,7 @@ components:
         token:
           type: string
           example: 'eY124ervh5YTHGW32fw34RRfgE235'
-    Booking:
+    GET_Booking:
       type: object
       properties:
         id:
@@ -657,14 +746,40 @@ components:
         guestNumber:
           type: integer
           example: 3
+        status:
+          type: boolean
+          example: false
+        ROOMId:
+          type: integer
+          example: 1
+        USERId:
+          type: integer
+          example: 1
+    POST_Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        checkIn:
+          type: string
+          example: '2022-10-05'
+        checkOut:
+          type: string
+          example: '2022-10-05'
+        guestNumber:
+          type: integer
+          example: 3
         totalPrice:
           type: integer
           example: 200
         status:
           type: boolean
           example: false
-      xml:
-        name: booking
+        ROOMId:
+          type: integer
+          example: 1
     User:
       type: object
       properties:
@@ -696,8 +811,6 @@ components:
         isAdmin:
           type: boolean
           example: false
-      xml:
-        name: user
     Room:
       type: object
       properties:
@@ -719,9 +832,7 @@ components:
           example: 'o'
         ROOMId:
           type: integer
-          example: 1
-      xml:
-        name: room       
+          example: 1    
     Review:
       type: object
       properties:
@@ -738,8 +849,6 @@ components:
         totalReviews:
           type: integer
           example: 12
-      xml:
-        name: review
     Favorite:
       type: object
       properties:
@@ -753,8 +862,6 @@ components:
         HOTELId:
           type: integer
           example: 1
-      xml:
-        name: Favorite
     HotelImage:
       type: object
       properties:
@@ -770,6 +877,108 @@ components:
           example: 1
       xml:
         name: HotelImage
+    GET_Hotel:
+      type: object
+      properties:
+        hotels: 
+          id:
+            type: integer
+            format: int64
+            example: 10
+          hotelName:
+            type: string
+            example: 'Bostonia'
+          city:
+            type: string
+            example: 'Boston'
+          rating:
+            type: number
+            example: 8.5
+          star:
+            type: integer
+            example: 4
+        message:
+          type: string
+          example: 'Boston'
+    GET_1Hotel:
+      type: object
+      properties:
+        hotel:
+          type: object
+          properties: 
+            id:
+              type: integer
+              format: int64
+              example: 10
+            hotelName:
+              type: string
+              example: 'Bostonia'
+            city:
+              type: string
+              example: 'Boston'
+            rating:
+              type: number
+              example: 8.5
+            star:
+              type: integer
+              example: 4
+        rooms:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 10
+            guestsAllowed:
+              type: integer
+              example: 4
+            price:
+              type: string
+              example: 200
+            image:
+              type: string
+              example: \\imgs\\rooms\\134364573.jpg
+            status:
+              type: string
+              example: o
+            ROOMId:
+              type: integer
+              example: 1   
+        favoriteHotels:
+          type: object
+          properties:
+            message:
+              type: boolean
+              example: false
+        hotelUtils:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 10
+            HOTELId:
+              type: integer
+              example: 1  
+            UTILITYId:
+              type: integer
+              example: 1  
+            UTILITY:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  format: int64
+                  example: 10
+                type:
+                  type: string
+                  example: FontAwesome
+                icon:
+                  type: string
+                  example: cocktail
+                content:
+                  type: string
+                  example: Bar Access
     Hotel:
       type: object
       properties:
@@ -789,21 +998,102 @@ components:
         star:
           type: integer
           example: 4
-      xml:
-        name: Hotel
     ApiResponse:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
         message:
           type: string
-      xml:
-        name: '##default'
-
+    Utility:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        type:
+          type: string
+          example: FontAwesome
+        icon:
+          type: string
+          example: paw
+        content:
+          type: string
+          example: Pet Allowance
+    HotelUtility:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        HOTELId:
+          type: integer
+          example: 1
+        UTILITYId:
+          type: integer
+          example: 1
+    GET_1Booking:
+      type: object
+      properties:
+        booking:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 10
+            checkIn:
+              type: string
+              example: '2022-10-05'
+            checkOut:
+              type: string
+              example: '2022-10-05'
+            bookingDate:
+              type: string
+              example: '2022-10-05'
+            guestNumber:
+              type: integer
+              example: 3
+            status:
+              type: boolean
+              example: false
+            ROOMId:
+              type: integer
+              example: 1
+            USERId:
+              type: integer
+              example: 1
+        hotel:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 10
+            hotelName:
+              type: string
+              xeample: Bostonia
+            city:
+              type: string
+              example: Boston
+            rating:
+              type: integer
+              example: 7.7
+            hotelImage:
+              type: string
+              example: images\\hotels\\hotel1667399355197.png,images\\hotels\\hotel1667399355197.jpg,images\\hotels\\hotel1667399355199.jpg
+            minPrice:
+              type: integer
+              example: 400
+            address:
+              type: string
+              example: 3734 Hummingbird Way
+            details:
+              type: string
+              example: Anim quis est laborum nisi eu ipsum nulla quis enim qui dolore.
+        roomType:
+          type: string
+          example: 1 bedroom, single bed
   securitySchemes:
     Bearer:
       scheme: 'bearer'

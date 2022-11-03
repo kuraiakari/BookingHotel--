@@ -1,6 +1,7 @@
 import model from "../models/index.js"
 import * as roomService from "../services/service.room.js"
 import * as bookingService from "../services/service.booking.js"
+import * as hotelService from "../services/service.hotel.js"
 
 class BookingController {
 
@@ -41,10 +42,18 @@ class BookingController {
     //GET v1/booking/id:id
     getBooking = async (req, res) => {
         try {
-            const data = await model.Booking.findOne({where: {
-                USERId: req.user.id
-            }})
-            if (data) return res.status(200).json(data)
+            const booking = await model.Booking.findOne({
+                where: {USERId: req.user.id}
+            })
+            if (booking) {
+                const room = await roomService.getById(booking.ROOMId)
+                if (room) {
+                    const hotel = await hotelService.getById(room.HOTELId)
+                    if (hotel) return res.status(200).json({booking, hotel, roomType: room.bedType})
+                    return res.status(404).json({booking, roomType: room.bedType, message: "No hotel found"})
+                }
+                return res.status(200).json({booking, message: "No hotel and room found"})
+            } 
             else return res.status(404).json({message: "No booking found"})
         } catch (e) {
             return res.status(500).json({message: e.message})
