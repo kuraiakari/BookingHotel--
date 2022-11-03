@@ -1,0 +1,808 @@
+openapi: 3.0.3
+info:
+  title: Swagger Hotel Booking App - Dream 1.0
+  description: |-
+    This is a simple hotel booking app - Dream
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://dream-hotelapp.herokuapp.com/v1/
+tags:
+  - name: user
+    description: User Route
+  - name: booking
+    description: Booking Route
+  - name: auth
+    description: Authorization Route
+  - name: hotel
+    description: Hotel Route
+  - name: favorite
+    description: Favorite Hotel Route
+  - name: room
+    description: Room Route
+  - name: utility
+    description: Utility Route
+  - name: hotelUtility
+    description: Hotel Utility Route
+paths:
+  /user/id:id:
+    get:
+      tags:
+        - user
+      summary: Read a user
+      description: Read an existing user
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '500':
+          description: Validation exception
+      security:
+        - Bearer:
+          - "bearer token"
+  /user/all:
+    get:
+      tags:
+        - user
+      summary: Read all users
+      description: Read all users
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '500':
+          description: Validationexception
+      security:
+        - Bearer:
+          - "Enter bearer token only" 
+  /user/update/id:id:
+    put:
+      tags:
+        - user
+      summary: Update an existing user as admin
+      description: Update an existing user by ID as admin
+      requestBody:
+        description: Update user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: user not found
+        '500':
+          description: Validation exception
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+
+  /user/delete/:id:
+    delete:
+      tags:
+        - user
+      summary: Delete an existing user as admin
+      description: Delete an existing user by ID as admin
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: User not found
+        '500':
+          description: Validation exception
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+  
+  /room:
+    post:
+      tags:
+        - room
+      summary: Create a room entity
+      description: Create room entity
+      requestBody:
+        description: create room
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+
+  /room/all:
+    get:
+      tags:
+        - user
+      summary: Read all users
+      description: Read all users
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '500':
+          description: Validationexception
+      security:
+        - Bearer:
+          - "Enter bearer token only" 
+
+  /room/id:id:
+    get:
+      tags:
+        - room
+      summary: Read a room by Id
+      description: Read a room by Id
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '404':
+          description: Room not found
+
+  /room/update/id:id:
+    put:
+      tags:
+        - room
+      summary: Update a room by Id
+      description: Update a room by Id
+      requestBody:
+        description: update a room
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'          
+        '404':
+          description: Room not found
+        '500':
+          description: Validation error
+
+  /room/delete/id:id:
+    delete:
+      tags:
+        - room
+      summary: Delete a room by Id
+      description: Delete a room by Id
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'          
+        '404':
+          description: Room not found
+        '500':
+          description: Validation error
+  /hotel:
+    post:
+      tags:
+        - hotel
+      summary: Create a hotel entity
+      description: Create hotel entity
+      requestBody:
+        description: create hotel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+          
+  /hotel/all:
+    get:
+      tags:
+        - hotel
+      summary: Read a list of hotel
+      description: Read a list of hotel
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+        '404':
+          description: No hotel found
+        '500':
+          description: Validation error
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+  
+  /hotel/id:id:
+    get:
+      tags:
+        - hotel
+      summary: Read a hotel by Id
+      description: Read a hotel by Id
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+        '404':
+          description: No hotel found
+        '500':
+          description: Validation error
+        
+  # /hotel/rating/:city:
+  #   get:
+  #     tags:
+  #       - hotel
+  #     summary: Read list of hotels by city rated by Rating DESC
+  #     description: Read list of hotels by city rated by Rating DESC 
+  #     responses:
+  #       '200':
+  #         description: successful operation
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Hotel'
+  #       '404':
+  #         description: No hotel found
+  #       '500':
+  #         description: Validation error
+          
+  # /hotel/star/:city:
+  #   get:
+  #     tags:
+  #       - hotel
+  #     summary: Read list of hotels by city rated by star DESC
+  #     description: Read list of hotels by city by star DESC
+  #     responses:
+  #       '200':
+  #         description: successful operation
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Hotel'
+  #       '404':
+  #         description: No hotel found
+  #       '500':
+  #         description: Validation error
+          
+  /hotel/name/:hotelName:
+    get:
+      tags:
+        - hotel
+      summary: Read a hotel by its name
+      description: Read a hotel by its name
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+        '404':
+          description: No hotel found
+        '500':
+          description: Validation error
+          
+  /hotel/city/:city:
+    get:
+      tags:
+        - hotel
+      summary: Read lists of hotel in a city
+      description: Read lists of hotel in a city
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+        '404':
+          description: No hotel found
+        '500':
+          description: Validation error
+          
+  /hotel/update/id:id:
+    put:
+      tags:
+        - hotel
+      summary: Update a hotel by Id
+      description: Update a hotel by Id
+      requestBody:
+        description: update a hotel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'          
+        '404':
+          description: Hotel not found
+        '500':
+          description: Validation error
+          
+  /hotel/delete/id:id:
+    delete:
+      tags:
+        - hotel
+      summary: Delete a hotel by Id
+      description: Delete a hotel by Id
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'          
+        '404':
+          description: Hotel not found
+        '500':
+          description: Validation error
+          
+  /favorite:
+    post:
+      tags:
+        - favorite
+      summary: Add a hotel to list of Favorites
+      description: Add a hotel to list of Favorites
+      requestBody:
+        description: Add a hotel to list of Favorites
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Favorite'
+        required: true
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Favorite'
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+          
+    get:
+      tags:
+        - favorite
+      summary: Read your list of Favorites
+      description: Read your list of Favorites
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Favorite'
+        '404':
+          description: No favorite hotels yet
+        '500':
+          description: Validation error
+      security:
+        - Bearer:
+          - "Enter bearer token only" 
+          
+  /favorite/delete/id:id:
+    delete:
+      tags:
+        - favorite
+      summary: Delete a hotel from Favorites list
+      description: Delete a hotel from Favorites list
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'          
+        '404':
+          description: Hotel not found
+        '500':
+          description: Validation error
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+    
+  /booking:
+    get:
+      tags:
+        - booking
+      summary: Read my bookings
+      description: Read my bookings
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+        '404':
+          description: No hotel found
+        '500':
+          description: Validation error
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+          
+    post:
+      tags:
+        - booking
+      summary: Create a booking entity
+      description: Create booking entity
+      requestBody:
+        description: create booking
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+          
+  /booking/update/id:id:
+    put:
+      tags:
+        - booking
+      summary: Update a booking by Id
+      description: Update a booking by Id
+      requestBody:
+        description: update a booking
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'          
+        '404':
+          description: Booking not found
+        '500':
+          description: Validation error
+                              
+  /booking/delete/id:id:
+    delete:
+      tags:
+        - booking
+      summary: Delete a booking by Id
+      description: Delete a booking by Id
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'          
+        '404':
+          description: Booking not found
+        '500':
+          description: Validation error
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+          
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register a new user
+      description: Register a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '400':
+          description: User with specified email already exists
+        '500':
+          description: Validation error
+                    
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login
+      description: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'          
+        '400':
+          description: Email or Password is wrong
+        '500':
+          description: Validation error
+
+  /utility:
+    get:
+      tags:
+        - utility
+      summary: Read my bookings
+      description: Read my bookings
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+        '404':
+          description: No hotel found
+        '500':
+          description: Validation error
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+  
+components:
+  schemas:
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          example: 'eY124ervh5YTHGW32fw34RRfgE235'
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        checkIn:
+          type: string
+          example: '2022-10-05'
+        checkOut:
+          type: string
+          example: '2022-10-05'
+        bookingDate:
+          type: string
+          example: '2022-10-05'
+        guestNumber:
+          type: integer
+          example: 3
+        totalPrice:
+          type: integer
+          example: 200
+        status:
+          type: boolean
+          example: false
+      xml:
+        name: booking
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        phone:
+          type: string
+          example: '12345'
+        gender:
+          type: string
+          example: 'Male'
+        bankCard:
+          type: string
+          example: '1039 3029 5324 2345'
+        isAdmin:
+          type: boolean
+          example: false
+      xml:
+        name: user
+    Room:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        guestsAllowed:
+          type: integer
+          example: 4
+        price:
+          type: string
+          example: 200
+        image:
+          type: string
+          example: '\\imgs\\rooms\\134364573.jpg'
+        status:
+          type: string
+          example: 'o'
+      xml:
+        name: room       
+    Review:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        title:
+          type: string
+          example: 'Cleanliness'
+        score:
+          type: integer
+          example: 8
+        totalReviews:
+          type: integer
+          example: 12
+      xml:
+        name: review
+    Favorite:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        USERId:
+          type: integer
+          example: 1
+        HOTELId:
+          type: integer
+          example: 1
+      xml:
+        name: Favorite
+    HotelImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        USERId:
+          type: integer
+          example: 1
+        HOTELId:
+          type: integer
+          example: 1
+      xml:
+        name: HotelImage
+    Hotel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        hotelName:
+          type: string
+          example: 'Bostonia'
+        city:
+          type: string
+          example: 'Boston'
+        rating:
+          type: number
+          example: 8.5
+        star:
+          type: integer
+          example: 4
+      xml:
+        name: Hotel
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+
+  securitySchemes:
+    Bearer:
+      scheme: 'bearer'
+      type: 'http'
+      bearerFormat: 'JWT'
