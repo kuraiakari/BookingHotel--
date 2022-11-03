@@ -483,9 +483,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Hotel'
+                $ref: '#/components/schemas/Booking'
         '404':
-          description: No hotel found
+          description: No booking found
         '500':
           description: Validation error
       security:
