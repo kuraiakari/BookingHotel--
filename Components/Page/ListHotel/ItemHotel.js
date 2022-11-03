@@ -6,6 +6,7 @@ import {
   Button,
   SafeAreaView,
   TouchableHighlight,
+  TouchableOpacity,
   StyleSheet,
   Dimensions,
 } from "react-native";
@@ -14,6 +15,7 @@ import { Link, useNavigate, useLocation } from "react-router-native";
 import { useDispatch } from "react-redux";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Octicons from "react-native-vector-icons/Octicons";
+import Entypo from "react-native-vector-icons/Entypo";
 import { useSwipe } from "../../../Hooks/useSwipe/useSwipe";
 
 let deviceWidth = Dimensions.get("window").width;
@@ -22,6 +24,7 @@ const Item = ({ idHotel, name, city, rating, star, price, image }) => {
   const dispatch = useDispatch();
   const imageRender = image.split(",");
   const [indexImage, setIndexImage] = useState(0);
+  // let imageRender1= imageRender.toString().replace(/\/g, "/");
   // const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 10);
   // function onSwipeLeft() {
   //   console.log(1);
@@ -38,20 +41,61 @@ const Item = ({ idHotel, name, city, rating, star, price, image }) => {
   };
   // console.log(imageRender);
   // const [indexImage, setIndexImage] = useState(0);
+  var loopStar = [];
+  for (let i = 0; i < 5 ; i++) {
+    if (i < star) 
+    loopStar.push(
+      <View key={i}>
+        <AntDesign
+          name="star"
+          size={14}
+          color="#FFD166"
+          style={{ marginRight: 3 }}
+            />
+      </View>
+    );
+    
+    else 
+      loopStar.push(
+      <View key={i}>
+        <AntDesign
+          name="star"
+          size={14}
+          color="lightgray"
+          style={{ marginRight: 3 }}
+            />
+      </View>
+    )
+  }
+  // console.log(imageRender[0])
   return (
-    <SafeAreaView style={styles.hotel}>
-      <Button
-        onPress={() => {
-          if (indexImage > 0) setIndexImage(indexImage - 1);
-        }}
-        title="Back"
-      ></Button>
-      <Button
+    <View style={styles.hotel}>
+      <View style={styles.containerButtonLeftRight}>
+        <TouchableOpacity
+          onPress={() => {
+            if (indexImage > 0) setIndexImage(indexImage - 1);
+          }}
+        >
+          <View>
+            <Entypo name="chevron-left" size={25} color="white" style={styles.shadowIcon} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            if (indexImage < 2) setIndexImage(indexImage + 1);
+          }}
+        >
+          <View>
+            <Entypo name="chevron-right" size={25} color="white" style={styles.shadowIcon} />
+          </View>
+        </TouchableOpacity>
+      </View>
+      {/* <Button
         onPress={() => {
           if (indexImage < 2) setIndexImage(indexImage + 1);
         }}
         title="Next"
-      ></Button>
+      ></Button> */}
       <Image
         // onTouchStart={onTouchStart}
         // onTouchEnd={onTouchEnd}
@@ -69,33 +113,31 @@ const Item = ({ idHotel, name, city, rating, star, price, image }) => {
           </View>
         </View>
         <View style={styles.boxLocationHotel}>
-          <Octicons name="location" size={20} />
+          <Octicons name="location" size={20} color="#3C84C6" />
           <Text style={styles.textLocationHotel}>{city}</Text>
         </View>
-        <View style={styles.line}></View>
-        <View style={styles.boxPriceStarHotel}>
-          <Text style={styles.textPriceStar}>${price} total</Text>
-          <View style={styles.boxStarHotel}>
-            <AntDesign
-              name="star"
-              size={14}
-              color="#FFD166"
-              style={{ marginRight: 3 }}
-            />
-            <Text style={styles.textPriceStar}>{star}</Text>
-          </View>
+        <View style={styles.boxStarHotel}>
+          {loopStar}
         </View>
-        <Link
-          to="/hoteldetail"
-          component={TouchableHighlight}
-          activeOpacity={0.7}
-          underlayColor="#ffffff"
-          onPress={() => handleReduxHotel(idHotel, name)}
-        >
-          <Text style={{ margin: 20 }}> More</Text>
-        </Link>
+        <View style={styles.boxPriceMoreHotel}>
+          <Text style={styles.textPriceStar}>${price} total</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Link
+              to="/hoteldetail"
+              component={TouchableHighlight}
+              activeOpacity={0.7}
+              underlayColor="#ffffff"
+              onPress={() => handleReduxHotel(idHotel, name)}
+            >
+              <Text style={{color: '#7A71F7'}}> More  </Text>
+            </Link>
+            <AntDesign name="right" size={13} color='#7A71F7' />
+          </View>
+          
+        </View>
+        
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -103,11 +145,19 @@ export default Item;
 
 const styles = StyleSheet.create({
   hotel: {
-    height: 500,
+    height: 400,
     borderColor: "#E6E8EC",
-    borderRadius: 24,
+    borderTopRightRadius: 25,
+    borderTopLeftRadius: 25,
+    borderBottomRightRadius: 24,
+    borderBottomLeftRadius: 24,
     borderWidth: 1,
-    marginBottom: 30,
+    marginBottom: 40,
+    backgroundColor: '#FCFCFD',
+    shadowColor: '#171717',
+    shadowOffset: {width: -1, height: 4},
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
   },
   imageHotel: {
     width: deviceWidth - 42,
@@ -115,15 +165,32 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
   },
+  containerButtonLeftRight: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: deviceWidth - 62,
+    zIndex: 2,
+    position: 'absolute',
+    top: 240 / 2 - 25 / 2,
+    right: 10,
+    left: 10
+  },
+  shadowIcon: {
+    shadowColor: '#3b3a3a',
+    shadowOpacity: 0.9,
+    shadowRadius: 3,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    }
+  },
   infoHotel: {
     paddingHorizontal: 25,
-    paddingTop: 25,
+    paddingTop: 20,
   },
-
   boxNameRatingHotel: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     marginBottom: 5,
   },
   nameHotel: {
@@ -147,32 +214,26 @@ const styles = StyleSheet.create({
   boxLocationHotel: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   textLocationHotel: {
     fontSize: 14,
     fontWeight: "400",
     marginLeft: 15,
   },
-  boxPriceStarHotel: {
+  boxPriceMoreHotel: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 10
   },
   boxStarHotel: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   textPriceStar: {
     fontSize: 14,
     fontWeight: "600",
-  },
-  line: {
-    width: deviceWidth - 92,
-    height: 1.2,
-    backgroundColor: "#E6E8EC",
-    borderRadius: 44,
   },
 });

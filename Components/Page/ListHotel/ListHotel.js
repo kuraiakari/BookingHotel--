@@ -45,18 +45,19 @@ const ListHotel = () => {
   const [listHotel, setListHotel] = useState(null);
 
   const location = useLocation();
-
+//   console.log(listHotel)
   useEffect(() => {
     //fetch(`${linkNgrok}` + `v1/hotel/byCity/${city}`)
     fetch(`https://dream-hotelapp.herokuapp.com/v1/hotel/city/${city}`)
       .then((response) => response.json())
       .then((data) => setListHotel(data));
   }, []);
-
-  Array.isArray(listHotel) &&
+  listHotel &&
     listHotel.hotels.forEach((hotel) => {
       hotel.hotelImage = hotel.hotelImage.replace(/\\/g, "/");
     });
+    
+    
   const renderItem = ({ item }) => {
     return (
       <View
@@ -112,7 +113,7 @@ const ListHotel = () => {
               <Entypo name="chevron-left" size={20} color="#7369FF" />
             </TouchableOpacity>
             <Text style={styles.textHeader}>{city}</Text>
-            <View style={{ width: 60 }}></View>
+            <View style={{ width: 20 }}></View>
           </View>
 
           <View>
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   subContainer: {
-    paddingTop: 20,
+    paddingTop: 30,
   },
   header: {
     flexDirection: "row",

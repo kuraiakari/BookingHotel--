@@ -46,7 +46,7 @@ const Search = () => {
   const location = useLocation();
 
   const inforUser = useSelector((state) => state);
-  console.log(inforUser)
+  // console.log(inforUser)
   const idUSer =inforUser.idUSer;
   const token = inforUser.accessToken;
   useEffect(() => {

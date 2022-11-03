@@ -19,8 +19,8 @@ const AppearLogoInView = (props) => {
   useEffect(() => {
     Animated.timing(appearAnim, {
       toValue: { x: -70, y: 185 },
-      delay: 2000,
-      duration: 3000,
+      delay: 200, //gia tri ban dau: 2000
+      duration: 300, //gia tri ban dau: 3000
       useNativeDriver: true,
     }).start();
   }, [appearAnim]);
@@ -42,8 +42,8 @@ const AppearInView = (props) => {
   useEffect(() => {
     Animated.timing(appearAnim, {
       toValue: 1,
-      delay: 4000,
-      duration: 1000,
+      delay: 400, //gia tri ban dau: 4000
+      duration: 100, //gia tri ban dau: 1000
       useNativeDriver: true,
     }).start();
   }, [appearAnim]);

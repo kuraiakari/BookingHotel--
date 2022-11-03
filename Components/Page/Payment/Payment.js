@@ -10,7 +10,7 @@ const Payment = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handlePressBack = () => {
-    navigete(-1);
+    navigate(-1);
   };
   const [state, setState] = useState(1);
 
@@ -45,6 +45,7 @@ const Payment = () => {
     }
   };
   const idUSer = data.idUSer;
+  console.log(data)
   const token = data.accessToken;
   const [numberCard, setNumberCard] = useState("");
   const [errorNumberCard, setErrorNumberCard] = useState(false);
@@ -128,7 +129,7 @@ const Payment = () => {
                 data.checkOut.getUTCDate()}
             </Text>
             <Text>Into money:</Text>
-            <Text>{data.price}</Text>
+            <Text>{data.priceRoom * ((data.checkOut - data.checkIn) / (24 * 3600 * 1000))}</Text>
             <TextInput
               value={nameUser}
               placeholder="Name"
