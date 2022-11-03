@@ -1,5 +1,5 @@
 import model from "../models/index.js"
-
+import * as utilityService from '../services/service.utility.js'
 class UtilityController {
 
     // POST v1/utility/
@@ -16,6 +16,17 @@ class UtilityController {
     listUtility = async (req, res) => {
         try {
             const data = await model.Utility.findAll()
+            if (data) return res.status(200).json(data)
+            else return res.status(404).json({message:"No utilities yet"})
+        } catch (e) {
+            return res.status(500).json({message: e.message})
+        }
+    }
+
+    //PUT v1/utility/id:id
+    updateUtility = async (req, res) => {
+        try {
+            const data = await utilityService.updateUtility(req.params.id, req.body)
             if (data) return res.status(200).json(data)
             else return res.status(404).json({message:"No utilities yet"})
         } catch (e) {

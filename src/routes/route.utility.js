@@ -14,6 +14,10 @@ router
 .post(verifyAdmin, utilityController.addUtility)
 
 router
+.route('/update/id:id')
+.put(verifyAdmin, utilityController.updateUtility)
+
+router
 .route('/delete/id:id')
 .delete(verifyAdmin, utilityController.deleteUtility)
 

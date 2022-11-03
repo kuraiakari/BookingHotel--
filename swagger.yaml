@@ -1054,6 +1054,9 @@ components:
             guestNumber:
               type: integer
               example: 3
+            totalPrice:
+              type: integer
+              example: 1280
             status:
               type: boolean
               example: false
@@ -1079,6 +1082,9 @@ components:
             rating:
               type: integer
               example: 7.7
+            star:
+              type: integer
+              example: 5
             hotelImage:
               type: string
               example: images\\hotels\\hotel1667399355197.png,images\\hotels\\hotel1667399355197.jpg,images\\hotels\\hotel1667399355199.jpg
