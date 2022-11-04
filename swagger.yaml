@@ -70,6 +70,35 @@ paths:
       security:
         - Bearer:
           - "Enter bearer token only" 
+
+  /user/update/avatar/id:id:
+    put:
+      tags:
+        - user
+      summary: Update an existing user info and avatar
+      description: Update an existing user by ID  info and avatar
+      requestBody:
+        description: Update user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserwithAvatar'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '404':
+          description: User not found
+        '500':
+          description: Validation exception
+      security:
+        - Bearer:
+          - "Enter bearer token only"
+    
   /user/update/id:id:
     put:
       tags:
@@ -82,12 +111,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
         required: true
       responses:
         '200':
@@ -96,9 +119,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
         '404':
           description: user not found
         '500':
@@ -161,9 +181,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Room'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Room'
         '500':
           description: Validation Exception
       security:
@@ -780,6 +797,40 @@ components:
         ROOMId:
           type: integer
           example: 1
+    UserwithAvatar:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        image:
+          type: string
+          example: \imgs\rooms\134364573.jpg
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: 12345
+        phone:
+          type: string
+          example: 12345
+        gender:
+          type: string
+          example: Male
+        bankCard:
+          type: string
+          example: 103930295324
+        isAdmin:
+          type: boolean
+          example: false
     User:
       type: object
       properties:
@@ -833,22 +884,6 @@ components:
         ROOMId:
           type: integer
           example: 1    
-    Review:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
-        title:
-          type: string
-          example: 'Cleanliness'
-        score:
-          type: integer
-          example: 8
-        totalReviews:
-          type: integer
-          example: 12
     Favorite:
       type: object
       properties:
@@ -881,7 +916,6 @@ components:
             star:
               type: integer
               example: 4
-    HotelImage:
       type: object
       properties:
         id:
