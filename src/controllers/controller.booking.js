@@ -31,8 +31,13 @@ class BookingController {
     //GET v1/booking/
     listBooking = async (req, res) => {
         try {
-            const data = await model.Booking.findAll({where: {USERId: req.user.id}})
-            if (data) return res.status(200).json(data)
+            const booking = await model.Booking.findAll({
+                where: {USERId: req.user.id},
+                include: [
+                    {model: model.Room, include: [ model.Hotel]}
+                ]
+            })
+            if (booking) return res.status(200).json(booking)
             else return res.status(404).json({message: "No booking found"})
         } catch (e) {
             return res.status(500).json({message: e.message})
@@ -43,18 +48,16 @@ class BookingController {
     getBooking = async (req, res) => {
         try {
             const booking = await model.Booking.findOne({
-                where: {USERId: req.user.id}
+                where: {
+                    USERId: req.user.id,
+                    id: req.params.id
+                },
+                include: [
+                    {model: model.Room, include: [ model.Hotel]}
+                ]
             })
-            if (booking) {
-                const room = await roomService.getById(booking.ROOMId)
-                if (room) {
-                    const hotel = await hotelService.getById(room.HOTELId)
-                    if (hotel) return res.status(200).json({booking, hotel, roomType: room.bedType})
-                    return res.status(404).json({booking, roomType: room.bedType, message: "No hotel found"})
-                }
-                return res.status(200).json({booking, message: "No hotel and room found"})
-            } 
-            else return res.status(404).json({message: "No booking found"})
+            if (booking) return res.status(200).json(booking)
+            else return res.status(404).json({message: "No booking found"})   
         } catch (e) {
             return res.status(500).json({message: e.message})
         }

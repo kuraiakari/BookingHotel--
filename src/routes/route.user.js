@@ -11,7 +11,9 @@ router.get('/id:id', verifyUser, userController.getUser);
 
 router.get('/all', verifyAdmin, userController.getallUsers);
 
-router.put('/update/id:id', verifyUser, userController.updateUser);
+router.put('/update/id:id', verifyUser, userController.updateUserwithoutAvatar);
+
+router.put('/update/avatar/id:id', verifyUser, userController.upload, userController.updateUser)
 
 router.delete('/delete/id:id', verifyAdmin, userController.deleteUser);
 

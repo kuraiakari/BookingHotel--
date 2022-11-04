@@ -862,6 +862,25 @@ components:
         HOTELId:
           type: integer
           example: 1
+        HOTEL:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 10
+            hotelName:
+              type: string
+              example: 'Bostonia'
+            city:
+              type: string
+              example: 'Boston'
+            rating:
+              type: number
+              example: 8.5
+            star:
+              type: integer
+              example: 4
     HotelImage:
       type: object
       properties:

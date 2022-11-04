@@ -25,11 +25,33 @@ class UserController {
             return res.status(500).json({message: e.message})
         }
     }
-    // v1/user/update/id:id
+    // v1/user/update/avatar/id:id
     updateUser = async (req, res) => {
         try {
             let userData = {
                 image: req.file.path,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email : req.body.email,
+                password : req.body.password,
+                phone : req.body.phone,
+                nationality: req.body.nationality,
+                bankCard: req.body.bankCard,
+            }
+            const user = getById(req.params.id)
+            if (user) {
+                const record = await updateUser(req.params.id, userData)
+                return res.json(record)
+            }
+            else return res.status(404).json({message: "User not found"})
+        } catch (e) {
+            return res.status(500).json({message: e.message})
+        }
+    }
+    // v1/user/update/id:id
+    updateUserwithoutAvatar = async (req, res) => {
+        try {
+            let userData = {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 email : req.body.email,
