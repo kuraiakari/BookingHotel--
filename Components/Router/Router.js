@@ -15,6 +15,10 @@ import {
   ChangePassword,
   Credit,
   Support,
+  StatusBooking,
+  Order,
+  OrderDetail,
+  LikeHotel
 } from "../Page";
 
 const Router = () => {
@@ -36,6 +40,10 @@ const Router = () => {
         <Route path="/person/changepassword" element={<ChangePassword />} />
         <Route path="/person/credit" element={<Credit />} />
         <Route path="/person/support" element={<Support />} />
+        <Route path="/statusbooking" element={<StatusBooking />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/orderdetail" element={<OrderDetail />} />
+        <Route path="/likeHotel" element={<LikeHotel />} />
       </Routes>
     </NativeRouter>
   );

@@ -45,7 +45,7 @@ const ListHotel = () => {
   const [listHotel, setListHotel] = useState(null);
 
   const location = useLocation();
-//   console.log(listHotel)
+  //   console.log(listHotel)
   useEffect(() => {
     //fetch(`${linkNgrok}` + `v1/hotel/byCity/${city}`)
     fetch(`https://dream-hotelapp.herokuapp.com/v1/hotel/city/${city}`)
@@ -56,8 +56,7 @@ const ListHotel = () => {
     listHotel.hotels.forEach((hotel) => {
       hotel.hotelImage = hotel.hotelImage.replace(/\\/g, "/");
     });
-    
-    
+
   const renderItem = ({ item }) => {
     return (
       <View
@@ -81,18 +80,6 @@ const ListHotel = () => {
   };
   const listEmptyComponent = () => {
     return <Text> Khong tim thay </Text>;
-  };
-  const listFooterComponent = () => {
-    return (
-      <Link
-        to="/search"
-        component={TouchableHighlight}
-        activeOpacity={0.7}
-        underlayColor="#ffffff"
-      >
-        <Text>Back to searching</Text>
-      </Link>
-    );
   };
   return (
     <SafeAreaView
@@ -123,8 +110,8 @@ const ListHotel = () => {
               renderItem={renderItem}
               keyExtractor={(hotel) => hotel.id}
               ListEmptyComponent={listEmptyComponent}
-              ListFooterComponent={listFooterComponent}
               nestedScrollEnabled
+              bounces={false}
             />
           </View>
         </View>
@@ -150,7 +137,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: deviceWidth,
     paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingBottom: 20,
+    backgroundColor: "#FCFCFD",
+    shadowColor: "#7A71F7",
+    shadowOffset: { width: -1, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
   },
   textHeader: {
     color: "#7369FF",
@@ -159,6 +151,6 @@ const styles = StyleSheet.create({
   },
   hotels: {
     paddingHorizontal: 20,
-    marginBottom: 150,
+    marginBottom: 130,
   },
 });

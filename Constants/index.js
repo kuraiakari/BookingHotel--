@@ -14,3 +14,5 @@ export const NAME_USER = "NAME_USER";
 export const PHONE = "PHONE";
 export const EMAIL = "EMAIL";
 export const CREDIT = "CREDIT";
+export const ID_ROOM = "ID_ROOM";
+export const ID_BOOKING = "ID_BOOKING";

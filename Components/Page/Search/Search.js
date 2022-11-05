@@ -46,8 +46,7 @@ const Search = () => {
   const location = useLocation();
 
   const inforUser = useSelector((state) => state);
-  // console.log(inforUser)
-  const idUSer =inforUser.idUSer;
+  const idUSer = inforUser.idUSer;
   const token = inforUser.accessToken;
   useEffect(() => {
     fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
@@ -60,7 +59,7 @@ const Search = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        dispatch({ type: "EMAIL", payload: data.email });
       });
   }, []);
 
@@ -81,10 +80,10 @@ const Search = () => {
       setCheckOut("");
       checkError = true;
     }
-    if (checkOut < checkIn){
+    if (checkOut < checkIn) {
       e.preventDefault();
-      alert("Invalid time check in or check out")
-      checkError = true
+      alert("Invalid time check in or check out");
+      checkError = true;
     }
     if (numberAdults === 0) {
       e.preventDefault();
@@ -106,7 +105,7 @@ const Search = () => {
     setHideCheckIn(false);
   };
   const handleConfirmCheckIn = (date) => {
-    console.log(date)
+    console.log(date);
     const errorMessage = validator("checkIn", date);
     if (!errorMessage) setCheckIn(date);
     else alert(errorMessage);
@@ -270,13 +269,14 @@ const Search = () => {
               <TouchableOpacity
                 onPress={() => {
                   setIsCheckAdults(false);
-                  setNumberAdults(numberAdults + 1);
+                  if (numberAdults < 6) setNumberAdults(numberAdults + 1);
                 }}
               >
                 <Feather name="plus-circle" color="#7369FF" size={25} />
               </TouchableOpacity>
               <TextInput
                 keyboardType="numeric"
+                editable={false}
                 value={`${numberAdults}`}
                 onChange={(e) => {
                   setIsCheckAdults(false);
@@ -319,6 +319,7 @@ const Search = () => {
               </TouchableOpacity>
               <TextInput
                 keyboardType="numeric"
+                editable={false}
                 value={`${numberChildrens}`}
                 onChange={(e) => {
                   setIsCheckChildrens(false);

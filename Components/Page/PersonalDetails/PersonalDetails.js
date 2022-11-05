@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Dimensions,
-  TouchableHighlight
+  TouchableHighlight,
 } from "react-native";
 import { Link, useLocation } from "react-router-native";
 import { useSelector } from "react-redux";
@@ -40,26 +40,25 @@ const PersonalDetails = () => {
               <Text style={styles.userName}>Username</Text>
               <AntDesign name="checkcircle" size={20} color="green" />
             </View>
-            <Text style={styles.nickName}>@username</Text>
           </View>
         </View>
         <View style={styles.listInfo}>
-          <Link 
-          to="/person/editprofile"
-          component={TouchableHighlight}
-          activeOpacity={0.7}
-          underlayColor="#ffffff"
+          <Link
+            to="/person/editprofile"
+            component={TouchableHighlight}
+            activeOpacity={0.7}
+            underlayColor="#ffffff"
           >
             <View style={styles.elementInfo}>
               <Text style={styles.elementText}>Edit Profile</Text>
               <Entypo name="chevron-right" size={20} color="#777E91" />
             </View>
           </Link>
-          <Link 
-          to="/person/changepassword"
-          component={TouchableHighlight}
-          activeOpacity={0.7}
-          underlayColor="#ffffff"
+          <Link
+            to="/person/changepassword"
+            component={TouchableHighlight}
+            activeOpacity={0.7}
+            underlayColor="#ffffff"
           >
             <View style={styles.elementInfo}>
               <Text style={styles.elementText}>Change password</Text>
@@ -67,21 +66,21 @@ const PersonalDetails = () => {
             </View>
           </Link>
           <Link
-          to="/person/credit"
-          component={TouchableHighlight}
-          activeOpacity={0.7}
-          underlayColor="#ffffff"
+            to="/person/credit"
+            component={TouchableHighlight}
+            activeOpacity={0.7}
+            underlayColor="#ffffff"
           >
             <View style={styles.elementInfo}>
               <Text style={styles.elementText}>Credit</Text>
               <Entypo name="chevron-right" size={20} color="#777E91" />
             </View>
           </Link>
-          <Link 
-          to="/person/support"
-          component={TouchableHighlight}
-          activeOpacity={0.7}
-          underlayColor="#ffffff"
+          <Link
+            to="/person/support"
+            component={TouchableHighlight}
+            activeOpacity={0.7}
+            underlayColor="#ffffff"
           >
             <View style={styles.elementInfo}>
               <Text style={styles.elementText}>Support</Text>
@@ -89,10 +88,10 @@ const PersonalDetails = () => {
             </View>
           </Link>
           <Link
-          to="/login"
-          component={TouchableHighlight}
-          activeOpacity={0.7}
-          underlayColor="#ffffff"
+            to="/login"
+            component={TouchableHighlight}
+            activeOpacity={0.7}
+            underlayColor="#ffffff"
           >
             <View style={styles.elementInfo}>
               <Text style={styles.elementText}>Log out</Text>
@@ -147,10 +146,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     paddingRight: 10,
-  },
-  nickName: {
-    fontSize: 12,
-    fontWeight: "400",
   },
   listInfo: {},
   elementInfo: {

@@ -19,7 +19,8 @@ const Navigation = ({ pathName }) => {
   let activeLink;
   if (pathName === "/search" || pathName === "/listhotel")
     activeLink = [1, 0, 0, 0];
-  if (pathName === "/login") activeLink = [0, 1, 0, 0];
+  if (pathName === "/order") activeLink = [0, 1, 0, 0];
+  if (pathName === "/likeHotel") activeLink = [0, 0, 1, 0];
   if (pathName === "/person") activeLink = [0, 0, 0, 1];
   return (
     <View style={styles.tabNavigation}>
@@ -47,7 +48,7 @@ const Navigation = ({ pathName }) => {
       </Link>
 
       <Link
-        to="/login"
+        to="/order"
         component={TouchableHighlight}
         activeOpacity={0.7}
         underlayColor="#ffffff"
@@ -70,14 +71,25 @@ const Navigation = ({ pathName }) => {
       </Link>
 
       <Link
-        to="/register"
+        to="/likeHotel"
         component={TouchableHighlight}
         activeOpacity={0.7}
         underlayColor="#ffffff"
       >
         <View style={styles.elementNavigation}>
-          <Ionicons name="md-heart-outline" size={20} color="#B1B5C4" />
-          <Text style={styles.textElementNavigation}>Saved</Text>
+          <Ionicons
+            name="md-heart-outline"
+            size={20}
+            color={activeLink[2] === 1 ? "#7A71F7" : "#B1B5C4"}
+          />
+          <Text
+            style={[
+              styles.textElementNavigation,
+              { color: activeLink[2] === 1 ? "#7A71F7" : "#B1B5C4" },
+            ]}
+          >
+            Saved
+          </Text>
         </View>
       </Link>
 

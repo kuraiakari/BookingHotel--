@@ -10,3 +10,7 @@ export { default as EditProfile } from "./EditProfile/EditProfile";
 export { default as ChangePassword } from "./ChangePassword/ChangePassword";
 export { default as Credit } from "./Credit/Credit";
 export { default as Support } from "./Support/Support";
+export { default as StatusBooking } from "./StatusBooking/StatusBooking";
+export { default as Order } from "./Order/Order";
+export { default as OrderDetail } from "./OrderDetail/OrderDetail";
+export { default as LikeHotel } from "./LikeHotel/LikeHotel";

@@ -42,32 +42,31 @@ const Item = ({ idHotel, name, city, rating, star, price, image }) => {
   // console.log(imageRender);
   // const [indexImage, setIndexImage] = useState(0);
   var loopStar = [];
-  for (let i = 0; i < 5 ; i++) {
-    if (i < star) 
-    loopStar.push(
-      <View key={i}>
-        <AntDesign
-          name="star"
-          size={14}
-          color="#FFD166"
-          style={{ marginRight: 3 }}
-            />
-      </View>
-    );
-    
-    else 
+  for (let i = 0; i < 5; i++) {
+    if (i < star)
       loopStar.push(
-      <View key={i}>
-        <AntDesign
-          name="star"
-          size={14}
-          color="lightgray"
-          style={{ marginRight: 3 }}
-            />
-      </View>
-    )
+        <View key={i}>
+          <AntDesign
+            name="star"
+            size={14}
+            color="#FFD166"
+            style={{ marginRight: 3 }}
+          />
+        </View>
+      );
+    else
+      loopStar.push(
+        <View key={i}>
+          <AntDesign
+            name="star"
+            size={14}
+            color="lightgray"
+            style={{ marginRight: 3 }}
+          />
+        </View>
+      );
   }
-  // console.log(imageRender[0])
+
   return (
     <View style={styles.hotel}>
       <View style={styles.containerButtonLeftRight}>
@@ -77,7 +76,12 @@ const Item = ({ idHotel, name, city, rating, star, price, image }) => {
           }}
         >
           <View>
-            <Entypo name="chevron-left" size={25} color="white" style={styles.shadowIcon} />
+            <Entypo
+              name="chevron-left"
+              size={25}
+              color="white"
+              style={styles.shadowIcon}
+            />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -86,16 +90,15 @@ const Item = ({ idHotel, name, city, rating, star, price, image }) => {
           }}
         >
           <View>
-            <Entypo name="chevron-right" size={25} color="white" style={styles.shadowIcon} />
+            <Entypo
+              name="chevron-right"
+              size={25}
+              color="white"
+              style={styles.shadowIcon}
+            />
           </View>
         </TouchableOpacity>
       </View>
-      {/* <Button
-        onPress={() => {
-          if (indexImage < 2) setIndexImage(indexImage + 1);
-        }}
-        title="Next"
-      ></Button> */}
       <Image
         // onTouchStart={onTouchStart}
         // onTouchEnd={onTouchEnd}
@@ -116,12 +119,10 @@ const Item = ({ idHotel, name, city, rating, star, price, image }) => {
           <Octicons name="location" size={20} color="#3C84C6" />
           <Text style={styles.textLocationHotel}>{city}</Text>
         </View>
-        <View style={styles.boxStarHotel}>
-          {loopStar}
-        </View>
+        <View style={styles.boxStarHotel}>{loopStar}</View>
         <View style={styles.boxPriceMoreHotel}>
           <Text style={styles.textPriceStar}>${price} total</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Link
               to="/hoteldetail"
               component={TouchableHighlight}
@@ -129,13 +130,11 @@ const Item = ({ idHotel, name, city, rating, star, price, image }) => {
               underlayColor="#ffffff"
               onPress={() => handleReduxHotel(idHotel, name)}
             >
-              <Text style={{color: '#7A71F7'}}> More  </Text>
+              <Text style={{ color: "#7A71F7" }}> More </Text>
             </Link>
-            <AntDesign name="right" size={13} color='#7A71F7' />
+            <AntDesign name="right" size={13} color="#7A71F7" />
           </View>
-          
         </View>
-        
       </View>
     </View>
   );
@@ -152,10 +151,10 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 24,
     borderBottomLeftRadius: 24,
     borderWidth: 1,
-    marginBottom: 40,
-    backgroundColor: '#FCFCFD',
-    shadowColor: '#171717',
-    shadowOffset: {width: -1, height: 4},
+    marginBottom: 20,
+    backgroundColor: "#FCFCFD",
+    shadowColor: "#171717",
+    shadowOffset: { width: -1, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 3,
   },
@@ -166,23 +165,23 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
   },
   containerButtonLeftRight: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     width: deviceWidth - 62,
     zIndex: 2,
-    position: 'absolute',
+    position: "absolute",
     top: 240 / 2 - 25 / 2,
     right: 10,
-    left: 10
+    left: 10,
   },
   shadowIcon: {
-    shadowColor: '#3b3a3a',
+    shadowColor: "#3b3a3a",
     shadowOpacity: 0.9,
     shadowRadius: 3,
     shadowOffset: {
       width: 0,
       height: 2,
-    }
+    },
   },
   infoHotel: {
     paddingHorizontal: 25,
@@ -225,7 +224,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 10
+    marginTop: 10,
   },
   boxStarHotel: {
     flexDirection: "row",

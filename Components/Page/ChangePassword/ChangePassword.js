@@ -20,7 +20,7 @@ let deviceWidth = Dimensions.get("window").width;
 const ChangePassword = () => {
   const navigate = useNavigate();
   const inforUser = useSelector((state) => state);
-  const idUSer =inforUser.idUSer;
+  const idUSer = inforUser.idUSer;
   const token = inforUser.accessToken;
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 2);
   function onSwipeLeft() {}
@@ -76,12 +76,11 @@ const ChangePassword = () => {
         );
       else setIsCheckNewPassword(false);
     }
-    if (validator("confirmpassword", confirmNewPassword, newPassword)){
+    if (validator("confirmpassword", confirmNewPassword, newPassword)) {
       setIsCheckConfirmNewPassword(
         validator("confirmpassword", confirmNewPassword, newPassword)
       );
-    }
-    else setIsCheckConfirmNewPassword(false);
+    } else setIsCheckConfirmNewPassword(false);
     //khởi tạo object data
     if (
       currentPassword &&
@@ -96,9 +95,9 @@ const ChangePassword = () => {
       const newDataCreate = {
         password: newPassword,
       };
-      setCurrentPassword("")
-      setNewPassword("")
-      setConfirmNewPassword("")
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
       fetch(`https://dream-hotelapp.herokuapp.com/v1/user/update/id${idUSer}`, {
         method: "PUT",
         credentials: "included",
@@ -110,7 +109,7 @@ const ChangePassword = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          setNewData(newDataCreate)
+          setNewData(newDataCreate);
         });
     }
   };
@@ -275,7 +274,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#e8e8e8",
-    height: 45,
+    height: 60,
+    backgroundColor: "#FCFCFD",
+    shadowColor: "#d1d1d1",
+    shadowOffset: { width: -1, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
   },
   header: {
     flexDirection: "row",

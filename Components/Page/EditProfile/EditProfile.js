@@ -9,6 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import { useNavigate } from "react-router-native";
+import { useSelector, useDispatch } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -20,15 +21,15 @@ let deviceWidth = Dimensions.get("window").width;
 
 const EditProfile = () => {
   const navigate = useNavigate();
-
+  const inforUser = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const idUSer = inforUser.idUSer;
+  const token = inforUser.accessToken;
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 2);
   function onSwipeLeft() {}
   function onSwipeRight() {
     navigate(-1);
   }
-
-  const [email, setEmail] = useState("");
-  const [isCheckEmail, setIsCheckEmail] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [isCheckFirstName, setIsCheckFirstName] = useState(false);
   const [lastName, setLastName] = useState("");
@@ -41,8 +42,6 @@ const EditProfile = () => {
   const [isCheckNationality, setIsCheckNationality] = useState(false);
 
   const handleSubmit = () => {
-    if (validator("email", email)) setIsCheckEmail(validator("email", email));
-    else setIsCheckEmail(false);
     if (validator("firstName", firstName))
       setIsCheckFirstName(validator("firstName", firstName));
     else setIsCheckFirstName(false);
@@ -58,6 +57,47 @@ const EditProfile = () => {
       setIsCheckNationality(validator("nationality", nationality));
     else setIsCheckNationality(false);
     //khởi tạo object data
+
+    if (
+      firstName &&
+      lastName &&
+      gender &&
+      phone &&
+      nationality &&
+      !validator("firstName", firstName) &&
+      !validator("lastName", lastName) &&
+      !validator("gender", gender) &&
+      !validator("phone", phone) &&
+      !validator("nationality", nationality)
+    ) {
+      const dataInfor = {
+        firstName,
+        lastName,
+        gender,
+        phone,
+        nationality,
+      };
+      dispatch({ type: "NAME_USER", payload: firstName + " " + lastName });
+      dispatch({ type: "PHONE", payload: phone });
+      fetch(`https://dream-hotelapp.herokuapp.com/v1/user/update/id${idUSer}`, {
+        method: "PUT",
+        credentials: "included",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `access_token=${token}`,
+        },
+        body: JSON.stringify(dataInfor),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert("Thay doi thanh cong");
+        });
+      setFirstName("");
+      setLastName("");
+      setGender("");
+      setPhone("");
+      setNationality("");
+    }
   };
 
   return (
@@ -75,7 +115,7 @@ const EditProfile = () => {
       </View>
 
       <View>
-        <Text style={styles.textEdit}>First name</Text>
+        {/* <Text style={styles.textEdit}>First name</Text> */}
         <View
           style={[
             styles.containerInput,
@@ -106,7 +146,7 @@ const EditProfile = () => {
       </View>
 
       <View>
-        <Text style={styles.textEdit}>Last name</Text>
+        {/* <Text style={styles.textEdit}>Last name</Text> */}
         <View
           style={[
             styles.containerInput,
@@ -135,7 +175,7 @@ const EditProfile = () => {
       </View>
 
       <View>
-        <Text style={styles.textEdit}>Gender</Text>
+        {/* <Text style={styles.textEdit}>Gender</Text> */}
         <View
           style={[
             styles.containerInput,
@@ -164,7 +204,7 @@ const EditProfile = () => {
       </View>
 
       <View>
-        <Text style={styles.textEdit}>Phone number</Text>
+        {/* <Text style={styles.textEdit}>Phone number</Text> */}
         <View
           style={[
             styles.containerInput,
@@ -197,7 +237,7 @@ const EditProfile = () => {
       </View>
 
       <View>
-        <Text style={styles.textEdit}>Nationality</Text>
+        {/* <Text style={styles.textEdit}>Nationality</Text> */}
         <View
           style={[
             styles.containerInput,
@@ -260,12 +300,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 6,
-    marginBottom: 20,
-    paddingLeft: 20,
+    marginBottom: 10,
+    paddingLeft: 10,
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 15,
     borderColor: "#e8e8e8",
-    height: 45,
+    height: 60,
+    backgroundColor: "#FCFCFD",
+    shadowColor: "#d1d1d1",
+    shadowOffset: { width: -1, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
   },
   header: {
     flexDirection: "row",

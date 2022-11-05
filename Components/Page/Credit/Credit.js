@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
+  Dimensions,
+  Alert,
+} from "react-native";
 import { useNavigate } from "react-router-native";
 import { useSelector } from "react-redux";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import Entypo from "react-native-vector-icons/Entypo";
 
 import { validator } from "../../Validator";
+
+let deviceWidth = Dimensions.get("window").width;
 
 const Credit = () => {
   const inforUser = useSelector((state) => state);
@@ -62,76 +74,170 @@ const Credit = () => {
     }
   };
   return (
-    <View style={{ marginTop: 40 }}>
-      <View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
         <TouchableOpacity onPress={() => navigate(-1)}>
-          <Ionicons name="md-chevron-back" size={20} color="#7369FF" />
+          <Entypo name="chevron-left" size={20} color="#7369FF" />
+        </TouchableOpacity>
+        <Text style={styles.textHeader}>Credit</Text>
+        <View style={{ width: 20 }}></View>
+      </View>
+
+      <View>
+        <Text style={styles.titleInput}>Card number</Text>
+        <TextInput
+          value={numberCard}
+          keyboardType="numeric"
+          style={styles.inputCard}
+          onChange={(e) => {
+            if (
+              e.nativeEvent.text.split(" ").join("").length ==
+              numberCard.split(" ").join("").length
+            )
+              e.nativeEvent.text = e.nativeEvent.text.slice(
+                0,
+                e.nativeEvent.text.length - 1
+              );
+            if (
+              e.nativeEvent.text.split(" ").join("").length >
+                numberCard.split(" ").join("").length &&
+              e.nativeEvent.text.split(" ").join("").length != 0 &&
+              e.nativeEvent.text.split(" ").join("").length % 4 == 0
+            ) {
+              e.nativeEvent.text += " ";
+            }
+            setErrorNumberCard(false);
+            setNumberCard(e.nativeEvent.text);
+          }}
+        />
+        <Text style={styles.titleInput}>Name on card</Text>
+        <TextInput
+          value={nameCard}
+          style={styles.inputCard}
+          onChange={(e) => {
+            setErrorNameCard(false);
+            setNameCard(e.nativeEvent.text);
+          }}
+        />
+        <View style={styles.inputCardBelow}>
+          <View style={{ width: deviceWidth / 2 - 50 }}>
+            <Text style={styles.titleInput}>Expiry date</Text>
+            <TextInput
+              value={dateCard}
+              keyboardType="numeric"
+              maxLength={5}
+              style={styles.inputCard}
+              onChange={(e) => {
+                if (
+                  e.nativeEvent.text.split("/").join("").length ==
+                  dateCard.split("/").join("").length
+                )
+                  e.nativeEvent.text = e.nativeEvent.text.slice(
+                    0,
+                    e.nativeEvent.text.length - 1
+                  );
+                if (e.nativeEvent.text.length == 2) {
+                  e.nativeEvent.text += "/";
+                }
+                setErrorDateCard(false);
+                setDateCard(e.nativeEvent.text);
+              }}
+            />
+          </View>
+          <View style={{ width: deviceWidth / 2 - 50 }}>
+            <Text style={styles.titleInput}>Security code</Text>
+            <TextInput
+              value={codeCard}
+              keyboardType="numeric"
+              secureTextEntry={true}
+              maxLength={3}
+              style={styles.inputCard}
+              onChange={(e) => {
+                setErrorCodeCard(false);
+                setCodeCard(e.nativeEvent.text);
+              }}
+            />
+          </View>
+        </View>
+      </View>
+      <View style={styles.containerButton}>
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={() => {
+            handleCredit();
+            Alert.alert("Info have been saved");
+          }}
+        >
+          <Text style={styles.textButton}>Save</Text>
         </TouchableOpacity>
       </View>
-      <Text>Card number</Text>
-      <TextInput
-        value={numberCard}
-        keyboardType="numeric"
-        onChange={(e) => {
-          if (
-            e.nativeEvent.text.split(" ").join("").length ==
-            numberCard.split(" ").join("").length
-          )
-            e.nativeEvent.text = e.nativeEvent.text.slice(
-              0,
-              e.nativeEvent.text.length - 1
-            );
-          if (
-            e.nativeEvent.text.split(" ").join("").length >
-              numberCard.split(" ").join("").length &&
-            e.nativeEvent.text.split(" ").join("").length != 0 &&
-            e.nativeEvent.text.split(" ").join("").length % 4 == 0
-          ) {
-            e.nativeEvent.text += " ";
-          }
-          setErrorNumberCard(false);
-          setNumberCard(e.nativeEvent.text);
-        }}
-      />
-      <Text>Name on card</Text>
-      <TextInput
-        value={nameCard}
-        onChange={(e) => {
-          setErrorNameCard(false);
-          setNameCard(e.nativeEvent.text);
-        }}
-      />
-      <Text>Expiry date</Text>
-      <TextInput
-        value={dateCard}
-        keyboardType="numeric"
-        onChange={(e) => {
-          if (
-            e.nativeEvent.text.split("/").join("").length ==
-            dateCard.split("/").join("").length
-          )
-            e.nativeEvent.text = e.nativeEvent.text.slice(
-              0,
-              e.nativeEvent.text.length - 1
-            );
-          if (e.nativeEvent.text.length == 2) {
-            e.nativeEvent.text += "/";
-          }
-          setErrorDateCard(false);
-          setDateCard(e.nativeEvent.text);
-        }}
-      />
-      <Text>Security code</Text>
-      <TextInput
-        value={codeCard}
-        keyboardType="numeric"
-        onChange={(e) => {
-          setErrorCodeCard(false);
-          setCodeCard(e.nativeEvent.text);
-        }}
-      />
-      <Button title="Save" onPress={() => handleCredit()} />
-    </View>
+    </SafeAreaView>
   );
 };
 export default Credit;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",
+    marginHorizontal: 20,
+    marginVertical: 10,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingBottom: 40,
+  },
+  textHeader: {
+    color: "#7369FF",
+    fontSize: 24,
+    fontWeight: "600",
+  },
+  titleInput: {
+    fontSize: 14,
+    lineHeight: 21,
+    fontWeight: "500",
+    color: "#8C8C8C",
+    marginBottom: 5,
+  },
+  inputCard: {
+    width: "100%",
+    borderColor: "#D9D9D9",
+    borderBottomWidth: 1,
+    paddingBottom: 5,
+    fontSize: 16,
+    color: "#000000",
+    marginBottom: 20,
+  },
+  inputCardBelow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  containerButton: {
+    position: "absolute",
+    bottom: 15,
+    right: 0,
+    left: 0,
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 90,
+    paddingVertical: 10,
+    borderRadius: 10,
+    width: "100%",
+    backgroundColor: "#7A71F7",
+    marginTop: 40,
+  },
+  textButton: {
+    fontSize: 17,
+    lineHeight: 30,
+    fontWeight: "light",
+    color: "white",
+  },
+});

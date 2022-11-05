@@ -12,8 +12,10 @@ import {
   CHECK_OUT,
   NUMBER_ADULTS,
   NUMBER_CHILDRENS,
+  ID_ROOM,
   TYPE_ROOM,
   PRICE_ROOM,
+  ID_BOOKING,
 } from "../Constants";
 const initNameCity = {
   accessToken: "",
@@ -29,8 +31,10 @@ const initNameCity = {
   checkOut: null,
   numberAdults: 0,
   numberChildrens: 0,
+  idRoom: "",
   typeRoom: "",
   priceRoom: 0,
+  idBooking: '',
 };
 
 const cityReducer = (state = initNameCity, action) => {
@@ -100,6 +104,12 @@ const cityReducer = (state = initNameCity, action) => {
         ...state,
         numberChildrens: action.payload,
       };
+    case ID_ROOM: {
+      return {
+        ...state,
+        idRoom: action.payload,
+      };
+    }
     case TYPE_ROOM: {
       return {
         ...state,
@@ -110,6 +120,12 @@ const cityReducer = (state = initNameCity, action) => {
       return {
         ...state,
         priceRoom: action.payload,
+      };
+    }
+    case ID_BOOKING: {
+      return {
+        ...state,
+        idBooking: action.payload,
       };
     }
     default:
