@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Button,
   TouchableOpacity,
-  Pressable,
   Text,
   TextInput,
   SafeAreaView,
   Dimensions,
   StyleSheet,
+  Platform,
+  LayoutAnimation,
+  UIManager,
 } from "react-native";
 import { useNavigate } from "react-router-native";
 import { useSelector } from "react-redux";
@@ -20,8 +21,16 @@ import { validator } from "../../Validator";
 
 let deviceWidth = Dimensions.get("window").width;
 
+if (
+  Platform.OS === "android" &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 const Payment = () => {
   const data = useSelector((state) => state);
+  const currentTime = new Date();
   const navigate = useNavigate();
   const handlePressBack = () => {
     navigate(-1);
@@ -136,6 +145,40 @@ const Payment = () => {
         </TouchableOpacity>
         <Text style={styles.textHeader}>Payment</Text>
         <View style={{ width: 20 }}></View>
+      </View>
+
+      <View style={styles.animeBlock}>
+      <View style={[styles.animeButtonBig, { backgroundColor: "#D4D2D2" }]}>
+          {state >= 1 && (
+            <View
+              style={[
+                styles.animeButtonBig,
+                { backgroundColor: "#7369FF" },
+              ]}
+            >
+              <View style={styles.animeButtonSmail}></View>
+            </View>
+          )}
+        </View>
+        <View style={[styles.animeLine, { backgroundColor: "#D4D2D2" }]}>
+          {state >= 2 && (
+            <View
+              style={[styles.animeLine, { backgroundColor: "#7369FF" }]}
+            ></View>
+          )}
+        </View>
+        <View style={[styles.animeButtonBig, { backgroundColor: "#D4D2D2" }]}>
+          {state >= 2 && (
+            <View
+              style={[
+                styles.animeButtonBig,
+                { backgroundColor: "#7369FF" },
+              ]}
+            >
+              <View style={styles.animeButtonSmail}></View>
+            </View>
+          )}
+        </View>
       </View>
 
       <View style={styles.main}>
@@ -315,6 +358,11 @@ const Payment = () => {
       <View style={[styles.main, { marginTop: 20 }]}>
         <TouchableOpacity
           onPress={() => {
+            LayoutAnimation.configureNext({
+              duration: 500,
+              create: { type: "linear", property: "opacity" },
+              update: { type: "linear", springDamping: 0.4 },
+            });
             if (state == 2) {
               if (!handleCredit())
                 navigate("/statusbooking", { replace: true });
@@ -331,6 +379,11 @@ const Payment = () => {
 
         <TouchableOpacity
           onPress={() => {
+            LayoutAnimation.configureNext({
+              duration: 500,
+              create: { type: "linear", property: "opacity" },
+              update: { type: "linear", springDamping: 0.4 },
+            });
             if (state > 1) setState(state - 1);
           }}
           style={[
@@ -370,6 +423,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   main: {
+    height: 480,
     paddingHorizontal: 20,
   },
   largeText: {
@@ -470,5 +524,31 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 20,
+  },
+  animeBlock: {
+    padding: 4,
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  animeButtonBig: {
+    borderRadius: 50,
+    height: 22,
+    width: 22,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  animeLine: {
+    height: 2,
+    width: 90,
+  },
+  animeButtonSmail: {
+    borderRadius: 7.5,
+    borderWidth: 3,
+    borderColor: "white",
+    height: 15,
+    width: 15,
+    backgroundColor: "#7369FF",
   },
 });
