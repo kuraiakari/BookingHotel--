@@ -143,7 +143,7 @@ const Start = () => {
       >
         <TouchableOpacity>
           <Link
-            to="/payment"
+            to="/login"
             style={styles.containerButton}
             component={TouchableHighlight}
             activeOpacity={0.7}
