@@ -92,7 +92,7 @@ const LikeHotel = () => {
           </View>
         </View>
         <View style={styles.boxLocationHotel}>
-          <Octicons name="location" size={20} color="#3C84C6" />
+          <Octicons name="location" size={20} color="#7369FF" />
           <Text style={styles.textLocationHotel}>{item.HOTEL.address}</Text>
         </View>
 

@@ -169,7 +169,6 @@ const HotelDetail = () => {
   };
 
   const renderTienIchHotel = ({ item }) => {
-    console.log(item);
     return (
       <View style={styles.boxUtilities}>
         <Icon name={item.UTILITY.icon} color="#7369FF" size={15} />
@@ -225,7 +224,7 @@ const HotelDetail = () => {
 
             <Text style={styles.nameHotel}>{hotel.hotel.hotelName}</Text>
             <View style={styles.boxLocationHotel}>
-              <Octicons name="location" size={20} color="#3C84C6" />
+              <Octicons name="location" size={20} color="#7369FF" />
               <Text style={styles.textLocationHotel}>
                 {hotel.hotel.address}
               </Text>

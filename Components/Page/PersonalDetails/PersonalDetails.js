@@ -37,7 +37,7 @@ const PersonalDetails = () => {
           />
           <View style={styles.names}>
             <View style={{ flexDirection: "row", marginBottom: 5 }}>
-              <Text style={styles.userName}>Username</Text>
+              <Text style={styles.userName}>{inforUser.nameUser}</Text>
               <AntDesign name="checkcircle" size={20} color="green" />
             </View>
           </View>

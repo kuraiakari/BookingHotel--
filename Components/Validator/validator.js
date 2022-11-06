@@ -44,7 +44,7 @@ const validator = (key, value, comparisons) => {
 
   if( key == "gender") {
     if ( value.toLowerCase() !== "male" && value.toLowerCase() !== "Female" && value.toLowerCase() !== "Other"  ) 
-    return "Invalid gender. Example: Male/Female/Orther"
+    return "Invalid gender. Example: Male/Female/Other"
   }
 
   return undefined;

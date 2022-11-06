@@ -105,7 +105,6 @@ const Search = () => {
     setHideCheckIn(false);
   };
   const handleConfirmCheckIn = (date) => {
-    console.log(date);
     const errorMessage = validator("checkIn", date);
     if (!errorMessage) setCheckIn(date);
     else alert(errorMessage);
@@ -141,8 +140,8 @@ const Search = () => {
           style={styles.imageBackground}
         />
         <View style={styles.texts}>
-          <Text style={styles.largeText}>Fresh, quiet and peaceful.</Text>
-          <Text style={styles.smallText}>
+          <Text style={[styles.largeText, { opacity: 0.65 }]}>Fresh, quiet and peaceful.</Text>
+          <Text style={[styles.smallText, { opacity: 0.65 }]}>
             Feel the sensation of staying in a hotel cabin
           </Text>
         </View>
@@ -150,7 +149,7 @@ const Search = () => {
 
       <View style={styles.searchContainer}>
         <View style={styles.inputCity}>
-          <Text style={styles.textOrder}>City, destination or appartment</Text>
+          <Text style={styles.textOrder}>City, destination or apartment</Text>
           <View
             style={[
               styles.boxInput,
@@ -245,7 +244,7 @@ const Search = () => {
         </View>
 
         <View style={styles.boxGuests}>
-          <Text style={styles.textOrder}>Guest and rooms</Text>
+          <Text style={styles.textOrder}>Guest</Text>
           <View
             style={[
               styles.boxGuest,
@@ -262,7 +261,7 @@ const Search = () => {
                 },
               ]}
             >
-              <Octicons name="person" color="#7369FF" size={20} />
+              <Octicons name="person" color="#7369FF" size={25} />
               <Text style={styles.textForGuest}>18+ years old</Text>
             </View>
             <View style={[styles.boxGuest, styles.boxBtnPlusMinus]}>

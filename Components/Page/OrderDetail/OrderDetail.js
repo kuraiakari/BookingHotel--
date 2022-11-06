@@ -104,23 +104,23 @@ const OrderDetail = () => {
                     size={30}
                     color="lightgray"
                   />
-                  <Text style={styles.textStatus}> Chuan bi</Text>
+                  <Text style={styles.textStatus}>Incoming trip</Text>
                 </View>
               ) : sosanh(booking.checkOut) ? (
                 <View style={styles.boxStatus}>
                   <Entypo name="briefcase" size={20} color="lightgray" />
-                  <Text style={styles.textStatus}> Dang dien ra</Text>
+                  <Text style={styles.textStatus}>In progress </Text>
                 </View>
               ) : (
                 <View style={styles.boxStatus}>
                   <AntDesign name="checkcircle" size={20} color="lightgray" />
-                  <Text style={styles.textStatus}> Da dien ra</Text>
+                  <Text style={styles.textStatus}>Accomplished </Text>
                 </View>
               )}
             </View>
             <Text style={styles.nameHotel}>{booking.ROOM.HOTEL.hotelName}</Text>
             <View style={styles.boxLocationHotel}>
-              <Octicons name="location" size={20} color="#3C84C6" />
+              <Octicons name="location" size={20} color="#7369FF" />
               <Text style={styles.textLocationHotel}>
                 {booking.ROOM.HOTEL.address}
               </Text>
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    width: 160,
+    width: "100%",
   },
   textStatus: {
     // color: "#636363",

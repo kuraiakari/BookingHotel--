@@ -35,7 +35,6 @@ const Order = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setListHotel(data);
       });
   }, []);
@@ -74,7 +73,7 @@ const Order = () => {
       <View style={styles.order}>
         <Text style={styles.nameHotel}>{item.ROOM.HOTEL.hotelName}</Text>
         <View style={styles.boxLocationHotel}>
-          <Octicons name="location" size={20} color="#3C84C6" />
+          <Octicons name="location" size={20} color="#7369FF" />
           <Text style={styles.textLocationHotel}>
             {item.ROOM.HOTEL.address}
           </Text>

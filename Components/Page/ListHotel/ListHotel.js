@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  ScrollView,
   Text,
-  Image,
   SafeAreaView,
-  TouchableHighlight,
   ActivityIndicator,
   FlatList,
-  BackHandler,
-  Button,
   StyleSheet,
   TouchableOpacity,
   Dimensions,
@@ -38,12 +33,10 @@ const ListHotel = () => {
   function onSwipeRight() {
     navigate(-1);
   }
-
   const data = useSelector((state) => state);
   const dispatch = useDispatch();
   const city = data.nameCity;
   const [listHotel, setListHotel] = useState(null);
-
   const location = useLocation();
   //   console.log(listHotel)
   useEffect(() => {
@@ -59,17 +52,11 @@ const ListHotel = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <View
-      // to={'/hoteldetail'}
-      // component={TouchableHighlight}
-      // activeOpacity={0.7}
-      // underlayColor="#ffffff"
-      // onPress={() => handleReduxHotel(item.hotelName)}
-      >
+      <View>
         <Item
           idHotel={item.id}
           name={item.hotelName}
-          city={item.city}
+          address={item.address}
           rating={item.rating}
           star={item.star}
           price={item.minPrice}
@@ -79,7 +66,11 @@ const ListHotel = () => {
     );
   };
   const listEmptyComponent = () => {
-    return <Text> Khong tim thay </Text>;
+    return (
+      <View>
+        <Text style={{ color: "#7369FF" }}>City not found</Text>
+      </View>
+    );
   };
   return (
     <SafeAreaView
@@ -105,6 +96,11 @@ const ListHotel = () => {
 
           <View>
             <FlatList
+              contentContainerStyle={{
+                flexGrow: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
               style={styles.hotels}
               data={listHotel.hotels}
               renderItem={renderItem}

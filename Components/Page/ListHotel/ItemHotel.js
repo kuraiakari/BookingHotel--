@@ -20,7 +20,7 @@ import { useSwipe } from "../../../Hooks/useSwipe/useSwipe";
 
 let deviceWidth = Dimensions.get("window").width;
 
-const Item = ({ idHotel, name, city, rating, star, price, image }) => {
+const Item = ({ idHotel, name, address, rating, star, price, image }) => {
   const dispatch = useDispatch();
   const imageRender = image.split(",");
   const [indexImage, setIndexImage] = useState(0);
@@ -116,12 +116,12 @@ const Item = ({ idHotel, name, city, rating, star, price, image }) => {
           </View>
         </View>
         <View style={styles.boxLocationHotel}>
-          <Octicons name="location" size={20} color="#3C84C6" />
-          <Text style={styles.textLocationHotel}>{city}</Text>
+          <Octicons name="location" size={20} color="#7369FF" />
+          <Text style={styles.textLocationHotel}>{address}</Text>
         </View>
         <View style={styles.boxStarHotel}>{loopStar}</View>
         <View style={styles.boxPriceMoreHotel}>
-          <Text style={styles.textPriceStar}>${price} total</Text>
+          <Text style={styles.textPriceStar}>Up to ${price} </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Link
               to="/hoteldetail"

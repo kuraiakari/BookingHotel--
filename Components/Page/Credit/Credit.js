@@ -67,10 +67,10 @@ const Credit = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          alert("Update successful");
         });
     } else {
-      console.log(1);
+      alert("Wrong information");
     }
   };
   return (
@@ -79,7 +79,7 @@ const Credit = () => {
         <TouchableOpacity onPress={() => navigate(-1)}>
           <Entypo name="chevron-left" size={20} color="#7369FF" />
         </TouchableOpacity>
-        <Text style={styles.textHeader}>Credit</Text>
+        <Text style={styles.textHeader}>Credit card</Text>
         <View style={{ width: 20 }}></View>
       </View>
 
@@ -110,6 +110,9 @@ const Credit = () => {
             setNumberCard(e.nativeEvent.text);
           }}
         />
+        {errorNumberCard && (
+          <Text style={styles.textError}>{errorNumberCard} </Text>
+        )}
         <Text style={styles.titleInput}>Name on card</Text>
         <TextInput
           value={nameCard}
@@ -119,6 +122,9 @@ const Credit = () => {
             setNameCard(e.nativeEvent.text);
           }}
         />
+        {errorNameCard && (
+          <Text style={styles.textError}>{errorNameCard} </Text>
+        )}
         <View style={styles.inputCardBelow}>
           <View style={{ width: deviceWidth / 2 - 50 }}>
             <Text style={styles.titleInput}>Expiry date</Text>
@@ -143,6 +149,9 @@ const Credit = () => {
                 setDateCard(e.nativeEvent.text);
               }}
             />
+            {errorDateCard && (
+              <Text style={styles.textError}>{errorDateCard} </Text>
+            )}
           </View>
           <View style={{ width: deviceWidth / 2 - 50 }}>
             <Text style={styles.titleInput}>Security code</Text>
@@ -166,7 +175,6 @@ const Credit = () => {
           activeOpacity={0.8}
           onPress={() => {
             handleCredit();
-            Alert.alert("Info have been saved");
           }}
         >
           <Text style={styles.textButton}>Save</Text>
@@ -223,6 +231,10 @@ const styles = StyleSheet.create({
     bottom: 15,
     right: 0,
     left: 0,
+  },
+  textError: {
+    color: "red",
+    marginRight: 15,
   },
   button: {
     alignItems: "center",

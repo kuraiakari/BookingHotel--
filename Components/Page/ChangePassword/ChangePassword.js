@@ -109,6 +109,7 @@ const ChangePassword = () => {
       })
         .then((response) => response.json())
         .then((data) => {
+          alert("Successfully change password");
           setNewData(newDataCreate);
         });
     }

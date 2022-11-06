@@ -7,9 +7,6 @@ import {
   SafeAreaView,
   Dimensions,
   StyleSheet,
-  Platform,
-  LayoutAnimation,
-  UIManager,
 } from "react-native";
 import { useNavigate } from "react-router-native";
 import { useSelector } from "react-redux";
@@ -21,26 +18,53 @@ import { validator } from "../../Validator";
 
 let deviceWidth = Dimensions.get("window").width;
 
-if (
-  Platform.OS === "android" &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 
 const Payment = () => {
   const data = useSelector((state) => state);
-  const currentTime = new Date();
+  const idUSer = data.idUSer;
+  const token = data.accessToken;
+
   const navigate = useNavigate();
   const handlePressBack = () => {
     navigate(-1);
   };
-  const [state, setState] = useState(1);
+
+  useEffect(() => {
+    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
+      method: "GET",
+      credentials: "included",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `access_token=${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.bankCard) {
+          const inforCard = data.bankCard.split(",");
+          setNumberCard(inforCard[0]);
+          setNameCard(inforCard[1]);
+          setDateCard(inforCard[2]);
+          setCodeCard(inforCard[3]);
+        }
+      });
+  }, []);
 
   const [nameUser, setNameUSer] = useState(data.nameUser);
   const [errorName, setErrorName] = useState(false);
   const [phone, setPhone] = useState(data.phone);
   const [errorPhone, setErrorPhone] = useState(false);
+  const [numberCard, setNumberCard] = useState("");
+  const [errorNumberCard, setErrorNumberCard] = useState(false);
+  const [nameCard, setNameCard] = useState("");
+  const [errorNameCard, setErrorNameCard] = useState(false);
+  const [dateCard, setDateCard] = useState("");
+  const [errorDateCard, setErrorDateCard] = useState(false);
+  const [codeCard, setCodeCard] = useState("");
+  const [errorCodeCard, setErrorCodeCard] = useState(false);
+  const [checkError, setCheckError] = useState(false);
+
   const laythang = (month) => {
     switch (month) {
       case 1:
@@ -69,72 +93,62 @@ const Payment = () => {
         return "December ";
     }
   };
-  const idUSer = data.idUSer;
-  const token = data.accessToken;
-  const [numberCard, setNumberCard] = useState("");
-  const [errorNumberCard, setErrorNumberCard] = useState(false);
-  const [nameCard, setNameCard] = useState("");
-  const [errorNameCard, setErrorNameCard] = useState(false);
-  const [dateCard, setDateCard] = useState("");
-  const [errorDateCard, setErrorDateCard] = useState(false);
-  const [codeCard, setCodeCard] = useState("");
-  const [errorCodeCard, setErrorCodeCard] = useState(false);
-  useEffect(() => {
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
-      method: "GET",
-      credentials: "included",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `access_token=${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.bankCard) {
-          const inforCard = data.bankCard.split(",");
-          setNumberCard(inforCard[0]);
-          setNameCard(inforCard[1]);
-          setDateCard(inforCard[2]);
-          setCodeCard(inforCard[3]);
-        }
-      });
-  }, []);
 
-  const handleProfile = () => {
-    let errorProfile = false;
+  const onNextStep = () => {
     if (validator("name", nameUser)) {
-      errorProfile = true;
+      setCheckError(true);
       setErrorName(validator("name", nameUser));
     }
     if (validator("phone", phone)) {
-      errorProfile = true;
+      setCheckError(true);
       setErrorPhone(validator("phone", phone));
-    }
-    return errorProfile;
+    } else setCheckError(false);
   };
 
-  const handleCredit = () => {
-    let errorCredit = false;
+  const onPrevStep = () => {
+    console.log("called previous step");
+  };
+
+  const onSubmitSteps = () => {
+    let checkError = false;
     if (validator("numberCard", numberCard)) {
-      errorCredit = true;
+      setCheckError(true);
       setErrorNumberCard(validator("numberCard", numberCard));
+      checkError = true;
     }
     if (validator("nameCard", nameCard)) {
-      errorCredit = true;
+      setCheckError(true);
       setErrorNameCard(validator("nameCard", nameCard));
+      checkError = true;
     }
     if (validator("dateCard", dateCard)) {
-      errorCredit = true;
+      setCheckError(true);
       setErrorDateCard(validator("dateCard", dateCard));
+      checkError = true;
     }
     if (validator("codeCard", codeCard)) {
-      errorCredit = true;
+      setCheckError(true);
       setErrorCodeCard(validator("codeCard", codeCard));
+      checkError = true;
     }
-    return errorCredit;
+    if (checkError) return;
+    else {
+      setCheckError(false);
+      navigate("/statusbooking", { replace: true });
+    }
   };
+
+  const progressStepsStyle = {
+    activeStepIconBorderColor: "#7369FF",
+    activeStepNumColor: "white",
+    activeStepIconColor: "#7369FF",
+    completedStepIconColor: "#7369FF",
+    completedProgressBarColor: "#7369FF",
+    completedCheckColor: "white",
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={{ flex: 1, marginTop: 50 }}>
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
@@ -147,257 +161,197 @@ const Payment = () => {
         <View style={{ width: 20 }}></View>
       </View>
 
-      <View style={styles.animeBlock}>
-      <View style={[styles.animeButtonBig, { backgroundColor: "#D4D2D2" }]}>
-          {state >= 1 && (
-            <View
-              style={[
-                styles.animeButtonBig,
-                { backgroundColor: "#7369FF" },
-              ]}
-            >
-              { state == 1 && <View style={styles.animeButtonSmail}></View> }
-            </View>
-          )}
-        </View>
-        <View style={[styles.animeLine, { backgroundColor: "#D4D2D2" }]}>
-          {state >= 2 && (
-            <View
-              style={[styles.animeLine, { backgroundColor: "#7369FF" }]}
-            ></View>
-          )}
-        </View>
-        <View style={[styles.animeButtonBig, { backgroundColor: "#D4D2D2" }]}>
-          {state >= 2 && (
-            <View
-              style={[
-                styles.animeButtonBig,
-                { backgroundColor: "#7369FF" },
-              ]}
-            >
-              { state == 2 && <View style={styles.animeButtonSmail}></View> }
-            </View>
-          )}
-        </View>
-      </View>
-
-      <View style={styles.main}>
-        {state === 1 && (
-          <View>
-            <Text style={styles.largeText}>Billing Information</Text>
-            <View style={styles.boxBillInfo}>
-              <Text style={styles.nameHotel}>{data.nameHotel}</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginBottom: 10,
-                }}
-              >
-                <FontAwesome5 name="bed" size={15} color="#7369FF" />
-                <Text style={{ marginLeft: 10 }}>{data.typeRoom}</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginBottom: 15,
-                }}
-              >
-                <Feather name="clock" size={16} color="#7369FF" />
-                <Text style={{ marginLeft: 10 }}>
-                  {(data.checkOut - data.checkIn) / (24 * 3600 * 1000) +
-                    1 +
-                    " ngày, " +
-                    (data.checkOut - data.checkIn) / (24 * 3600 * 1000) +
-                    " đêm (" +
-                    laythang(data.checkIn.getUTCMonth() + 1) +
-                    data.checkIn.getUTCDate() +
-                    " to " +
-                    laythang(data.checkOut.getUTCMonth() + 1) +
-                    data.checkOut.getUTCDate() +
-                    ")"}
+      <ProgressSteps {...progressStepsStyle}>
+        <ProgressStep
+          onNext={onNextStep}
+          onPrevious={onPrevStep}
+          errors={checkError}
+        >
+          <View style={styles.main}>
+            <View>
+              <Text style={styles.largeText}>Billing Information</Text>
+              <View style={styles.boxBillInfo}>
+                <Text style={styles.nameHotel}>{data.nameHotel}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 10,
+                  }}
+                >
+                  <FontAwesome5 name="bed" size={15} color="#7369FF" />
+                  <Text style={{ marginLeft: 10 }}>{data.typeRoom}</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 15,
+                  }}
+                >
+                  <Feather name="clock" size={16} color="#7369FF" />
+                  <Text style={{ marginLeft: 10 }}>
+                    {(data.checkOut - data.checkIn) / (24 * 3600 * 1000) +
+                      1 +
+                      " days, " +
+                      (data.checkOut - data.checkIn) / (24 * 3600 * 1000) +
+                      " nights (" +
+                      laythang(data.checkIn.getUTCMonth() + 1) +
+                      data.checkIn.getUTCDate() +
+                      " to " +
+                      laythang(data.checkOut.getUTCMonth() + 1) +
+                      data.checkOut.getUTCDate() +
+                      ")"}
+                  </Text>
+                </View>
+                <Text style={styles.textIntoMoney}>Into money:</Text>
+                <Text style={styles.textMoney}>
+                  {data.priceRoom *
+                    ((data.checkOut - data.checkIn) / (24 * 3600 * 1000)) +
+                    "$"}
                 </Text>
               </View>
-              <Text style={styles.textIntoMoney}>Into money:</Text>
-              <Text style={styles.textMoney}>
-                {data.priceRoom *
-                  ((data.checkOut - data.checkIn) / (24 * 3600 * 1000)) +
-                  "$"}
+              <Text style={[styles.largeText, { marginBottom: 15 }]}>
+                Contact Info
               </Text>
+              <View style={styles.containerInput}>
+                <TextInput
+                  value={nameUser}
+                  placeholder="Name"
+                  onChange={(e) => {
+                    setNameUSer(e.nativeEvent.text);
+                    setErrorName(false);
+                  }}
+                  style={styles.inputInfo}
+                />
+                {errorName && (
+                  <Text style={styles.textError}> {errorName} </Text>
+                )}
+              </View>
+              <View style={styles.containerInput}>
+                <TextInput
+                  value={phone}
+                  placeholder="Phone number"
+                  onChange={(e) => {
+                    setPhone(e.nativeEvent.text);
+                    setErrorPhone(false);
+                  }}
+                  style={styles.inputInfo}
+                />
+                {errorPhone && (
+                  <Text style={styles.textError}> {errorPhone} </Text>
+                )}
+              </View>
+              <View style={[styles.containerInput, { paddingLeft: 20 }]}>
+                <TextInput
+                  value={data.email}
+                  editable={false}
+                  style={{ fontSize: 16 }}
+                />
+              </View>
             </View>
-            <Text style={[styles.largeText, { marginBottom: 15 }]}>
-              Contact Info
-            </Text>
-            <View style={styles.containerInput}>
+          </View>
+        </ProgressStep>
+        <ProgressStep onPrevious={onPrevStep} onSubmit={onSubmitSteps}>
+          <View style={styles.main}>
+            <View style={styles.boxBillInfo}>
+              <Text style={[styles.titleInput, { marginTop: 20 }]}>
+                Card number
+              </Text>
               <TextInput
-                value={nameUser}
-                placeholder="Name"
+                value={numberCard}
+                keyboardType="numeric"
+                style={styles.inputCard}
                 onChange={(e) => {
-                  setNameUSer(e.nativeEvent.text);
-                  setErrorName(false);
+                  if (
+                    e.nativeEvent.text.split(" ").join("").length ==
+                    numberCard.split(" ").join("").length
+                  )
+                    e.nativeEvent.text = e.nativeEvent.text.slice(
+                      0,
+                      e.nativeEvent.text.length - 1
+                    );
+                  if (
+                    e.nativeEvent.text.split(" ").join("").length >
+                      numberCard.split(" ").join("").length &&
+                    e.nativeEvent.text.split(" ").join("").length != 0 &&
+                    e.nativeEvent.text.split(" ").join("").length % 4 == 0
+                  ) {
+                    e.nativeEvent.text += " ";
+                  }
+                  setErrorNumberCard(false);
+                  setNumberCard(e.nativeEvent.text);
                 }}
-                style={styles.inputInfo}
               />
-              {errorName && <Text style={styles.textError}> {errorName} </Text>}
-            </View>
-            <View style={styles.containerInput}>
-              <TextInput
-                value={phone}
-                placeholder="Phone number"
-                onChange={(e) => {
-                  setPhone(e.nativeEvent.text);
-                  setErrorPhone(false);
-                }}
-                style={styles.inputInfo}
-              />
-              {errorPhone && (
-                <Text style={styles.textError}> {errorPhone} </Text>
+              {errorNumberCard && (
+                <Text style={styles.textError}>{errorNumberCard} </Text>
               )}
-            </View>
-            <View style={styles.containerInput}>
-              <TextInput value={data.email} editable={false} />
-            </View>
-          </View>
-        )}
-        {state === 2 && (
-          <View style={{ marginTop: 20 }}>
-            <Text style={styles.titleInput}>Card number</Text>
-            <TextInput
-              value={numberCard}
-              keyboardType="numeric"
-              style={styles.inputCard}
-              onChange={(e) => {
-                if (
-                  e.nativeEvent.text.split(" ").join("").length ==
-                  numberCard.split(" ").join("").length
-                )
-                  e.nativeEvent.text = e.nativeEvent.text.slice(
-                    0,
-                    e.nativeEvent.text.length - 1
-                  );
-                if (
-                  e.nativeEvent.text.split(" ").join("").length >
-                    numberCard.split(" ").join("").length &&
-                  e.nativeEvent.text.split(" ").join("").length != 0 &&
-                  e.nativeEvent.text.split(" ").join("").length % 4 == 0
-                ) {
-                  e.nativeEvent.text += " ";
-                }
-                setErrorNumberCard(false);
-                setNumberCard(e.nativeEvent.text);
-              }}
-            />
-            {errorNumberCard && (
-              <Text style={styles.textError}>{errorNumberCard} </Text>
-            )}
 
-            <Text style={styles.titleInput}>Name on card</Text>
-            <TextInput
-              value={nameCard}
-              onChange={(e) => {
-                setErrorNameCard(false);
-                setNameCard(e.nativeEvent.text);
-              }}
-              style={styles.inputCard}
-              autoCapitalize="characters"
-            />
-            {errorNameCard && (
-              <Text style={styles.textError}>{errorNameCard} </Text>
-            )}
+              <Text style={styles.titleInput}>Name on card</Text>
+              <TextInput
+                value={nameCard}
+                onChange={(e) => {
+                  setErrorNameCard(false);
+                  setNameCard(e.nativeEvent.text);
+                }}
+                style={styles.inputCard}
+                autoCapitalize="characters"
+              />
+              {errorNameCard && (
+                <Text style={styles.textError}>{errorNameCard} </Text>
+              )}
 
-            <View style={styles.inputCardBelow}>
-              <View style={{ width: deviceWidth / 2 - 50 }}>
-                <Text style={styles.titleInput}>Expiry date</Text>
-                <TextInput
-                  value={dateCard}
-                  keyboardType="numeric"
-                  maxLength={5}
-                  onChange={(e) => {
-                    if (
-                      e.nativeEvent.text.split("/").join("").length ==
-                      dateCard.split("/").join("").length
-                    )
-                      e.nativeEvent.text = e.nativeEvent.text.slice(
-                        0,
-                        e.nativeEvent.text.length - 1
-                      );
-                    if (e.nativeEvent.text.length == 2) {
-                      e.nativeEvent.text += "/";
-                    }
-                    setErrorDateCard(false);
-                    setDateCard(e.nativeEvent.text);
-                  }}
-                  style={styles.inputCard}
-                />
-                {errorDateCard && (
-                  <Text style={styles.textError}>{errorDateCard} </Text>
-                )}
-              </View>
-              <View style={{ width: deviceWidth / 2 - 50 }}>
-                <Text style={styles.titleInput}>Security code</Text>
-                <TextInput
-                  value={codeCard}
-                  keyboardType="numeric"
-                  secureTextEntry={true}
-                  maxLength={3}
-                  onChange={(e) => {
-                    setErrorCodeCard(false);
-                    setCodeCard(e.nativeEvent.text);
-                  }}
-                  style={styles.inputCard}
-                />
-                {errorCodeCard && (
-                  <Text style={styles.textError}>{errorCodeCard} </Text>
-                )}
+              <View style={styles.inputCardBelow}>
+                <View style={{ width: deviceWidth / 2 - 50 }}>
+                  <Text style={styles.titleInput}>Expiry date</Text>
+                  <TextInput
+                    value={dateCard}
+                    keyboardType="numeric"
+                    maxLength={5}
+                    onChange={(e) => {
+                      if (
+                        e.nativeEvent.text.split("/").join("").length ==
+                        dateCard.split("/").join("").length
+                      )
+                        e.nativeEvent.text = e.nativeEvent.text.slice(
+                          0,
+                          e.nativeEvent.text.length - 1
+                        );
+                      if (e.nativeEvent.text.length == 2) {
+                        e.nativeEvent.text += "/";
+                      }
+                      setErrorDateCard(false);
+                      setDateCard(e.nativeEvent.text);
+                    }}
+                    style={styles.inputCard}
+                  />
+                  {errorDateCard && (
+                    <Text style={styles.textError}>{errorDateCard} </Text>
+                  )}
+                </View>
+                <View style={{ width: deviceWidth / 2 - 50 }}>
+                  <Text style={styles.titleInput}>Security code</Text>
+                  <TextInput
+                    value={codeCard}
+                    keyboardType="numeric"
+                    secureTextEntry={true}
+                    maxLength={3}
+                    onChange={(e) => {
+                      setErrorCodeCard(false);
+                      setCodeCard(e.nativeEvent.text);
+                    }}
+                    style={styles.inputCard}
+                  />
+                  {errorCodeCard && (
+                    <Text style={styles.textError}>{errorCodeCard} </Text>
+                  )}
+                </View>
               </View>
             </View>
           </View>
-        )}
-      </View>
-      <View style={[styles.main, { marginTop: 20 }]}>
-        <TouchableOpacity
-          onPress={() => {
-            LayoutAnimation.configureNext({
-              duration: 500,
-              create: { type: "linear", property: "opacity" },
-              update: { type: "linear", springDamping: 0.4 },
-            });
-            if (state == 2) {
-              if (!handleCredit())
-                navigate("/statusbooking", { replace: true });
-            }
-            if (state == 1) {
-              if (!handleProfile()) setState(state + 1);
-            }
-          }}
-          style={styles.button}
-          activeOpacity={0.9}
-        >
-          <Text style={styles.textButton}>Next</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => {
-            LayoutAnimation.configureNext({
-              duration: 500,
-              create: { type: "linear", property: "opacity" },
-              update: { type: "linear", springDamping: 0.4 },
-            });
-            if (state > 1) setState(state - 1);
-          }}
-          style={[
-            styles.button,
-            { backgroundColor: state == 1 ? "#DDDDDD" : "#7369FF" },
-            { borderColor: state == 1 ? "#DDDDDD" : "#7369FF" },
-          ]}
-          activeOpacity={0.9}
-          disabled={state == 1 ? true : false}
-        >
-          <Text style={styles.textButton}>Back</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        </ProgressStep>
+      </ProgressSteps>
+    </View>
   );
 };
 

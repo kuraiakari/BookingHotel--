@@ -61,7 +61,7 @@ const LoginPage = () => {
       console.log(e);
     }
   };
-  
+
   const handleDataSubmit = async (e) => {
     e.persist();
     let infoOfUser;
@@ -181,7 +181,7 @@ const LoginPage = () => {
               </Link>
             </TouchableOpacity>
           </View>
-          <Text style={[styles.text1, { color: "#000000", paddingBottom: 10 }]}>
+          <Text style={[styles.text1, { color: "red", paddingBottom: 10 }]}>
             {errorMessageFromServer}
           </Text>
           <TouchableOpacity

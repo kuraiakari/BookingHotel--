@@ -90,7 +90,7 @@ const EditProfile = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          alert("Thay doi thanh cong");
+          alert("Successfully edited profile");
         });
       setFirstName("");
       setLastName("");
