@@ -156,7 +156,7 @@ const Payment = () => {
                 { backgroundColor: "#7369FF" },
               ]}
             >
-              <View style={styles.animeButtonSmail}></View>
+              { state == 1 && <View style={styles.animeButtonSmail}></View> }
             </View>
           )}
         </View>
@@ -175,7 +175,7 @@ const Payment = () => {
                 { backgroundColor: "#7369FF" },
               ]}
             >
-              <View style={styles.animeButtonSmail}></View>
+              { state == 2 && <View style={styles.animeButtonSmail}></View> }
             </View>
           )}
         </View>

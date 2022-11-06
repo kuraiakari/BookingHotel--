@@ -19,7 +19,7 @@ const validator = (key, value, comparisons) => {
   }
 
   if (key === "confirmoldpassword") {
-    if (value === comparisons) return "Phải khác mật khẩu cũ";
+    if (value === comparisons) return "Must be different from previous passwords";
   }
 
   if (key === "checkIn") {
