@@ -12,7 +12,9 @@ export const updateHotel =  async(id, data) => {
     try {
         const hotel = await model.Hotel.findByPk(id)
         if (hotel) {
-            hotel.update(data)
+            model.Hotel.update(data, {where: {
+                id:id
+            }})
         }
         return hotel
     } catch (e) {

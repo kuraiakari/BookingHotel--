@@ -17,7 +17,7 @@ router.get('/name/:hotelName', hotelController.getHotelbyName);
 
 router.post('/', hotelController.upload, hotelController.createHotel);
 
-router.put('/update/id:id', hotelController.put)
+router.put('/update/id:id', hotelController.upload, hotelController.put)
 
 router.delete('/delete/id:id', hotelController.delete)
 

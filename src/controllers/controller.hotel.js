@@ -133,7 +133,20 @@ class HotelController {
         try {
             const hotel = await hotelService.getById(req.params.id)
             if (hotel) {
-                const record = await hotelService.updateHotel(req.params.id, req.body)
+                let img = "";
+                req.files.forEach(file => {
+                    img += file.path + ","
+                })
+                let data = {
+                    hotelName: req.body.hotelName,
+                    star: req.body.star,
+                    rating: req.body.rating,
+                    city: req.body.city,
+                    hotelImage: img,
+                    address: req.body.address,
+                    details: req.body.details                
+                }
+                const record = await hotelService.updateHotel(req.params.id, data)
                 return res.json(record)
             } else return res.status(404).json({message:"Hotel not found"})
         } catch (e) {
