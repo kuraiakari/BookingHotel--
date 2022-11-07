@@ -43,10 +43,13 @@ const ListHotel = () => {
     //fetch(`${linkNgrok}` + `v1/hotel/byCity/${city}`)
     fetch(`https://dream-hotelapp.herokuapp.com/v1/hotel/city/${city}`)
       .then((response) => response.json())
-      .then((data) => setListHotel(data));
+      .then((data) => {
+        setListHotel(data);
+      });
   }, []);
   listHotel &&
     listHotel.hotels.forEach((hotel) => {
+      console.log(1)
       hotel.hotelImage = hotel.hotelImage.replace(/\\/g, "/");
     });
 
