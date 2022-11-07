@@ -1,4 +1,5 @@
 import model from "../models/index.js"
+import * as hotelutilityService from '../services/service.hotelUtility.js'
 
 class HotelUtilityController {
 
@@ -18,6 +19,17 @@ class HotelUtilityController {
             const data = await model.HotelUtility.findAll()
             if (data) return res.status(200).json(data)
             else return res.status(404).json({message:"No hotel utilities yet"})
+        } catch (e) {
+            return res.status(500).json({message: e.message})
+        }
+    }
+
+    //PUT v1/hotelUtil/
+    updateUtility = async (req, res) => {
+        try {
+            const data = await hotelutilityService.updateHotelUtility(req.params.id, req.body)
+            if (data) return res.status(200).json(data)
+            else return res.status(404).json({message:"No utilities yet"})
         } catch (e) {
             return res.status(500).json({message: e.message})
         }

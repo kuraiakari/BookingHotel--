@@ -14,6 +14,10 @@ router
 .post(verifyAdmin, hotelutilityController.addUtility)
 
 router
+.route('/update/id:id')
+.put(verifyAdmin, hotelutilityController.updateUtility)
+
+router
 .route('/delete/id:id')
 .delete(verifyAdmin, hotelutilityController.deleteUtility)
 
