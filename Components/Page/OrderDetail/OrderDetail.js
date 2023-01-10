@@ -20,11 +20,12 @@ let deviceWidth = Dimensions.get("window").width;
 
 const OrderDetail = () => {
   const data = useSelector((state) => state);
+  const ngrok = data.linkNgrok
   const navigate = useNavigate();
   const [booking, setBooking] = useState("");
   useEffect(() => {
     fetch(
-      `https://dream-hotelapp.herokuapp.com/v1/booking/id${data.idBooking}`,
+      `${ngrok}/v1/booking/id${data.idBooking}`,
       {
         method: "GET",
         credentials: "included",

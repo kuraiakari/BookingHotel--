@@ -20,6 +20,7 @@ let deviceHeight = Dimensions.get("window").height;
 
 const StatusBooking = () => {
   const data = useSelector((state) => state);
+  const ngrok = data.linkNgrok
   const [status, setStatus] = useState("");
   const currentData = new Date();
   useEffect(() => {
@@ -49,7 +50,7 @@ const StatusBooking = () => {
         data.priceRoom * ((data.checkOut - data.checkIn) / (24 * 3600 * 1000)),
     };
     console.log(dataBooking);
-    fetch("https://dream-hotelapp.herokuapp.com/v1/booking", {
+    fetch(`${ngrok}/v1/booking`, {
       method: "POST",
       credentials: "included",
       headers: {

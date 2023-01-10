@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -22,6 +22,8 @@ let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
 
 const LoginPage = () => {
+  const data = useSelector((state) => state)
+  const ngrok = data.linkNgrok
   const [email, setEmail] = useState("");
   const [isCheckEmail, setIsCheckEmail] = useState(false);
   const [password, setPassword] = useState("");
@@ -38,7 +40,7 @@ const LoginPage = () => {
   const handlePostData = async (data) => {
     try {
       const response = await fetch(
-        "https://dream-hotelapp.herokuapp.com/v1/auth/login",
+        `${ngrok}/v1/auth/login`,
         {
           method: "POST",
           headers: {

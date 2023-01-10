@@ -22,6 +22,8 @@ let deviceWidth = Dimensions.get("window").width;
 
 const Item = ({ idHotel, name, address, rating, star, price, image }) => {
   const dispatch = useDispatch();
+  const data = useSelector(state => state)
+  const ngrok = data.linkNgrok
   const imageRender = image.split(",");
   const [indexImage, setIndexImage] = useState(0);
   // let imageRender1= imageRender.toString().replace(/\/g, "/");
@@ -104,7 +106,7 @@ const Item = ({ idHotel, name, address, rating, star, price, image }) => {
         // onTouchEnd={onTouchEnd}
         source={{
           uri:
-            "https://dream-hotelapp.herokuapp.com/" + imageRender[indexImage],
+            ngrok + '/' +  imageRender[indexImage],
         }}
         style={styles.imageHotel}
       />

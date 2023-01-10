@@ -22,6 +22,7 @@ import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 
 const Payment = () => {
   const data = useSelector((state) => state);
+  const ngrok = data.linkNgrok
   const idUSer = data.idUSer;
   const token = data.accessToken;
 
@@ -31,7 +32,7 @@ const Payment = () => {
   };
 
   useEffect(() => {
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
+    fetch(`${ngrok}/v1/user/id${idUSer}`, {
       method: "GET",
       credentials: "included",
       headers: {

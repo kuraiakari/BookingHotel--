@@ -46,10 +46,11 @@ const Search = () => {
   const location = useLocation();
 
   const inforUser = useSelector((state) => state);
+  const ngrok = inforUser.linkNgrok;
   const idUSer = inforUser.idUSer;
   const token = inforUser.accessToken;
   useEffect(() => {
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
+    fetch(`${ngrok}/v1/user/id${idUSer}`, {
       method: "GET",
       credentials: "included",
       headers: {

@@ -35,21 +35,19 @@ const ListHotel = () => {
   }
   const data = useSelector((state) => state);
   const dispatch = useDispatch();
+  const ngrok = data.linkNgrok
   const city = data.nameCity;
   const [listHotel, setListHotel] = useState(null);
   const location = useLocation();
   //   console.log(listHotel)
   useEffect(() => {
     //fetch(`${linkNgrok}` + `v1/hotel/byCity/${city}`)
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/hotel/city/${city}`)
+    fetch(`${ngrok}/v1/hotel/city/${city}`)
       .then((response) => response.json())
-      .then((data) => {
-        setListHotel(data);
-      });
+      .then((data) => setListHotel(data));
   }, []);
   listHotel &&
     listHotel.hotels.forEach((hotel) => {
-      console.log(1)
       hotel.hotelImage = hotel.hotelImage.replace(/\\/g, "/");
     });
 

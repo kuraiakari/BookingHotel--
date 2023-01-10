@@ -20,6 +20,7 @@ let deviceWidth = Dimensions.get("window").width;
 const ChangePassword = () => {
   const navigate = useNavigate();
   const inforUser = useSelector((state) => state);
+  const ngrok = inforUser.linkNgrok;
   const idUSer = inforUser.idUSer;
   const token = inforUser.accessToken;
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 2);
@@ -44,7 +45,7 @@ const ChangePassword = () => {
   const iconNameCNPW = isCheckedHideCNPW ? "eye" : "eye-off";
   // console.log(token)
   useEffect(() => {
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/user/id${idUSer}`, {
+    fetch(`${ngrok}/v1/user/id${idUSer}`, {
       method: "GET",
       credentials: "included",
       headers: {
@@ -98,7 +99,7 @@ const ChangePassword = () => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmNewPassword("");
-      fetch(`https://dream-hotelapp.herokuapp.com/v1/user/update/id${idUSer}`, {
+      fetch(`${ngrok}/v1/user/update/id${idUSer}`, {
         method: "PUT",
         credentials: "included",
         headers: {
@@ -198,11 +199,12 @@ const ChangePassword = () => {
           <Feather name={iconNameNPW} color="#B1B5C4" size={18} />
         </Pressable>
       </View>
-      {isCheckNewPassword && isCheckNewPassword !== "This field is required" && (
-        <View style={styles.containerTextError}>
-          <Text style={styles.textError}>{isCheckNewPassword}</Text>
-        </View>
-      )}
+      {isCheckNewPassword &&
+        isCheckNewPassword !== "This field is required" && (
+          <View style={styles.containerTextError}>
+            <Text style={styles.textError}>{isCheckNewPassword}</Text>
+          </View>
+        )}
 
       <Text style={styles.textEdit}>Confirm new password</Text>
       <View

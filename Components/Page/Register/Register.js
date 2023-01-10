@@ -12,6 +12,7 @@ import {
   Dimensions,
   TouchableHighlight,
 } from "react-native";
+import { useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Link } from "react-router-native";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -23,6 +24,8 @@ let deviceWidth = Dimensions.get("window").width;
 let deviceHeight = Dimensions.get("window").height;
 
 const Register = () => {
+  const data = useSelector((state) => state)
+  const ngrok = data.linkNgrok
   const [email, setEmail] = useState("");
   const [isCheckEmail, setIsCheckEmail] = useState(false);
   const [password, setPassword] = useState("");
@@ -67,7 +70,7 @@ const Register = () => {
   useEffect(() => {
     if (inforUser) {
       console.log(inforUser)
-      fetch("https://dream-hotelapp.herokuapp.com/v1/auth/register", {
+      fetch(`${ngrok}/v1/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -23,6 +23,7 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const inforUser = useSelector((state) => state);
   const dispatch = useDispatch();
+  const ngrok = inforUser.linkNgrok;
   const idUSer = inforUser.idUSer;
   const token = inforUser.accessToken;
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 2);
@@ -79,7 +80,7 @@ const EditProfile = () => {
       };
       dispatch({ type: "NAME_USER", payload: firstName + " " + lastName });
       dispatch({ type: "PHONE", payload: phone });
-      fetch(`https://dream-hotelapp.herokuapp.com/v1/user/update/id${idUSer}`, {
+      fetch(`${ngrok}/v1/user/update/id${idUSer}`, {
         method: "PUT",
         credentials: "included",
         headers: {
@@ -264,11 +265,12 @@ const EditProfile = () => {
             style={styles.input}
           />
         </View>
-        {isCheckNationality && isCheckNationality !== "This field is required" && (
-          <View style={styles.containerTextError}>
-            <Text style={styles.textError}>{isCheckNationality}</Text>
-          </View>
-        )}
+        {isCheckNationality &&
+          isCheckNationality !== "This field is required" && (
+            <View style={styles.containerTextError}>
+              <Text style={styles.textError}>{isCheckNationality}</Text>
+            </View>
+          )}
       </View>
 
       <View style={styles.containerButton}>

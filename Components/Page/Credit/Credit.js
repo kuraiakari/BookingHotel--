@@ -20,6 +20,7 @@ let deviceWidth = Dimensions.get("window").width;
 
 const Credit = () => {
   const inforUser = useSelector((state) => state);
+  const ngrok = inforUser.linkNgrok;
   const idUSer = inforUser.idUSer;
   const token = inforUser.accessToken;
   const [numberCard, setNumberCard] = useState("");
@@ -56,7 +57,7 @@ const Credit = () => {
         bankCard: `${numberCard.trim()},${nameCard},${dateCard},${codeCard}`,
       };
       //   console.log(dataCredit);
-      fetch(`https://dream-hotelapp.herokuapp.com/v1/user/update/id${idUSer}`, {
+      fetch(`${ngrok}/v1/user/update/id${idUSer}`, {
         method: "PUT",
         credentials: "included",
         headers: {

@@ -18,6 +18,7 @@ import {
   ID_BOOKING,
 } from "../Constants";
 const initNameCity = {
+  linkNgrok: "https://15d6-104-28-196-108.eu.ngrok.io",
   accessToken: "",
   idUSer: "",
   nameUser: "",

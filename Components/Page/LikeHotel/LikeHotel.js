@@ -22,11 +22,12 @@ let deviceWidth = Dimensions.get("window").width;
 
 const LikeHotel = () => {
   const data = useSelector((state) => state);
+  const ngrok = data.linkNgrok
   const location = useLocation();
   const [listLike, setListLike] = useState();
   const [deleteLike, setDeleteLike] = useState(false);
   useEffect(() => {
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/favorite`, {
+    fetch(`${ngrok}/v1/favorite`, {
       method: "GET",
       credentials: "included",
       headers: {
@@ -41,7 +42,7 @@ const LikeHotel = () => {
   }, [deleteLike]);
 
   const handleDelete = (id) => {
-    fetch("https://dream-hotelapp.herokuapp.com/v1/favorite/delete/id" + id, {
+    fetch(`${ngrok}/v1/favorite/delete/id` + id, {
       method: "DELETE",
       credentials: "included",
       headers: {

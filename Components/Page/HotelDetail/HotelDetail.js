@@ -27,8 +27,9 @@ let deviceWidth = Dimensions.get("window").width;
 
 const HotelDetail = () => {
   const data = useSelector((state) => state);
+  const ngrok = data.linkNgrok;
   useEffect(() => {
-    fetch(`https://dream-hotelapp.herokuapp.com/v1/hotel/id${data.idHotel}`, {
+    fetch(`${ngrok}/v1/hotel/id${data.idHotel}`, {
       method: "GET",
       credentials: "included",
       headers: {
@@ -65,18 +66,14 @@ const HotelDetail = () => {
   };
   const handleLikeHotel = () => {
     if (likeHotel) {
-      fetch(
-        "https://dream-hotelapp.herokuapp.com/v1/favorite/delete/id" +
-          data.idHotel,
-        {
-          method: "DELETE",
-          credentials: "included",
-          headers: {
-            "Content-Type": "application/json",
-            Cookie: `access_token=${data.accessToken}`,
-          },
-        }
-      )
+      fetch(`${ngrok}/v1/favorite/delete/id` + data.idHotel, {
+        method: "DELETE",
+        credentials: "included",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `access_token=${data.accessToken}`,
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -85,7 +82,7 @@ const HotelDetail = () => {
       const dataNew = {
         HOTELId: data.idHotel,
       };
-      fetch("https://dream-hotelapp.herokuapp.com/v1/favorite", {
+      fetch(`${ngrok}/v1/favorite`, {
         method: "POST",
         credentials: "included",
         headers: {
@@ -176,7 +173,6 @@ const HotelDetail = () => {
       </View>
     );
   };
-
   const HeaderHotelDetail = () => {
     return (
       <View>
@@ -187,9 +183,7 @@ const HotelDetail = () => {
                 <Col>
                   <Image
                     source={{
-                      uri:
-                        "https://dream-hotelapp.herokuapp.com/" +
-                        hotel.hotel.uriImage[0],
+                      uri: ngrok + '/' + hotel.hotel.uriImage[0],
                     }}
                     style={styles.imageHotel}
                     resizeMode="cover"
@@ -199,9 +193,7 @@ const HotelDetail = () => {
                   <Row>
                     <Image
                       source={{
-                        uri:
-                          "https://dream-hotelapp.herokuapp.com/" +
-                          hotel.hotel.uriImage[1],
+                        uri: ngrok + '/'+ hotel.hotel.uriImage[1],
                       }}
                       style={styles.imageHotel}
                       resizeMode="cover"
@@ -210,9 +202,7 @@ const HotelDetail = () => {
                   <Row>
                     <Image
                       source={{
-                        uri:
-                          "https://dream-hotelapp.herokuapp.com/" +
-                          hotel.hotel.uriImage[2],
+                        uri: ngrok + '/' + hotel.hotel.uriImage[2],
                       }}
                       style={styles.imageHotel}
                       resizeMode="cover"
